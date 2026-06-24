@@ -38,11 +38,12 @@ const bankSoal = [
 ];
 
 export default function ElearningDasarPro() {
-  const [modulAktif, setModulAktif] = useState(null); 
+  // Tambahan <any> untuk kasih tau TypeScript
+  const [modulAktif, setModulAktif] = useState<any>(null); 
   const [indeksSoal, setIndeksSoal] = useState(0); 
   const [skor, setSkor] = useState(0); 
   const [kuisSelesai, setKuisSelesai] = useState(false);
-  const [progresSiswa, setProgresSiswa] = useState([]); 
+  const [progresSiswa, setProgresSiswa] = useState<any[]>([]); 
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -53,14 +54,16 @@ export default function ElearningDasarPro() {
     }
   }, []);
 
-  const mulaiModul = (modul) => {
+  // Tambahan : any di parameter
+  const mulaiModul = (modul: any) => {
     setModulAktif(modul);
     setIndeksSoal(0);
     setSkor(0);
     setKuisSelesai(false);
   };
 
-  const cekJawaban = (jawabanDipilih) => {
+  // Tambahan : any di parameter
+  const cekJawaban = (jawabanDipilih: any) => {
     const soalSekarang = modulAktif.soal[indeksSoal];
     if (jawabanDipilih === soalSekarang.jawabanBenar) {
       setSkor(skor + 1); 
@@ -80,11 +83,10 @@ export default function ElearningDasarPro() {
 
   const persentase = bankSoal.length > 0 ? Math.round((progresSiswa.length / bankSoal.length) * 100) : 0;
 
-  if (!mounted) return null; // Mencegah hydration error
+  if (!mounted) return null; 
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] text-stone-800 font-sans selection:bg-emerald-200">
-      {/* NAVBAR */}
       <nav className="sticky top-0 z-50 bg-[#FAF9F6]/80 backdrop-blur-md border-b border-stone-200 px-6 py-4">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -98,7 +100,6 @@ export default function ElearningDasarPro() {
       <main className="max-w-5xl mx-auto px-6 py-10">
         {!modulAktif ? (
           <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* HERO & PROGRESS SECTION */}
             <section className="bg-stone-900 text-stone-50 rounded-3xl p-8 md:p-10 shadow-2xl shadow-stone-900/20 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-600/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
               
@@ -124,7 +125,6 @@ export default function ElearningDasarPro() {
               </div>
             </section>
 
-            {/* MODULES GRID (BENTO STYLE) */}
             <section>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-stone-900">Modul Pembelajaran</h2>
@@ -162,7 +162,6 @@ export default function ElearningDasarPro() {
             </section>
           </div>
         ) : (
-          /* QUIZ INTERFACE - FOCUS MODE */
           <div className="max-w-2xl mx-auto mt-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <button onClick={() => setModulAktif(null)} className="group flex items-center gap-2 text-sm font-semibold text-stone-500 hover:text-stone-900 transition-colors mb-8">
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Kembali ke Daftar Modul
