@@ -38,7 +38,6 @@ const bankSoal = [
 ];
 
 export default function ElearningDasarPro() {
-  // Tambahan <any> untuk kasih tau TypeScript
   const [modulAktif, setModulAktif] = useState<any>(null); 
   const [indeksSoal, setIndeksSoal] = useState(0); 
   const [skor, setSkor] = useState(0); 
@@ -54,7 +53,6 @@ export default function ElearningDasarPro() {
     }
   }, []);
 
-  // Tambahan : any di parameter
   const mulaiModul = (modul: any) => {
     setModulAktif(modul);
     setIndeksSoal(0);
@@ -62,7 +60,6 @@ export default function ElearningDasarPro() {
     setKuisSelesai(false);
   };
 
-  // Tambahan : any di parameter
   const cekJawaban = (jawabanDipilih: any) => {
     const soalSekarang = modulAktif.soal[indeksSoal];
     if (jawabanDipilih === soalSekarang.jawabanBenar) {
