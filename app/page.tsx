@@ -34,6 +34,24 @@ const bankSoal = [
         jawabanBenar: 'else',
       }
     ],
+  },
+  {
+    id : 'modul-3',
+    judul : 'Looping Statement',
+    deskripsi : 'Mengulang-ulang sebuah blok kode secara terus menerus hingga suatu kondisi terpenuhi.',
+    waktu : '15 menit',
+    soal : [
+      {
+        pertanyaan : 'Apa fungsi dari loop?',
+        pilihan: ['Supaya program lain bisa menunggu','Untuk menambah error', 'Untuk mengulang sebuah blok kode', 'Untuk menangkap output program yang error.'],
+        jawabanBenar: 'Untuk mengulang sebuah blok kode',
+      },
+      {
+        pertanyaan : 'Jika loop diatur untuk menampilkan angka dari 1 ke 3, mana yang akan tampil di layar?',
+        pilihan: ['1, 2, 3', '1, 3, 2', '3, 1, 2', '2, 1, 3'],
+        jawabanBenar: '1, 2, 3',
+      },
+    ]
   }
 ];
 
@@ -244,8 +262,13 @@ export default function ElearningAesthetic() {
                   
                   <h3 className="font-serif text-xl md:text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
                   
+<<<<<<< HEAD
                   <div className="space-y-4">
                     {modulAktif.soal[indeksSoal].pilihan.map((opsi, index) => (
+=======
+                  <div className="space-y-3">
+                    {modulAktif.soal[indeksSoal].pilihan.map((opsi : string, index : number) => (
+>>>>>>> 6a709ab492e143d27aa776d28820241ff7d84987
                       <button
                         key={index}
                         onClick={() => cekJawaban(opsi)}
