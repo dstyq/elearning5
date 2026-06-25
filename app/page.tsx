@@ -34,6 +34,24 @@ const bankSoal = [
         jawabanBenar: 'else',
       }
     ],
+  },
+  {
+    id : 'modul-3',
+    judul : 'Looping Statement',
+    deskripsi : 'Mengulang-ulang sebuah blok kode secara terus menerus hingga suatu kondisi terpenuhi.',
+    waktu : '15 menit',
+    soal : [
+      {
+        pertanyaan : 'Apa fungsi dari loop?',
+        pilihan: ['Supaya program lain bisa menunggu','Untuk menambah error', 'Untuk mengulang sebuah blok kode', 'Untuk menangkap output program yang error.'],
+        jawabanBenar: 'Untuk mengulang sebuah blok kode',
+      },
+      {
+        pertanyaan : 'Jika loop diatur untuk menampilkan angka dari 1 ke 3, mana yang akan tampil di layar?',
+        pilihan: ['1, 2, 3', '1, 3, 2', '3, 1, 2', '2, 1, 3'],
+        jawabanBenar: '1, 2, 3',
+      },
+    ]
   }
 ];
 
@@ -180,7 +198,7 @@ export default function ElearningDasarPro() {
                   <h3 className="text-xl font-medium mb-8 text-stone-800 leading-snug">{modulAktif.soal[indeksSoal].pertanyaan}</h3>
                   
                   <div className="space-y-3">
-                    {modulAktif.soal[indeksSoal].pilihan.map((opsi, index) => (
+                    {modulAktif.soal[indeksSoal].pilihan.map((opsi : string, index : number) => (
                       <button
                         key={index}
                         onClick={() => cekJawaban(opsi)}
