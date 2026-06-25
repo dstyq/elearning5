@@ -154,7 +154,7 @@ export default function ElearningAesthetic() {
         </div>
       </nav>
 
-      {/* SISA KONTEN BAWAH SAMA PERSIS */}
+      {/* KONTEN UTAMA */}
       <main className="max-w-6xl mx-auto px-6 py-10">
         {!modulAktif ? (
           <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
