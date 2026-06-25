@@ -55,6 +55,21 @@ const bankSoal = [
   }
 ];
 
+const Kategori = [
+  {
+    id : 0,
+    kategori : 'Category 1',
+  },
+  {
+    id : 1,
+    kategori : 'Category 2',
+  },
+  {
+    id : 2,
+    kategori : 'Category 3',
+  }
+];
+
 export default function ElearningAesthetic() {
   const [modulAktif, setModulAktif] = useState<any>(null); 
   const [indeksSoal, setIndeksSoal] = useState(0); 
@@ -62,6 +77,7 @@ export default function ElearningAesthetic() {
   const [kuisSelesai, setKuisSelesai] = useState(false);
   const [progresSiswa, setProgresSiswa] = useState<any[]>([]); 
   const [mounted, setMounted] = useState(false);
+  const [bukaKategori, setBukaKategori] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -128,13 +144,26 @@ export default function ElearningAesthetic() {
           </div>
 
           {/* 3. Menu Navigasi Tengah */}
-          <div className="hidden lg:flex items-center gap-7 shrink-0">
-            <button className="text-[#38302A] font-semibold text-sm border-b-2 border-[#8B7355] pb-1">Beranda</button>
-            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors flex items-center gap-1">
-              Kategori <ChevronDown className="w-4 h-4" />
-            </button>
-            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors">Forum Diskusi</button>
-            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors">Leaderboard</button>
+          <div className="hidden lg:flex items-center gap-7 shrink-0 relative">
+            <button className="text-[#38302A] font-semibold text-sm border-b-2 border-[#8B7355] pb-1 cursor-pointer">Beranda</button>
+            <div className='relative cursor-pointer'>
+                <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors flex items-center gap-1 cursor-pointer" onClick={() => { setBukaKategori(prev => !prev) }}>
+                  Kategori <ChevronDown className="w-4 h-4" />
+                </button>
+                <div className={`bg-white w-[120px] overflow-hidden px-5 ${bukaKategori === false ? 'h-0 px-0 py-0' : 'h-[85px] max-h-[160px]'} block absolute top-6 left-0 z-10 transition-[height] duration-700 rounded-lg`}>
+                    <ul className='text-sm flex flex-col gap-1 my-2'>
+                      {
+                        Kategori.map((item) => (
+                          <li key={item.id}>
+                            {item.kategori}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                </div>
+            </div>
+            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors cursor-pointer">Forum Diskusi</button>
+            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors cursor-pointer">Leaderboard</button>
           </div>
 
           {/* 4. Fitur Kanan (Streak, Notif, Profil) */}
@@ -262,13 +291,8 @@ export default function ElearningAesthetic() {
                   
                   <h3 className="font-serif text-xl md:text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
                   
-<<<<<<< HEAD
-                  <div className="space-y-4">
-                    {modulAktif.soal[indeksSoal].pilihan.map((opsi, index) => (
-=======
                   <div className="space-y-3">
                     {modulAktif.soal[indeksSoal].pilihan.map((opsi : string, index : number) => (
->>>>>>> 6a709ab492e143d27aa776d28820241ff7d84987
                       <button
                         key={index}
                         onClick={() => cekJawaban(opsi)}
