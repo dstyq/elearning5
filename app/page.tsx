@@ -1,22 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { BookOpen, CheckCircle2, Play, ArrowLeft, Trophy, Clock, Code2 } from 'lucide-react';
+import { BookOpen, CheckCircle, ChevronLeft, Feather, Coffee, Clock, Bell, User, Menu, Search, ChevronDown, Flame } from 'lucide-react';
 
 const bankSoal = [
   {
     id: 'modul-1',
     judul: 'Variabel dan Tipe Data',
-    deskripsi: 'Fondasi utama dalam menyimpan dan memanipulasi data pada memori.',
+    deskripsi: 'Memahami fondasi dasar bagaimana data disimpan dan dikelola dalam sebuah program.',
     waktu: '15 Menit',
     soal: [
       {
-        pertanyaan: 'Tipe data apa yang paling tepat untuk menyimpan nilai teks panjang?',
+        pertanyaan: 'Tipe data apa yang paling tepat untuk menyimpan sebuah kalimat atau teks panjang?',
         pilihan: ['Integer', 'String', 'Boolean', 'Float'],
         jawabanBenar: 'String',
       },
       {
-        pertanyaan: 'Manakah deklarasi variabel yang paling tepat dan modern di JavaScript?',
+        pertanyaan: 'Manakah deklarasi variabel yang paling tepat dan umum digunakan di JavaScript modern?',
         pilihan: ['let nama = "Budi";', 'variable nama = "Budi";', 'v nama = "Budi";', 'string nama = "Budi";'],
         jawabanBenar: 'let nama = "Budi";',
       },
@@ -25,11 +25,11 @@ const bankSoal = [
   {
     id: 'modul-2',
     judul: 'Logika Percabangan (If-Else)',
-    deskripsi: 'Mengatur alur program berdasarkan kondisi tertentu yang bernilai benar atau salah.',
+    deskripsi: 'Mempelajari cara komputer mengambil keputusan berdasarkan kondisi benar atau salah.',
     waktu: '20 Menit',
     soal: [
       {
-        pertanyaan: 'Sintaks apa yang digunakan untuk mengeksekusi blok kode jika kondisi salah?',
+        pertanyaan: 'Sintaks apa yang digunakan untuk mengeksekusi blok kode jika kondisi sebelumnya tidak terpenuhi?',
         pilihan: ['if', 'else if', 'else', 'switch'],
         jawabanBenar: 'else',
       }
@@ -37,7 +37,7 @@ const bankSoal = [
   }
 ];
 
-export default function ElearningDasarPro() {
+export default function ElearningAesthetic() {
   const [modulAktif, setModulAktif] = useState<any>(null); 
   const [indeksSoal, setIndeksSoal] = useState(0); 
   const [skor, setSkor] = useState(0); 
@@ -47,7 +47,7 @@ export default function ElearningDasarPro() {
 
   useEffect(() => {
     setMounted(true);
-    const progresTersimpan = localStorage.getItem('progres_elearning');
+    const progresTersimpan = localStorage.getItem('progres_elearning_aesthetic');
     if (progresTersimpan) {
       setProgresSiswa(JSON.parse(progresTersimpan));
     }
@@ -73,7 +73,7 @@ export default function ElearningDasarPro() {
       if (!progresSiswa.includes(modulAktif.id)) {
         const progresBaru = [...progresSiswa, modulAktif.id];
         setProgresSiswa(progresBaru);
-        localStorage.setItem('progres_elearning', JSON.stringify(progresBaru));
+        localStorage.setItem('progres_elearning_aesthetic', JSON.stringify(progresBaru));
       }
     }
   };
@@ -83,73 +83,138 @@ export default function ElearningDasarPro() {
   if (!mounted) return null; 
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-stone-800 font-sans selection:bg-emerald-200">
-      <nav className="sticky top-0 z-50 bg-[#FAF9F6]/80 backdrop-blur-md border-b border-stone-200 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="bg-emerald-800 p-2 rounded-lg"><Code2 className="w-5 h-5 text-emerald-50" /></div>
-            <span className="font-bold text-lg tracking-tight text-stone-900">CodeCanvas.</span>
+    <div className="min-h-screen bg-[#F9F8F6] text-[#4A4036] font-sans selection:bg-[#E3DAC9] selection:text-[#38302A]">
+      {/* NAVBAR LENGKAP & PADAT FITUR */}
+      <nav className="sticky top-0 z-50 bg-[#F9F8F6]/90 backdrop-blur-md border-b border-[#EBE6DF] px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-6">
+          
+          {/* 1. Logo & Judul */}
+          <div className="flex items-center gap-3 cursor-pointer shrink-0">
+            <div className="bg-[#60554A] p-2 rounded-xl shadow-sm">
+              <BookOpen className="w-5 h-5 text-[#F9F8F6]" />
+            </div>
+            <div>
+              <span className="font-serif font-bold text-xl tracking-wide text-[#38302A] block leading-none">EduJurnal.</span>
+              <span className="text-[10px] font-bold text-[#8B7355] tracking-widest uppercase">PTIK 124</span>
+            </div>
           </div>
-          <div className="text-sm font-medium text-stone-500">PTIK E-Learning System</div>
+
+          {/* 2. Kolom Pencarian (Search Bar) */}
+          <div className="hidden lg:flex items-center bg-[#F4F1EA] px-4 py-2.5 rounded-full flex-1 max-w-md border border-[#EBE6DF] focus-within:border-[#C4B7A6] transition-colors group">
+            <Search className="w-4 h-4 text-[#A39B92] mr-3 group-focus-within:text-[#8B7355] transition-colors" />
+            <input 
+              type="text" 
+              placeholder="Cari materi, kuis, atau diskusi..." 
+              className="bg-transparent border-none outline-none text-sm text-[#38302A] w-full placeholder:text-[#A39B92]"
+            />
+          </div>
+
+          {/* 3. Menu Navigasi Tengah */}
+          <div className="hidden lg:flex items-center gap-7 shrink-0">
+            <button className="text-[#38302A] font-semibold text-sm border-b-2 border-[#8B7355] pb-1">Beranda</button>
+            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors flex items-center gap-1">
+              Kategori <ChevronDown className="w-4 h-4" />
+            </button>
+            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors">Forum Diskusi</button>
+            <button className="text-[#8C8276] font-medium text-sm hover:text-[#8B7355] transition-colors">Leaderboard</button>
+          </div>
+
+          {/* 4. Fitur Kanan (Streak, Notif, Profil) */}
+          <div className="flex items-center gap-4 shrink-0">
+            {/* Streak Belajar */}
+            <div className="hidden md:flex items-center gap-1.5 bg-[#FEF6EE] border border-[#FDE0C4] px-3 py-1.5 rounded-full cursor-pointer hover:bg-[#FDE0C4] transition-colors">
+              <Flame className="w-4 h-4 text-[#EA580C]" />
+              <span className="text-xs font-bold text-[#EA580C]">12 Hari</span>
+            </div>
+
+            {/* Lonceng Notifikasi */}
+            <button className="text-[#8C8276] hover:text-[#38302A] transition-colors relative hidden md:block">
+              <Bell className="w-5 h-5" />
+              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-[#F9F8F6]"></span>
+            </button>
+            
+            {/* Profil User */}
+            <div className="flex items-center gap-3 border-l border-[#EBE6DF] pl-4 cursor-pointer group">
+              <div className="w-9 h-9 rounded-full bg-[#EAF0E6] flex items-center justify-center border border-[#C4B7A6] group-hover:border-[#8B7355] transition-colors overflow-hidden">
+                <User className="w-4 h-4 text-[#6B8E5C]" />
+              </div>
+              <div className="hidden md:block">
+                <span className="block text-sm font-semibold text-[#38302A] leading-tight">Siswa PTIK</span>
+                <span className="block text-[10px] text-[#8C8276] font-medium">1,250 XP</span>
+              </div>
+              <ChevronDown className="hidden md:block w-4 h-4 text-[#8C8276] group-hover:text-[#38302A]" />
+            </div>
+
+            {/* Menu HP */}
+            <button className="lg:hidden text-[#8C8276]">
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
+
         </div>
       </nav>
 
-      <main className="max-w-5xl mx-auto px-6 py-10">
+      {/* SISA KONTEN BAWAH SAMA PERSIS */}
+      <main className="max-w-6xl mx-auto px-6 py-10">
         {!modulAktif ? (
-          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <section className="bg-stone-900 text-stone-50 rounded-3xl p-8 md:p-10 shadow-2xl shadow-stone-900/20 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-600/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+          <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            
+            <section className="bg-[#4A4036] text-[#F9F8F6] rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-xl shadow-[#4A4036]/10">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#60554A] rounded-full blur-3xl opacity-50"></div>
               
-              <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+              <div className="grid md:grid-cols-2 gap-10 items-center relative z-10">
                 <div>
-                  <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">Lanjutkan Perjalanan <br/><span className="text-emerald-400">Coding-mu</span> Hari Ini.</h1>
-                  <p className="text-stone-400 text-sm md:text-base mb-6 max-w-md">Kuasai fondasi pemrograman dengan materi interaktif dan evaluasi langsung. Konsistensi adalah kunci.</p>
+                  <h1 className="font-serif text-3xl md:text-5xl mb-4 leading-tight">
+                    Ruang Belajar <br/> <span className="text-[#D4C3A3] italic">Pemrograman.</span>
+                  </h1>
+                  <p className="text-[#D5CFC7] text-sm md:text-base leading-relaxed mb-6 max-w-sm">
+                    Mari pelajari logika dasar dan struktur data dengan suasana yang lebih santai. Siapkan kopimu, dan mari mulai.
+                  </p>
                 </div>
                 
-                <div className="bg-stone-800/50 backdrop-blur-sm p-6 rounded-2xl border border-stone-700">
+                <div className="bg-[#F9F8F6] text-[#4A4036] rounded-2xl p-6 md:p-8 shadow-lg">
                   <div className="flex justify-between items-end mb-4">
                     <div>
-                      <p className="text-stone-400 text-xs font-semibold uppercase tracking-wider mb-1">Progres Keseluruhan</p>
-                      <p className="text-2xl font-bold text-white">{persentase}%</p>
+                      <p className="text-[#8C8276] text-xs font-bold uppercase tracking-widest mb-1">Jejak Belajar</p>
+                      <p className="font-serif text-4xl text-[#38302A]">{persentase}%</p>
                     </div>
-                    <Trophy className={`w-8 h-8 ${persentase === 100 ? 'text-amber-400' : 'text-stone-600'}`} />
+                    <Coffee className={`w-8 h-8 ${persentase === 100 ? 'text-[#8B7355]' : 'text-[#D5CFC7]'}`} />
                   </div>
-                  <div className="w-full bg-stone-700 rounded-full h-2.5 overflow-hidden">
-                    <div className="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000 ease-out" style={{ width: `${persentase}%` }}></div>
+                  <div className="w-full bg-[#EBE6DF] rounded-full h-2 overflow-hidden mb-3">
+                    <div className="bg-[#8B7355] h-2 rounded-full transition-all duration-1000 ease-out" style={{ width: `${persentase}%` }}></div>
                   </div>
-                  <p className="text-xs text-stone-400 mt-3">{progresSiswa.length} dari {bankSoal.length} Modul Diselesaikan</p>
+                  <p className="text-xs text-[#8C8276] font-medium">Kamu telah menyelesaikan {progresSiswa.length} dari {bankSoal.length} materi</p>
                 </div>
               </div>
             </section>
 
             <section>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-stone-900">Modul Pembelajaran</h2>
-                <span className="text-sm font-medium text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">Semester 124</span>
+              <div className="flex items-center justify-between mb-8 border-b border-[#EBE6DF] pb-4">
+                <h2 className="font-serif text-2xl text-[#38302A]">Daftar Materi</h2>
               </div>
               
-              <div className="grid md:grid-cols-2 gap-5">
+              <div className="grid md:grid-cols-2 gap-6">
                 {bankSoal.map((modul) => {
                   const isSelesai = progresSiswa.includes(modul.id);
                   return (
-                    <div key={modul.id} onClick={() => mulaiModul(modul)} className="group bg-white p-6 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-900/5 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full">
+                    <div key={modul.id} onClick={() => mulaiModul(modul)} className="group bg-white p-7 rounded-2xl border border-[#EBE6DF] hover:border-[#C4B7A6] hover:shadow-lg hover:shadow-[#4A4036]/5 transition-all duration-500 cursor-pointer flex flex-col justify-between h-full">
                       <div>
-                        <div className="flex justify-between items-start mb-4">
-                          <div className={`p-3 rounded-xl ${isSelesai ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-100 text-stone-600 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors'}`}>
-                            <BookOpen className="w-6 h-6" />
+                        <div className="flex justify-between items-start mb-5">
+                          <div className={`p-2.5 rounded-full ${isSelesai ? 'bg-[#EAF0E6] text-[#6B8E5C]' : 'bg-[#F4F1EA] text-[#8C8276] group-hover:bg-[#EBE6DF] transition-colors'}`}>
+                            {isSelesai ? <CheckCircle className="w-5 h-5" /> : <Feather className="w-5 h-5" />}
                           </div>
-                          {isSelesai && <CheckCircle2 className="w-6 h-6 text-emerald-500" />}
+                          {isSelesai && <span className="text-[10px] font-bold text-[#6B8E5C] tracking-widest uppercase bg-[#EAF0E6] px-3 py-1 rounded-full">Selesai</span>}
                         </div>
-                        <h3 className="text-lg font-bold text-stone-900 mb-2 group-hover:text-emerald-700 transition-colors">{modul.judul}</h3>
-                        <p className="text-sm text-stone-500 leading-relaxed mb-6">{modul.deskripsi}</p>
+                        <h3 className="font-serif text-xl text-[#38302A] mb-3 group-hover:text-[#8B7355] transition-colors">{modul.judul}</h3>
+                        <p className="text-sm text-[#8C8276] leading-relaxed mb-8">{modul.deskripsi}</p>
                       </div>
                       
-                      <div className="flex items-center justify-between pt-4 border-t border-stone-100">
-                        <div className="flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                      <div className="flex items-center justify-between pt-5 border-t border-[#F4F1EA]">
+                        <div className="flex items-center gap-2 text-xs font-semibold text-[#A39B92] uppercase tracking-wider">
                           <Clock className="w-4 h-4" /> {modul.waktu}
                         </div>
-                        <span className={`text-sm font-bold flex items-center gap-1 ${isSelesai ? 'text-emerald-600' : 'text-stone-900'}`}>
-                          {isSelesai ? 'Ulangi Kuis' : 'Mulai Belajar'} <Play className="w-4 h-4" />
+                        <span className={`text-sm font-semibold flex items-center gap-1 ${isSelesai ? 'text-[#6B8E5C]' : 'text-[#38302A] group-hover:text-[#8B7355] transition-colors'}`}>
+                          {isSelesai ? 'Baca Ulang' : 'Mulai Sesi'} 
                         </span>
                       </div>
                     </div>
@@ -159,54 +224,53 @@ export default function ElearningDasarPro() {
             </section>
           </div>
         ) : (
-          <div className="max-w-2xl mx-auto mt-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <button onClick={() => setModulAktif(null)} className="group flex items-center gap-2 text-sm font-semibold text-stone-500 hover:text-stone-900 transition-colors mb-8">
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Kembali ke Daftar Modul
+          <div className="max-w-3xl mx-auto mt-4 animate-in fade-in duration-700">
+            <button onClick={() => setModulAktif(null)} className="group flex items-center gap-2 text-sm font-medium text-[#8C8276] hover:text-[#38302A] transition-colors mb-10">
+              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Kembali ke Beranda
             </button>
             
-            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-lg shadow-stone-200/50 border border-stone-200">
-              <div className="mb-8">
-                <span className="text-xs font-bold tracking-widest text-emerald-600 uppercase mb-2 block">Modul Evaluasi</span>
-                <h2 className="text-2xl font-bold text-stone-900">{modulAktif.judul}</h2>
+            <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-xl shadow-[#4A4036]/5 border border-[#EBE6DF]">
+              <div className="mb-10 text-center">
+                <span className="text-[10px] font-bold tracking-widest text-[#8B7355] uppercase mb-3 block">Lembar Evaluasi</span>
+                <h2 className="font-serif text-3xl text-[#38302A]">{modulAktif.judul}</h2>
               </div>
 
               {!kuisSelesai ? (
                 <div>
-                  <div className="flex justify-between items-center mb-6">
-                    <p className="text-sm font-semibold text-stone-400">Pertanyaan {indeksSoal + 1} dari {modulAktif.soal.length}</p>
-                    <div className="text-xs font-medium bg-stone-100 text-stone-600 px-3 py-1 rounded-full">{Math.round(((indeksSoal) / modulAktif.soal.length) * 100)}% Selesai</div>
+                  <div className="flex justify-between items-center mb-8 border-b border-[#F4F1EA] pb-4">
+                    <p className="text-sm font-medium text-[#8C8276]">Pertanyaan {indeksSoal + 1} dari {modulAktif.soal.length}</p>
+                    <div className="text-xs font-semibold text-[#8B7355] bg-[#F4F1EA] px-3 py-1.5 rounded-full">{Math.round(((indeksSoal) / modulAktif.soal.length) * 100)}%</div>
                   </div>
                   
-                  <h3 className="text-xl font-medium mb-8 text-stone-800 leading-snug">{modulAktif.soal[indeksSoal].pertanyaan}</h3>
+                  <h3 className="font-serif text-xl md:text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
                   
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {modulAktif.soal[indeksSoal].pilihan.map((opsi, index) => (
                       <button
                         key={index}
                         onClick={() => cekJawaban(opsi)}
-                        className="w-full text-left p-5 rounded-xl border-2 border-stone-100 hover:border-emerald-500 hover:bg-emerald-50/50 transition-all font-medium text-stone-700 hover:text-emerald-900 group relative overflow-hidden"
+                        className="w-full text-center p-5 rounded-2xl border border-[#EBE6DF] hover:border-[#8B7355] hover:bg-[#F9F8F6] transition-all duration-300 font-medium text-[#4A4036] hover:text-[#38302A]"
                       >
-                        <span className="inline-block w-6 text-stone-400 group-hover:text-emerald-500">{String.fromCharCode(65 + index)}.</span>
                         {opsi}
                       </button>
                     ))}
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12 animate-in zoom-in-95 duration-500">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-emerald-100 rounded-full mb-6">
-                    <Trophy className="w-10 h-10 text-emerald-600" />
+                <div className="text-center py-10 animate-in zoom-in-95 duration-700">
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-[#F4F1EA] text-[#8B7355] rounded-full mb-8">
+                    <CheckCircle className="w-10 h-10" />
                   </div>
-                  <h3 className="text-3xl font-bold text-stone-900 mb-3">Luar Biasa!</h3>
-                  <p className="text-stone-500 mb-8 text-lg">
+                  <h3 className="font-serif text-3xl text-[#38302A] mb-4">Sesi Selesai</h3>
+                  <p className="text-[#8C8276] mb-10 text-lg leading-relaxed">
                     Kamu berhasil menjawab dengan benar <br/>
-                    <span className="text-emerald-600 font-black text-2xl">{skor}</span> dari {modulAktif.soal.length} pertanyaan.
+                    <span className="font-serif text-[#6B8E5C] text-3xl mx-1">{skor}</span> dari {modulAktif.soal.length} pertanyaan.
                   </p>
                   <button
                     onClick={() => setModulAktif(null)}
-                    className="bg-stone-900 text-stone-50 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-600/30 transition-all w-full md:w-auto"
+                    className="bg-[#4A4036] text-[#F9F8F6] px-8 py-4 rounded-full font-medium hover:bg-[#38302A] hover:shadow-lg hover:shadow-[#4A4036]/20 transition-all w-full md:w-auto"
                   >
-                    Selesaikan & Simpan Progres
+                    Simpan & Lanjutkan
                   </button>
                 </div>
               )}
