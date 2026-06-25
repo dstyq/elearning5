@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BookOpen, CheckCircle, ChevronLeft, Feather, Coffee, Clock, Bell, User, Menu, Search, ChevronDown, Flame } from 'lucide-react';
 
+// Bank soal gabungan (Modul 1, 2, dan Modul 3 baru dari temenmu)
 const bankSoal = [
   {
     id: 'modul-1',
@@ -36,18 +37,18 @@ const bankSoal = [
     ],
   },
   {
-    id : 'modul-3',
-    judul : 'Looping Statement',
-    deskripsi : 'Mengulang-ulang sebuah blok kode secara terus menerus hingga suatu kondisi terpenuhi.',
-    waktu : '15 menit',
-    soal : [
+    id: 'modul-3',
+    judul: 'Looping Statement',
+    deskripsi: 'Mengulang-ulang sebuah blok kode secara terus menerus hingga suatu kondisi terpenuhi.',
+    waktu: '15 Menit',
+    soal: [
       {
-        pertanyaan : 'Apa fungsi dari loop?',
-        pilihan: ['Supaya program lain bisa menunggu','Untuk menambah error', 'Untuk mengulang sebuah blok kode', 'Untuk menangkap output program yang error.'],
+        pertanyaan: 'Apa fungsi dari loop?',
+        pilihan: ['Supaya program lain bisa menunggu', 'Untuk menambah error', 'Untuk mengulang sebuah blok kode', 'Untuk menangkap output program yang error.'],
         jawabanBenar: 'Untuk mengulang sebuah blok kode',
       },
       {
-        pertanyaan : 'Jika loop diatur untuk menampilkan angka dari 1 ke 3, mana yang akan tampil di layar?',
+        pertanyaan: 'Jika loop diatur untuk menampilkan angka dari 1 ke 3, mana yang akan tampil di layar?',
         pilihan: ['1, 2, 3', '1, 3, 2', '3, 1, 2', '2, 1, 3'],
         jawabanBenar: '1, 2, 3',
       },
@@ -118,7 +119,7 @@ export default function ElearningAesthetic() {
 
   return (
     <div className="min-h-screen bg-[#F9F8F6] text-[#4A4036] font-sans selection:bg-[#E3DAC9] selection:text-[#38302A]">
-      {/* NAVBAR LENGKAP & PADAT FITUR */}
+      {/* NAVBAR LENGKAP & PADAT FITUR (ULTIMATE VERSION) */}
       <nav className="sticky top-0 z-50 bg-[#F9F8F6]/90 backdrop-blur-md border-b border-[#EBE6DF] px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-6">
           
@@ -202,10 +203,11 @@ export default function ElearningAesthetic() {
       </nav>
 
       {/* KONTEN UTAMA */}
-      <main className="max-w-6xl mx-auto px-6 py-10">
+      <main className="max-w-7xl mx-auto px-6 py-10">
         {!modulAktif ? (
           <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             
+            {/* HERO & PROGRESS */}
             <section className="bg-[#4A4036] text-[#F9F8F6] rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-xl shadow-[#4A4036]/10">
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#60554A] rounded-full blur-3xl opacity-50"></div>
               
@@ -235,6 +237,7 @@ export default function ElearningAesthetic() {
               </div>
             </section>
 
+            {/* MODULES LIST */}
             <section>
               <div className="flex items-center justify-between mb-8 border-b border-[#EBE6DF] pb-4">
                 <h2 className="font-serif text-2xl text-[#38302A]">Daftar Materi</h2>
@@ -271,7 +274,8 @@ export default function ElearningAesthetic() {
             </section>
           </div>
         ) : (
-          <div className="max-w-3xl mx-auto mt-4 animate-in fade-in duration-700">
+          /* QUIZ INTERFACE */
+          <div className="max-w-2xl mx-auto mt-4 animate-in fade-in duration-700">
             <button onClick={() => setModulAktif(null)} className="group flex items-center gap-2 text-sm font-medium text-[#8C8276] hover:text-[#38302A] transition-colors mb-10">
               <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Kembali ke Beranda
             </button>
@@ -291,8 +295,8 @@ export default function ElearningAesthetic() {
                   
                   <h3 className="font-serif text-xl md:text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
                   
-                  <div className="space-y-3">
-                    {modulAktif.soal[indeksSoal].pilihan.map((opsi : string, index : number) => (
+                  <div className="space-y-4">
+                    {modulAktif.soal[indeksSoal].pilihan.map((opsi: any, index: number) => (
                       <button
                         key={index}
                         onClick={() => cekJawaban(opsi)}
