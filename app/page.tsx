@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { BookOpen, CheckCircle, ChevronLeft, Feather, Coffee, Clock, Bell, User, Menu, Search, ChevronDown, Flame } from 'lucide-react';
+import Link from 'next/link';
 
 // Bank soal gabungan (Modul 1, 2, dan Modul 3 baru dari temenmu)
 const bankSoal = [
@@ -182,7 +183,7 @@ export default function ElearningAesthetic() {
             </button>
             
             {/* Profil User */}
-            <div className="flex items-center gap-3 border-l border-[#EBE6DF] pl-4 cursor-pointer group">
+            <Link className="flex items-center gap-3 border-l border-[#EBE6DF] pl-4 cursor-pointer group" href='/profile'>
               <div className="w-9 h-9 rounded-full bg-[#EAF0E6] flex items-center justify-center border border-[#C4B7A6] group-hover:border-[#8B7355] transition-colors overflow-hidden">
                 <User className="w-4 h-4 text-[#6B8E5C]" />
               </div>
@@ -191,7 +192,7 @@ export default function ElearningAesthetic() {
                 <span className="block text-[10px] text-[#8C8276] font-medium">1,250 XP</span>
               </div>
               <ChevronDown className="hidden md:block w-4 h-4 text-[#8C8276] group-hover:text-[#38302A]" />
-            </div>
+            </Link>
 
             {/* Menu HP */}
             <button className="lg:hidden text-[#8C8276]">
