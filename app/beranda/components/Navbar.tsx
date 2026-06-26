@@ -15,7 +15,6 @@ export default function Navbar(){
     
     useEffect(() => {
         setUsername(localStorage.getItem('session_username'));
-        console.log(username || 'Siswa')
     },[]);
 
     return(
@@ -46,8 +45,7 @@ export default function Navbar(){
             <Link href="/beranda/profil" className="flex items-center gap-2 group">
             <span className="text-sm font-bold text-[#38302A] group-hover:underline">{username}</span>
               <div className="w-8 h-8 rounded-full bg-[#EBE6DF] border-2 border-white shadow-inner flex items-center justify-center font-bold text-[#8C8276] text-xs">
-                {/* Bisa diganti <img> kalau udah ada foto profil */}
-                H
+                {username?.charAt(0) || 'H'}
               </div>
             </Link>
             <Link href="/" className="text-xs font-bold text-[#8C8276] hover:text-red-500 transition-colors">

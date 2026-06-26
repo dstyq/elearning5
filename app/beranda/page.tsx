@@ -57,8 +57,13 @@ export default function DashboardModul() {
   }
 
   const cekJawaban = (jawabanDipilih: any) => {
-    if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar) setSkor(skor + 1); 
+    let skorBaru = skor;
+    if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar){
+      skorBaru = skor + 1;
+      setSkor(skorBaru)
+    }; 
     const soalSelanjutnya = indeksSoal + 1;
+    
     if (soalSelanjutnya < modulAktif.soal.length) {
       setIndeksSoal(soalSelanjutnya); 
     } else {
@@ -68,8 +73,22 @@ export default function DashboardModul() {
         setProgresSiswa(progresBaru);
         localStorage.setItem('progres_elearning_aesthetic', JSON.stringify(progresBaru));
       }
+      const hasilKuis : { modul : number, skor : number} = {
+        modul : modulAktif.judul,
+        skor : skorBaru,
+      };
+      const pastLeaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
+      const existingIndex = pastLeaderboard.findIndex((item : any) => item.modul === hasilKuis.modul);
+      if(existingIndex !== -1){
+        pastLeaderboard[existingIndex] = hasilKuis;
+      }
+      else{
+        pastLeaderboard.push(hasilKuis);
+      }
+      localStorage.setItem('leaderboard', JSON.stringify(pastLeaderboard));
     }
   };
+  
 
   const persentase = bankSoal.length > 0 ? Math.round((progresSiswa.length / bankSoal.length) * 100) : 0;
 

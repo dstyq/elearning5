@@ -2,14 +2,26 @@
 import { useEffect, useState } from 'react';
 
 export default function Leaderboard() {
-  const [list, setList] = useState([]);
-
+  interface Leaderboard {
+    modul : string,
+    skor : number,
+  }
+  const [list, setList] = useState<Leaderboard[]>([]);
+  let totalSkor : number;
   useEffect(() => {
     // Kita ambil langsung di sini biar nggak ribet import-import
-    const scores = JSON.parse(localStorage.getItem('leaderboard') || '[]');
-    const sorted = scores.sort((a, b) => b.score - a.score);
-    setList(sorted);
+    let scores : Leaderboard[] = []; 
+    try{
+      const res = JSON.parse(localStorage.getItem('leaderboard')?.toString() || '[]');
+      scores = res;
+    }
+    catch(err){
+      console.error(err)
+    }
+    setList(scores);
   }, []);
+
+  totalSkor = list.reduce((acc, item) => acc + item.skor, 0);
 
   return (
     <div className="max-w-2xl mx-auto mt-10">
@@ -20,11 +32,11 @@ export default function Leaderboard() {
         ) : (
           list.map((item, i) => (
             <div key={i} className="flex justify-between py-3 border-b last:border-0">
-              <span className="font-bold">{i + 1}. {item.name}</span>
-              <span className="text-[#8B7355] font-mono">{item.score} XP</span>
+              <h1 className='text-black'>{item.modul} - Skor : {item.skor}</h1>
             </div>
           ))
         )}
+        <h1 className='text-black mt-3'>Total skor : {totalSkor}</h1>
       </div>
     </div>
   );
