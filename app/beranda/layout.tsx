@@ -1,31 +1,63 @@
 import Link from 'next/link';
 
 export default function BerandaLayout({ children }: { children: React.ReactNode }) {
+  const menuNav = [
+    { name: 'Beranda', href: '/beranda' },
+    { name: 'Materi', href: '/beranda/materi' },
+    { name: 'Leaderboard', href: '/beranda/leaderboard' },
+    { name: 'Tentang Kami', href: '/beranda/tentang' },
+  ];
+
   return (
     <div className="min-h-screen bg-[#F9F8F6]">
-      {/* Navbar yang Konsisten */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-[#EBE6DF] sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      {/* NAVBAR */}
+      <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
+        <div className="bg-white/70 backdrop-blur-xl border border-white/50 shadow-lg shadow-stone-200/50 rounded-2xl px-6 py-3 flex items-center justify-between">
+          
+          {/* Brand/Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#38302A] rounded-lg flex items-center justify-center text-white font-bold text-xs">CV</div>
-            <span className="font-serif font-bold text-[#38302A] tracking-tight">CodeV</span>
+            <div className="w-8 h-8 bg-[#38302A] rounded-xl flex items-center justify-center text-white font-black italic">V</div>
+            <span className="font-serif font-bold text-[#38302A] tracking-tight text-lg">CodeV</span>
           </div>
-          <div className="flex gap-8 text-sm font-bold text-[#8C8276]">
-            <Link href="/beranda" className="hover:text-[#8B7355] transition-colors">Modul Belajar</Link>
-            <Link href="/beranda/profil" className="hover:text-[#8B7355] transition-colors">Profil</Link>
-            <Link href="/" className="px-4 py-1.5 bg-[#F4F1EA] rounded-full hover:bg-[#8B7355] hover:text-white transition-all">Keluar</Link>
+
+          {/* Nav Links */}
+          <div className="hidden md:flex items-center gap-1">
+            {menuNav.map((item) => (
+              <Link 
+                key={item.name} 
+                href={item.href} 
+                className="px-4 py-2 text-sm font-bold text-[#8C8276] hover:text-[#38302A] hover:bg-[#F4F1EA] rounded-xl transition-all"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* Profil & Action */}
+          <div className="flex items-center gap-4 border-l border-[#EBE6DF] pl-4">
+            <Link href="/beranda/profil" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 rounded-full bg-[#EBE6DF] border-2 border-white shadow-inner flex items-center justify-center font-bold text-[#8C8276] text-xs">
+                {/* Bisa diganti <img> kalau udah ada foto profil */}
+                H
+              </div>
+              <span className="text-sm font-bold text-[#38302A] group-hover:underline">Hadisty</span>
+            </Link>
+            <Link href="/" className="text-xs font-bold text-[#8C8276] hover:text-red-500 transition-colors">
+              Logout
+            </Link>
           </div>
         </div>
       </nav>
 
-      {/* Konten Halaman */}
-      <main className="max-w-6xl mx-auto py-8">
+      {/* Konten Utama */}
+      <main className="max-w-5xl mx-auto px-6 py-8">
         {children}
       </main>
       
-      {/* Footer Minimalis */}
-      <footer className="text-center py-10 text-[#A39B92] text-xs font-bold uppercase tracking-widest">
-        Made with ❤️ by Kelompok 5
+      {/* Footer Minimalist */}
+      <footer className="max-w-5xl mx-auto px-6 py-10 border-t border-[#EBE6DF] flex justify-between items-center text-[#A39B92] text-xs font-bold">
+        <span>© 2026 CodeV Project</span>
+        <span>Kelompok 5 • UNJ</span>
       </footer>
     </div>
   );
