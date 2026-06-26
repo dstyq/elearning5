@@ -109,7 +109,6 @@ export default function PintuMasuk() {
     }, 800);
   };
 
-  // FUNGSI LOGIN PENGECEKAN NYATA + AKUN ADMIN BERSAMA (Rahasia Kelompok 6)
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setErrors('');
@@ -117,12 +116,11 @@ export default function PintuMasuk() {
     const cleanId = loginId.trim().toLowerCase();
     const cleanPass = loginPass.trim().toLowerCase();
 
-    // 1. KUNCI RAHASIA: Kalau yang diketik "admin" & "admin", otomatis masuk sebagai kalian ber-6
     if (cleanId === 'admin' && cleanPass === 'admin') {
       setIsSubmitting(true);
       localStorage.setItem('session_login', 'true');
-      localStorage.setItem('session_username', 'Admin Kelompok 6');
-      localStorage.setItem('session_nim', 'ADMIN-K6');
+      localStorage.setItem('session_username', 'Admin Kelompok 5');
+      localStorage.setItem('session_nim', 'ADMIN-K5');
       localStorage.setItem('session_role', 'admin');
       router.push('/beranda');
       return;

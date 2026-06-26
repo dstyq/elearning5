@@ -33,14 +33,12 @@ export default function BerandaLayout({ children }: { children: React.ReactNode 
             ))}
           </div>
 
-          {/* Profil & Action */}
           <div className="flex items-center gap-4 border-l border-[#EBE6DF] pl-4">
             <Link href="/beranda/profil" className="flex items-center gap-2 group">
               <div className="w-8 h-8 rounded-full bg-[#EBE6DF] border-2 border-white shadow-inner flex items-center justify-center font-bold text-[#8C8276] text-xs">
-                {/* Bisa diganti <img> kalau udah ada foto profil */}
-                H
+              
               </div>
-              <span className="text-sm font-bold text-[#38302A] group-hover:underline">Hadisty</span>
+              <span className="text-sm font-bold text-[#38302A] group-hover:underline">Admin</span>
             </Link>
             <Link href="/" className="text-xs font-bold text-[#8C8276] hover:text-red-500 transition-colors">
               Logout
@@ -49,15 +47,13 @@ export default function BerandaLayout({ children }: { children: React.ReactNode 
         </div>
       </nav>
 
-      {/* Konten Utama */}
       <main className="max-w-5xl mx-auto px-6 py-8">
         {children}
       </main>
       
-      {/* Footer Minimalist */}
       <footer className="max-w-5xl mx-auto px-6 py-10 border-t border-[#EBE6DF] flex justify-between items-center text-[#A39B92] text-xs font-bold">
         <span>© 2026 CodeV Project</span>
-        <span>Kelompok 5 • UNJ</span>
+        <span>Kelompok 5 • PTIK</span>
       </footer>
     </div>
   );
