@@ -31,12 +31,13 @@ export default function Leaderboard() {
           <p className="text-gray-400">Belum ada skor nih.</p>
         ) : (
           list.map((item, i) => (
-            <div key={i} className="flex justify-between py-3 border-b last:border-0">
-              <h1 className='text-black'>{item.modul} - Skor : {item.skor}</h1>
+            <div key={i} className="flex justify-between py-3 border-b font-semibold last:border-0">
+              <h1 className='text-[#8C8276]'>{item.modul} </h1>
+              <h2 className='text-[#8C8276]'>Skor : {item.skor}</h2>
             </div>
           ))
         )}
-        <h1 className='text-black mt-3'>Total skor : {totalSkor}</h1>
+        <h1 className='text-black mt-3 font-bold'>Total skor : {totalSkor}</h1>
       </div>
     </div>
   );
