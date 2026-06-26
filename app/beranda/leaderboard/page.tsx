@@ -37,7 +37,7 @@ export default function Leaderboard() {
             </div>
           ))
         )}
-        <h1 className='text-black mt-3 font-bold'>Total skor : {totalSkor}</h1>
+        <h1 className={`${list.length !== 0 ? 'block' : 'hidden'} text-black mt-3 font-bold`}>Total skor : {totalSkor}</h1>
       </div>
     </div>
   );
