@@ -1,16 +1,24 @@
+'use client'
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-export default function BerandaLayout({ children }: { children: React.ReactNode }) {
-  const menuNav = [
-    { name: 'Beranda', href: '/beranda' },
-    { name: 'Materi', href: '/beranda/materi' },
-    { name: 'Leaderboard', href: '/beranda/leaderboard' },
-    { name: 'Tentang Kami', href: '/beranda/tentang' },
-  ];
+export default function Navbar(){
+    const menuNav = [
+        { name: 'Beranda', href: '/beranda' },
+        { name: 'Materi', href: '/beranda/materi' },
+        { name: 'Leaderboard', href: '/beranda/leaderboard' },
+        { name: 'Tentang Kami', href: '/beranda/tentang' },
+    ];
 
-  return (
-    <div className="min-h-screen bg-[#F9F8F6]">
-      {/* NAVBAR */}
+    const [username, setUsername] = useState<string | null>('Siswa');
+    
+    useEffect(() => {
+        setUsername(localStorage.getItem('session_username'));
+        console.log(username || 'Siswa')
+    },[]);
+
+    return(
       <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
         <div className="bg-white/70 backdrop-blur-xl border border-white/50 shadow-lg shadow-stone-200/50 rounded-2xl px-6 py-3 flex items-center justify-between">
           
@@ -33,12 +41,14 @@ export default function BerandaLayout({ children }: { children: React.ReactNode 
             ))}
           </div>
 
+          {/* Profil & Action */}
           <div className="flex items-center gap-4 border-l border-[#EBE6DF] pl-4">
             <Link href="/beranda/profil" className="flex items-center gap-2 group">
+            <span className="text-sm font-bold text-[#38302A] group-hover:underline">{username}</span>
               <div className="w-8 h-8 rounded-full bg-[#EBE6DF] border-2 border-white shadow-inner flex items-center justify-center font-bold text-[#8C8276] text-xs">
-              
+                {/* Bisa diganti <img> kalau udah ada foto profil */}
+                H
               </div>
-              <span className="text-sm font-bold text-[#38302A] group-hover:underline">Admin</span>
             </Link>
             <Link href="/" className="text-xs font-bold text-[#8C8276] hover:text-red-500 transition-colors">
               Logout
@@ -46,15 +56,5 @@ export default function BerandaLayout({ children }: { children: React.ReactNode 
           </div>
         </div>
       </nav>
-
-      <main className="max-w-5xl mx-auto px-6 py-8">
-        {children}
-      </main>
-      
-      <footer className="max-w-5xl mx-auto px-6 py-10 border-t border-[#EBE6DF] flex justify-between items-center text-[#A39B92] text-xs font-bold">
-        <span>© 2026 CodeV Project</span>
-        <span>Kelompok 5 • PTIK</span>
-      </footer>
-    </div>
-  );
+    );
 }
