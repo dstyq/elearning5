@@ -13,6 +13,8 @@ export default function DashboardModul() {
   const [skor, setSkor] = useState(0); 
   const [kuisSelesai, setKuisSelesai] = useState(false);
   const [progresSiswa, setProgresSiswa] = useState<any[]>([]); 
+  const [jawaban, setJawaban] = useState<string>('');
+  const [klikJawaban, setKlikJawaban] = useState(false);
 
   useEffect(() => {
     const progresTersimpan = localStorage.getItem('progres_elearning_aesthetic');
@@ -37,6 +39,7 @@ export default function DashboardModul() {
       skorBaru = skor + 1;
       setSkor(skorBaru)
     }; 
+
     const soalSelanjutnya = indeksSoal + 1;
     
     if (soalSelanjutnya < modulAktif.soal.length) {
@@ -169,10 +172,13 @@ export default function DashboardModul() {
                 <h3 className="font-serif text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
                 <div className="space-y-4">
                   {modulAktif.soal[indeksSoal].pilihan.map((opsi: any, index: number) => (
-                    <button key={index} onClick={() => cekJawaban(opsi)} className="w-full text-center p-5 rounded-2xl border-2 border-[#F4F1EA] hover:border-[#8B7355] hover:bg-[#F9F8F6] transition-all duration-200 font-bold text-[#4A4036]">
+                    <button key={index} onClick={() => setJawaban(opsi)} className={`${jawaban === opsi ? 'border-[#8B7355] bg-[#F9F8F6]' : 'border-[#F4F1EA]'} cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] transition-all duration-200 font-bold text-[#4A4036]`}>
                       {opsi}
                     </button>
                   ))}
+                  <button onClick={() => cekJawaban(jawaban)} className='cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] bg-[#ba902e] transition-all duration-200 font-bold text-white hover:text-black'>
+                    Submit
+                  </button>
                 </div>
               </div>
             ) : (
