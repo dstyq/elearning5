@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { CheckCircle, ChevronLeft, Feather, Coffee, Clock, BookText, ArrowRight } from 'lucide-react';
 import { bankSoal } from '../data/BankSoal';
 
-// Penambahan 'ringkasan' materi di bank soal
-
 export default function DashboardModul() {
   const [modulAktif, setModulAktif] = useState<any>(null);
   const [mode, setMode] = useState<'pilih' | 'materi' | 'kuis'>('pilih');
@@ -13,13 +11,14 @@ export default function DashboardModul() {
   const [skor, setSkor] = useState(0); 
   const [kuisSelesai, setKuisSelesai] = useState(false);
   const [progresSiswa, setProgresSiswa] = useState<any[]>([]); 
-  const [jawaban, setJawaban] = useState<string>('');
-  const [klikJawaban, setKlikJawaban] = useState(false);
+  const [jawaban, setJawaban] = useState<string | null>('');
+  const [penjelasanAktif, setPenjelasanAktif] = useState(false);
 
   useEffect(() => {
     const progresTersimpan = localStorage.getItem('progres_elearning_aesthetic');
     if (progresTersimpan) setProgresSiswa(JSON.parse(progresTersimpan));
   }, []);
+
 
   const bukaMateri = (modul: any) => { 
     setModulAktif(modul); 
@@ -33,6 +32,17 @@ export default function DashboardModul() {
     setMode('kuis');
   }
 
+  const handleSoalSelanjutnya = () => {
+    const soalSelanjutnya = indeksSoal + 1;
+    setPenjelasanAktif(false);
+    setJawaban(null);
+    if (soalSelanjutnya < modulAktif.soal.length) {
+      setIndeksSoal(soalSelanjutnya); 
+    } else {
+      setKuisSelesai(true);
+    }
+  }
+
   const cekJawaban = (jawabanDipilih: any) => {
     let skorBaru = skor;
     if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar){
@@ -40,31 +50,26 @@ export default function DashboardModul() {
       setSkor(skorBaru)
     }; 
 
-    const soalSelanjutnya = indeksSoal + 1;
-    
-    if (soalSelanjutnya < modulAktif.soal.length) {
-      setIndeksSoal(soalSelanjutnya); 
-    } else {
-      setKuisSelesai(true);
-      if (!progresSiswa.includes(modulAktif.id)) {
-        const progresBaru = [...progresSiswa, modulAktif.id];
-        setProgresSiswa(progresBaru);
-        localStorage.setItem('progres_elearning_aesthetic', JSON.stringify(progresBaru));
-      }
-      const hasilKuis : { modul : number, skor : number} = {
-        modul : modulAktif.judul,
-        skor : skorBaru,
-      };
-      const pastLeaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
-      const existingIndex = pastLeaderboard.findIndex((item : any) => item.modul === hasilKuis.modul);
-      if(existingIndex !== -1){
-        pastLeaderboard[existingIndex] = hasilKuis;
-      }
-      else{
-        pastLeaderboard.push(hasilKuis);
-      }
-      localStorage.setItem('leaderboard', JSON.stringify(pastLeaderboard));
+    setPenjelasanAktif(true);
+
+    if (!progresSiswa.includes(modulAktif.id)) {
+      const progresBaru = [...progresSiswa, modulAktif.id];
+      setProgresSiswa(progresBaru);
+      localStorage.setItem('progres_elearning_aesthetic', JSON.stringify(progresBaru));
     }
+    const hasilKuis: { modul: number, skor: number } = {
+      modul: modulAktif.judul,
+      skor: skorBaru,
+    };
+    const pastLeaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
+    const existingIndex = pastLeaderboard.findIndex((item: any) => item.modul === hasilKuis.modul);
+    if (existingIndex !== -1) {
+      pastLeaderboard[existingIndex] = hasilKuis;
+    }
+    else {
+      pastLeaderboard.push(hasilKuis);
+    }
+    localStorage.setItem('leaderboard', JSON.stringify(pastLeaderboard));
   };
   
 
@@ -172,12 +177,20 @@ export default function DashboardModul() {
                 <h3 className="font-serif text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
                 <div className="space-y-4">
                   {modulAktif.soal[indeksSoal].pilihan.map((opsi: any, index: number) => (
-                    <button key={index} onClick={() => setJawaban(opsi)} className={`${jawaban === opsi ? 'border-[#8B7355] bg-[#F9F8F6]' : 'border-[#F4F1EA]'} cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] transition-all duration-200 font-bold text-[#4A4036]`}>
-                      {opsi}
-                    </button>
+                    <div key={index}>
+                      <button onClick={() => setJawaban(opsi)} className={`${penjelasanAktif === true ? opsi === modulAktif.soal[indeksSoal].jawabanBenar ? 'bg-green-400/20' : opsi === jawaban ? 'bg-red-600/20' : 'border-[#4A4036] bg-[#F9F8F6] opacity-60 text-[#4A4036]' : opsi === jawaban ? "bg-[#8B7355] text-white" : "border-[#8B7355] bg-[#F9F8F6] "} text-[#4A4036] cursor-pointer w-full text-center p-5 rounded-2xl border-2 transition-all duration-200 font-bold`}>
+                        {opsi}
+                        <p className={`${opsi === modulAktif.soal[indeksSoal].jawabanBenar && penjelasanAktif === true ? "block" : "hidden"} w-full text-center p-2 mt-2 rounded-2xl transition-all duration-200 font-bold text-[#4A4036]`}>
+                          {modulAktif.soal[indeksSoal].pembahasan}
+                        </p>
+                      </button>
+                    </div>
                   ))}
-                  <button onClick={() => cekJawaban(jawaban)} className='cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] bg-[#ba902e] transition-all duration-200 font-bold text-white hover:text-black'>
-                    Submit
+                  <button disabled={jawaban ? false : true} onClick={() => cekJawaban(jawaban)} className={`${penjelasanAktif === true ? 'hidden' : 'block'} cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] bg-[#ba902e] transition-all duration-200 font-bold text-white hover:text-black`}>
+                    Jawab
+                  </button>
+                  <button onClick={handleSoalSelanjutnya} className={`${penjelasanAktif === false ? 'hidden' : 'block'} cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] bg-[#ba902e] transition-all duration-200 font-bold text-white hover:text-black`}>
+                    Selanjutnya
                   </button>
                 </div>
               </div>
