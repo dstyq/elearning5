@@ -24,7 +24,7 @@ export default function MateriPage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 animate-in fade-in duration-700">
+    <div className="max-w-4xl mx-auto py-10 px-6 animate-in fade-in duration-700">
       <div className="mb-10 text-center">
         <h1 className="text-4xl font-serif font-bold text-[#38302A] mb-3">Materi Pembelajaran</h1>
         <p className="text-[#8C8276] max-w-lg mx-auto">Pilih bab yang mau dipelajari. Pastikan paham atau dikasih paham!</p>

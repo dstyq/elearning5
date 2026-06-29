@@ -81,8 +81,7 @@ export default function DashboardModul() {
   const persentase = materi.length > 0 ? Math.round((progresSiswa.length / materi.length) * 100) : 0;
 
   return (
-    <main className="bg-[#FAF9F6]">
-      <Navbar />
+    <section className="bg-[#FAF9F6]">
       {/* 1. TAMPILAN DASHBOARD (Pilih Modul) */}
       {mode === 'pilih' && (
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 max-w-6xl mx-auto px-6 py-10">
@@ -216,6 +215,6 @@ export default function DashboardModul() {
           </div>
         </div>
       )}
-    </main>
+    </section>
   );
 }

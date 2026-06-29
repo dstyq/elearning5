@@ -157,7 +157,7 @@ export default function PintuMasuk() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-white text-[#4A4036] font-sans flex selection:bg-[#E3DAC9]">
+    <div className="min-h-screen text-[#4A4036] font-sans flex selection:bg-[#E3DAC9]">
       
       {/* SISI KIRI: BRANDING */}
       <div className="hidden lg:flex w-1/2 bg-[#F9F8F6] p-12 flex-col justify-between border-r border-[#EBE6DF] relative overflow-hidden">
