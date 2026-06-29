@@ -105,19 +105,10 @@ export default function DashboardModul() {
                   </div>
                   <Coffee className={`w-10 h-10 ${persentase === 100 ? 'text-[#D4C3A3]' : 'text-white/40'}`} />
                 </div>
-                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
-                  <div className="flex justify-between items-end mb-4">
-                    <div>
-                      <p className="text-[#D5CFC7] text-xs font-bold uppercase tracking-widest mb-1">Total Progres</p>
-                      <p className="font-serif text-5xl text-white">{persentase}%</p>
-                    </div>
-                    <Coffee className={`w-10 h-10 ${persentase === 100 ? 'text-[#D4C3A3]' : 'text-white/40'}`} />
-                  </div>
-                  <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mb-3">
-                    <div className="bg-[#D4C3A3] h-2.5 rounded-full transition-all duration-1000" style={{ width: `${persentase}%` }}></div>
-                  </div>
-                  <p className="text-xs text-[#D5CFC7]">Menyelesaikan {progresSiswa.length} dari {materi.length} Modul Pembelajaran</p>
+                <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mb-3">
+                  <div className="bg-[#D4C3A3] h-2.5 rounded-full transition-all duration-1000" style={{ width: `${persentase}%` }}></div>
                 </div>
+                <p className="text-xs text-[#D5CFC7]">Menyelesaikan {progresSiswa.length} dari {materi.length} Modul Pembelajaran</p>
               </div>
             </div>
           </section>
