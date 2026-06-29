@@ -181,7 +181,7 @@ export default function PintuMasuk() {
           </p>
           <div className="flex items-center gap-4 text-sm font-semibold text-[#60554A] bg-white px-5 py-3 rounded-2xl border border-[#EBE6DF] shadow-sm inline-flex">
             <div className="w-8 h-8 rounded-full bg-[#EAF0E6] flex items-center justify-center border border-[#C4B7A6] text-xs font-bold text-[#6B8E5C]">K6</div>
-            <p>Production Build v2.2 • Kelompok 6</p>
+            <p>Production Build v2.2 • Kelompok 5</p>
           </div>
         </div>
       </div>

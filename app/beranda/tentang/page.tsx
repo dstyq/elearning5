@@ -51,7 +51,7 @@ export default function TentangKami() {
       <div className="text-center mb-16 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#E3DAC9] rounded-full blur-3xl opacity-30 -z-10"></div>
         <h1 className="font-serif text-4xl md:text-5xl text-[#38302A] mb-4 font-bold">
-          Tim Pengembang <br/><span className="text-[#8B7355] italic">EduJurnal.</span>
+          Tim Pengembang <br/><span className="text-[#8B7355] italic">CodeV.</span>
         </h1>
         <p className="text-[#8C8276] max-w-lg mx-auto leading-relaxed">
           Platform e-learning ini adalah project kelompok 5 mahasiswa Pendidikan Teknik Informatika dan Komputer (PTIK).
