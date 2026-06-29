@@ -14,7 +14,7 @@ export default function TentangKami() {
       peran: "Programmer & Web Developer", 
       ikon: <Code className="w-5 h-5" />,
       deskripsi: "Menulis kode dan memastikan web berjalan lancar.",
-      ig: "" 
+      ig: "valuxore" 
     },
     { 
       nama: "Adzkiya Vidy Syawallanaa", 
