@@ -6,6 +6,7 @@ import { Pengantar } from '../data/pengantar';
 import { Struktur } from '../data/struktur';
 import { Flowchart } from '../data/flowchart';
 import Navbar from './components/Navbar';
+import { FlowchartSymbols } from '../data/FlowchartSymbols';
 
 const materi = [Pengantar, Struktur, Flowchart];
 
@@ -81,8 +82,7 @@ export default function DashboardModul() {
   const persentase = materi.length > 0 ? Math.round((progresSiswa.length / materi.length) * 100) : 0;
 
   return (
-    <main className="bg-[#FAF9F6]">
-      <Navbar />
+    <section className="bg-[#FAF9F6]">
       {/* 1. TAMPILAN DASHBOARD (Pilih Modul) */}
       {mode === 'pilih' && (
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 max-w-6xl mx-auto px-6 py-10">
@@ -181,16 +181,28 @@ export default function DashboardModul() {
                 </div>
                 <h3 className="font-serif text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
                 <div className="space-y-4">
-                  {modulAktif.soal[indeksSoal].pilihan.map((opsi: any, index: number) => (
-                    <div key={index}>
-                      <button onClick={() => setJawaban(opsi)} className={`${penjelasanAktif === true ? opsi === modulAktif.soal[indeksSoal].jawabanBenar ? 'bg-green-400/20' : opsi === jawaban ? 'bg-red-600/20' : 'border-[#4A4036] bg-[#F9F8F6] opacity-60 text-[#4A4036]' : opsi === jawaban ? "bg-[#8B7355] text-white" : "border-[#8B7355] bg-[#F9F8F6] "} text-[#4A4036] cursor-pointer w-full text-center p-5 rounded-2xl border-2 transition-all duration-200 font-bold`}>
-                        {opsi}
-                        <p className={`${opsi === modulAktif.soal[indeksSoal].jawabanBenar && penjelasanAktif === true ? "block" : "hidden"} w-full text-center p-2 mt-2 rounded-2xl transition-all duration-200 font-bold text-[#4A4036]`}>
-                          {modulAktif.soal[indeksSoal].pembahasan}
-                        </p>
-                      </button>
-                    </div>
-                  ))}
+                  {modulAktif.soal[indeksSoal].pilihan.map(([opsi, penjelasan] : [opsi : string, penjelasan : string], index: number) => {
+                      const sep = opsi.indexOf(':');
+                      const possibleKey = sep !== -1 ? opsi.slice(0, sep) : null;
+                      const label = sep !== -1 ? opsi.slice(sep + 1) : opsi;
+                      const SymbolComponent =
+                        possibleKey && possibleKey in FlowchartSymbols
+                          ? FlowchartSymbols[possibleKey as keyof typeof FlowchartSymbols]
+                          : null;
+                    return (
+                      <div key={index}>
+                        <button onClick={() => setJawaban(opsi)} className={`${penjelasanAktif === true ? opsi === modulAktif.soal[indeksSoal].jawabanBenar ? 'bg-green-400/20' : opsi === jawaban ? 'bg-red-600/20' : 'border-[#4A4036] bg-[#F9F8F6] opacity-60 text-[#4A4036]' : opsi === jawaban ? "bg-[#8B7355] text-white" : "border-[#8B7355] bg-[#F9F8F6] "}  ${penjelasanAktif ? "text-[#4A4036]/50" : 'text-[#4A4036] '} cursor-pointer w-full text-center p-5 rounded-2xl border-2 transition-all duration-200 font-bold`}>
+                          <span className="flex items-center justify-center gap-3">
+                            {SymbolComponent && <SymbolComponent className="w-6 h-6 flex-shrink-0" />}
+                            <span>{label}</span>
+                          </span>
+                          <p className={`${penjelasanAktif && (opsi === jawaban || opsi === modulAktif.soal[indeksSoal].jawabanBenar) ? "block" : "hidden"} w-full text-center p-2 mt-2 rounded-2xl transition-all duration-200 font-bold text-[#4A4036]`}>
+                            {penjelasan}
+                          </p>
+                        </button>
+                      </div>
+                    )
+                  })}
                   <button disabled={jawaban ? false : true} onClick={() => cekJawaban(jawaban)} className={`${penjelasanAktif === true ? 'hidden' : 'block'} cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] bg-[#ba902e] transition-all duration-200 font-bold text-white hover:text-black`}>
                     Jawab
                   </button>
@@ -216,6 +228,6 @@ export default function DashboardModul() {
           </div>
         </div>
       )}
-    </main>
+    </section>
   );
 }

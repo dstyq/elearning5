@@ -1,6 +1,6 @@
 export interface Soal {
     pertanyaan: string;
-    pilihan: string[];
+    pilihan: [string, string][];
     jawabanBenar: string;
     pembahasan?: string;
 }
@@ -14,162 +14,262 @@ export interface Modul {
     soal: Soal[];
 }
 
-export const Struktur: Modul = {
-    id: 'modul-2',
-    judul: 'Struktur Dasar Algoritma',
-    deskripsi: 'Memahami tiga pilar utama algoritma: Runtunan, Pemilihan, dan Perulangan.',
-    waktu: '45 Menit',
-    ringkasan: 'Algoritma disusun berdasarkan tiga struktur dasar: Sequence (runtunan), Selection (pemilihan), dan Iteration (perulangan). Ketiganya dapat dikombinasikan (nested) untuk menyelesaikan masalah kompleks secara sistematis dan dinamis.',
-    soal: [
-        {
-            pertanyaan: 'Apa tiga struktur dasar yang membentuk algoritma?',
-            pilihan: ['Input, Proses, Output', 'Sequence, Selection, Iteration', 'Variabel, Konstanta, Tipe Data', 'Deklarasi, Deskripsi, Eksekusi'],
-            jawabanBenar: 'Sequence, Selection, Iteration',
-            pembahasan: 'Tiga struktur dasar algoritma adalah Sequence (Runtunan), Selection (Pemilihan), dan Iteration (Perulangan).'
-        },
-        {
-            pertanyaan: 'Struktur \'Sequence\' dalam algoritma berarti...',
-            pilihan: ['Instruksi dijalankan secara berurutan', 'Instruksi dijalankan jika kondisi terpenuhi', 'Instruksi dijalankan berulang-ulang', 'Instruksi dijalankan secara melompat'],
-            jawabanBenar: 'Instruksi dijalankan secara berurutan',
-            pembahasan: 'Sequence menjamin instruksi dikerjakan urut dari atas ke bawah sesuai penulisan.'
-        },
-        {
-            pertanyaan: 'Struktur \'Selection\' digunakan untuk...',
-            pilihan: ['Melakukan perhitungan matematika', 'Memilih tindakan berdasarkan kondisi tertentu', 'Menyimpan nilai ke dalam variabel', 'Mengulang blok instruksi'],
-            jawabanBenar: 'Memilih tindakan berdasarkan kondisi tertentu',
-            pembahasan: 'Selection menggunakan kondisi seperti IF-THEN untuk memilih alur kerja.'
-        },
-        {
-            pertanyaan: 'Struktur \'Iteration\' atau \'Looping\' bertujuan untuk...',
-            pilihan: ['Mengambil keputusan', 'Menghentikan program secara mendadak', 'Menjalankan instruksi yang sama berkali-kali', 'Mendeklarasikan variabel baru'],
-            jawabanBenar: 'Menjalankan instruksi yang sama berkali-kali',
-            pembahasan: 'Iteration mengulang blok kode selama syarat kondisi terpenuhi.'
-        },
-        {
-            pertanyaan: 'Dalam struktur Selection, jika kondisi bernilai SALAH, maka...',
-            pilihan: ['Program langsung error', 'Program akan menjalankan blok Else', 'Program akan mengulang ke atas', 'Program akan berhenti total'],
-            jawabanBenar: 'Program akan menjalankan blok Else',
-            pembahasan: 'Jika kondisi False, program mencari blok alternatif yaitu Else.'
-        },
-        {
-            pertanyaan: 'Manakah contoh penerapan struktur Selection?',
-            pilihan: ['Menghitung luas lingkaran', 'Menentukan bilangan ganjil atau genap', 'Menampilkan teks 10 kali', 'Membaca data dari keyboard'],
-            jawabanBenar: 'Menentukan bilangan ganjil atau genap',
-            pembahasan: 'Penentuan ganjil/genap memerlukan kondisi (IF) untuk memilih output'
-        },
-        {
-            pertanyaan: 'Apa nama lain dari struktur Runtunan?',
-            pilihan: ['Branching', 'Looping', 'Sequence', 'Variable'],
-            jawabanBenar: 'Sequence',
-            pembahasan: 'Sequence adalah istilah standar untuk struktur Runtunan.'
-        },
-        {
-            pertanyaan: 'Kondisi \'WHILE\' dalam algoritma digunakan untuk struktur...',
-            pilihan: ['Sequence', 'Selection', 'Iteration', 'Declaration'],
-            jawabanBenar: 'Iteration',
-            pembahasan: 'WHILE adalah bentuk umum untuk Iterasi selama kondisi True.'
-        },
-        {
-            pertanyaan: 'Jika ingin mencetak angka 1 sampai 100, struktur apa yang paling efektif?',
-            pilihan: ['Sequence', 'Selection', 'Iteration', 'Assignment'],
-            jawabanBenar: 'Iteration',
-            pembahasan: 'Iteration memungkinkan kita mencetak banyak angka dengan sedikit baris kode.'
-        },
-        {
-            pertanyaan: 'Struktur algoritma bersifat hierarkis, artinya...',
-            pilihan: ['Algoritma saling melengkapi', 'Satu struktur bisa berada di dalam struktur lain', 'Hanya bisa menggunakan satu jenis struktur', 'Urutan tidak berpengaruh'],
-            jawabanBenar: 'Satu struktur bisa berada di dalam struktur lain',
-            pembahasan: 'Kita bisa menaruh Selection di dalam Iteration (nested).'
-        },
-        {
-            pertanyaan: 'Apa yang dimaksud dengan \'Nested Selection\'?',
-            pilihan: ['Percabangan di dalam percabangan', 'Perulangan tanpa akhir', 'Instruksi yang berurutan', 'Variabel yang diubah nilainya'],
-            jawabanBenar: 'Percabangan di dalam percabangan',
-            pembahasan: 'Nested berarti bersarang, seperti IF di dalam IF.'
-        },
-        {
-            pertanyaan: 'Jika ada banyak kondisi (lebih dari dua), kita bisa menggunakan...',
-            pilihan: ['IF-THEN saja', 'IF-ELSE-IF', 'WHILE saja', 'Hanya Sequence'],
-            jawabanBenar: 'IF-ELSE-IF',
-            pembahasan: 'IF-ELSE-IF memungkinkan pengecekan banyak kondisi secara berantai.'
-        },
-        {
-            pertanyaan: 'Apa karakteristik utama struktur Sequence?',
-            pilihan: ['Punya kondisi', 'Punya pengulangan', 'Instruksi dieksekusi satu per satu sesuai urutan', 'Bisa melompat ke baris manapun'],
-            jawabanBenar: 'Instruksi dieksekusi satu per satu sesuai urutan',
-            pembahasan: 'Ini adalah prinsip dasar Runtunan.'
-        },
-        {
-            pertanyaan: 'Contoh penggunaan Iteration dalam kehidupan sehari-hari?',
-            pilihan: ['Membeli baju', 'Berjalan menaiki anak tangga satu per satu', 'Membaca daftar belanja', 'Menulis nama'],
-            jawabanBenar: 'Berjalan menaiki anak tangga satu per satu',
-            pembahasan: 'Aksi naik tangga diulang sampai kondisi puncak tercapai.'
-        },
-        {
-            pertanyaan: 'Jika algoritma tidak memiliki Iteration, apakah tetap sah?',
-            pilihan: ['Ya, bisa hanya Sequence dan Selection', 'Tidak, wajib punya Iteration', 'Tidak, harus punya Selection', 'Tidak bisa berjalan'],
-            jawabanBenar: 'Ya, bisa hanya Sequence dan Selection',
-            pembahasan: 'Tidak semua masalah memerlukan perulangan (misal hitung luas persegi)[cite: 384].'
-        },
-        {
-            pertanyaan: 'Istilah tepat untuk menggambarkan struktur kontrol algoritma adalah...',
-            pilihan: ['Sintaks', 'Control flow', 'Data structure', 'Variable'],
-            jawabanBenar: 'Control flow',
-            pembahasan: 'Control flow menentukan arah jalannya algoritma[cite: 395].'
-        },
-        {
-            pertanyaan: 'Apa yang dimaksud dengan kondisi dalam Selection?',
-            pilihan: ['Nilai yang akan diolah', 'Pernyataan bernilai logika', 'Nama algoritma', 'Jumlah baris instruksi'],
-            jawabanBenar: 'Pernyataan bernilai logika',
-            pembahasan: 'Kondisi harus menghasilkan nilai logis True/False[cite: 404].'
-        },
-        {
-            pertanyaan: 'Pada WHILE, apa yang terjadi jika kondisi awal bernilai FALSE?',
-            pilihan: ['Loop berjalan sekali', 'Loop tidak pernah dijalankan', 'Loop error', 'Loop dipaksa TRUE'],
-            jawabanBenar: 'Loop tidak pernah dijalankan',
-            pembahasan: 'Pada pre-test loop seperti WHILE, kondisi False di awal menyebabkan loop dilewati[cite: 414].'
-        },
-        {
-            pertanyaan: 'Struktur Sequence menjamin...',
-            pilihan: ['Kecepatan eksekusi', 'Prediktabilitas alur (berurutan)', 'Keamanan data', 'Hasil selalu benar'],
-            jawabanBenar: 'Prediktabilitas alur (berurutan)',
-            pembahasan: 'Kita tahu pasti instruksi mana yang dikerjakan lebih dulu[cite: 423].'
-        },
-        {
-            pertanyaan: 'Berapa banyak jumlah struktur dasar dalam satu algoritma?',
-            pilihan: ['Hanya satu', 'Kombinasi ketiganya sesuai kebutuhan', 'Maksimal tiga', 'Harus genap'],
-            jawabanBenar: 'Kombinasi ketiganya sesuai kebutuhan',
-            pembahasan: 'Kita bisa menggabungkan Sequence, Selection, dan Iteration sesuai kebutuhan[cite: 432].'
-        },
-        {
-            pertanyaan: 'Mengapa struktur kontrol (Control Flow) penting?',
-            pilihan: ['Agar terlihat kompleks', 'Agar dinamis dan menyelesaikan masalah bervariasi', 'Agar tidak perlu input', 'Agar tidak perlu variabel'],
-            jawabanBenar: 'Agar dinamis dan menyelesaikan masalah bervariasi',
-            pembahasan: 'Algoritma butuh percabangan dan perulangan agar fleksibel[cite: 441].'
-        },
-        {
-            pertanyaan: 'Menjalankan kode jika kondisi terpenuhi, cukup menggunakan...',
-            pilihan: ['IF-THEN', 'WHILE', 'Sequence', 'For loop'],
-            jawabanBenar: 'IF-THEN',
-            pembahasan: 'IF-THEN cukup untuk aksi bersyarat tunggal[cite: 448].'
-        },
-        {
-            pertanyaan: 'Apa nama lain dari struktur perulangan?',
-            pilihan: ['Selection', 'Sequence', 'Iteration', 'Assignment'],
-            jawabanBenar: 'Iteration',
-            pembahasan: 'Iteration adalah istilah standar untuk pengulangan[cite: 461].'
-        },
-        {
-            pertanyaan: 'Manakah yang benar mengenai struktur algoritma?',
-            pilihan: ['Satu struktur tidak boleh berada dalam struktur lain', 'Selection harus selalu di akhir', 'Sequence adalah struktur paling dasar', 'Iteration tidak butuh kondisi'],
-            jawabanBenar: 'Sequence adalah struktur paling dasar',
-            pembahasan: 'Sequence adalah fondasi dasar dari semua algoritma[cite: 470].'
-        },
-        {
-            pertanyaan: 'Kunci utama pembuatan algoritma yang baik adalah...',
-            pilihan: ['Menggunakan banyak Selection', 'Memilih struktur tepat untuk masalah', 'Menghindari Iteration', 'Menulis kode panjang'],
-            jawabanBenar: 'Memilih struktur tepat untuk masalah',
-            pembahasan: 'Pemilihan struktur yang tepat akan membuat algoritma efektif.'
-        }
-    ]
-};
+export const Struktur: Modul = { 
+  id: 'modul-6', 
+  judul: 'Struktur Dasar Algoritma', 
+  deskripsi: 'Menguji pemahaman mengenai tiga struktur kontrol utama dalam algoritma: Sequence, Selection, dan Iteration.', 
+  waktu: '45 Menit', 
+  ringkasan: 'Algoritma disusun menggunakan tiga struktur kendali dasar yaitu runtunan (sequence) yang berjalan linear, pemilihan (selection) yang mengarahkan alur berdasarkan kondisi logika, dan perulangan (iteration) yang mengeksekusi instruksi berulang kali.',
+  soal: [
+    {
+      pertanyaan: 'Apa tiga struktur dasar yang membentuk algoritma?',
+      jawabanBenar: 'Sequence, Selection, Iteration',
+      pilihan: [
+        ['Input, Proses, Output', 'Salah. Ini adalah elemen fungsional, bukan struktur kontrol algoritma.'],
+        ['Sequence, Selection, Iteration', 'Benar. Tiga struktur dasar adalah Sequence (Runtunan), Selection (Pemilihan), dan Iteration (Perulangan).'],
+        ['Variabel, Konstanta, Tipe Data', 'Salah. Ini adalah komponen dasar data dalam pemrograman.'],
+        ['Deklarasi, Deskripsi, Eksekusi', 'Salah. Ini adalah bagian dari penulisan algoritma secara umum.']
+      ]
+    },
+    {
+      pertanyaan: "Struktur 'Sequence' dalam algoritma berarti...",
+      jawabanBenar: 'Instruksi dijalankan secara berurutan dari atas ke bawah',
+      pilihan: [
+        ['Instruksi dijalankan secara berurutan dari atas ke bawah', 'Benar. Sequence menjamin instruksi dikerjakan urut sesuai penulisan.'],
+        ['Instruksi dijalankan jika kondisi terpenuhi', 'Salah. Ini adalah ciri struktur Selection.'],
+        ['Instruksi dijalankan berulang-ulang', 'Salah. Ini adalah ciri struktur Iteration.'],
+        ['Instruksi dijalankan secara melompat', 'Salah. Algoritma harus terstruktur, tidak boleh melompat acak.']
+      ]
+    },
+    {
+      pertanyaan: "Struktur 'Selection' digunakan untuk...",
+      jawabanBenar: 'Memilih tindakan berdasarkan kondisi tertentu',
+      pilihan: [
+        ['Melakukan perhitungan matematika', 'Salah. Perhitungan dilakukan di dalam struktur Sequence.'],
+        ['Memilih tindakan berdasarkan kondisi tertentu', 'Benar. Selection menggunakan kondisi (seperti IF-THEN) untuk memilih alur.'],
+        ['Menyimpan nilai ke dalam variabel', 'Salah. Ini adalah operasi penugasan (assignment).'],
+        ['Mengulang blok instruksi', 'Salah. Ini adalah ciri struktur Iteration.']
+      ]
+    },
+    {
+      pertanyaan: "Struktur 'Iteration' atau 'Looping' bertujuan untuk...",
+      jawabanBenar: 'Menjalankan instruksi yang sama berkali-kali selama kondisi terpenuhi',
+      pilihan: [
+        ['Mengambil keputusan', 'Salah. Keputusan adalah tugas struktur Selection.'],
+        ['Menghentikan program secara mendadak', 'Salah. Penghentian program biasanya diatur oleh kondisi akhir loop.'],
+        ['Menjalankan instruksi yang sama berkali-kali selama kondisi terpenuhi', 'Benar. Iteration mengulang blok kode selama syarat terpenuhi.'],
+        ['Mendeklarasikan variabel baru', 'Salah. Deklarasi dilakukan di bagian awal algoritma.']
+      ]
+    },
+    {
+      pertanyaan: 'Dalam struktur Selection, jika kondisi bernilai SALAH, maka...',
+      jawabanBenar: "Program akan menjalankan blok 'Else' (jika ada)",
+      pilihan: [
+        ['Program langsung error', 'Salah. Program tidak harus error.'],
+        ["Program akan menjalankan blok 'Else' (jika ada)", 'Benar. Jika kondisi False, program mencari blok alternatif (Else).'],
+        ['Program akan mengulang ke atas', 'Salah. Pengulangan terjadi di struktur Iteration.'],
+        ['Program akan berhenti total', 'Salah. Program bisa lanjut ke instruksi berikutnya.']
+      ]
+    },
+    {
+      pertanyaan: 'Manakah yang merupakan contoh penerapan struktur Selection?',
+      jawabanBenar: 'Menentukan apakah sebuah bilangan ganjil atau genap',
+      pilihan: [
+        ['Menghitung luas lingkaran', 'Salah. Ini adalah perhitungan sekuensial.'],
+        ['Menentukan apakah sebuah bilangan ganjil atau genap', 'Benar. Memerlukan kondisi (IF bil % 2 == 0) untuk memilih output.'],
+        ["Menampilkan teks 'Halo' sebanyak 10 kali", 'Salah. Ini adalah contoh struktur Iteration.'],
+        ['Membaca data dari keyboard', 'Salah. Ini adalah instruksi Input.']
+      ]
+    },
+    {
+      pertanyaan: 'Apa nama lain dari struktur Runtunan?',
+      jawabanBenar: 'Sequence',
+      pilihan: [
+        ['Branching', 'Salah. Branching adalah nama lain Selection.'],
+        ['Looping', 'Salah. Looping adalah nama lain Iteration.'],
+        ['Sequence', 'Benar. Sequence adalah istilah standar untuk Runtunan.'],
+        ['Variable', 'Salah. Variabel adalah tempat penyimpanan data.']
+      ]
+    },
+    {
+      pertanyaan: "Kondisi 'WHILE' dalam algoritma biasanya digunakan untuk struktur...",
+      jawabanBenar: 'Iteration',
+      pilihan: [
+        ['Sequence', 'Salah. Sequence tidak menggunakan kondisi WHILE.'],
+        ['Selection', 'Salah. Selection menggunakan IF, bukan WHILE.'],
+        ['Iteration', 'Benar. WHILE adalah bentuk umum untuk Iterasi (selama kondisi True).'],
+        ['Declaration', 'Salah. Deklarasi tidak menggunakan kondisi.']
+      ]
+    },
+    {
+      pertanyaan: 'Jika kita ingin membuat program yang mencetak angka 1 sampai 100, struktur dasar apa yang paling efektif?',
+      jawabanBenar: 'Iteration',
+      pilihan: [
+        ['Sequence', 'Salah. Sequence akan membuat kode terlalu panjang (100 baris cetak).'],
+        ['Selection', 'Salah. Selection tidak digunakan untuk mengulang.'],
+        ['Iteration', 'Benar. Iteration memungkinkan kita mencetak banyak angka dengan sedikit baris kode.'],
+        ['Assignment', 'Salah. Assignment adalah pemberian nilai.']
+      ]
+    },
+    {
+      pertanyaan: 'Struktur algoritma dasar bersifat hierarkis, artinya...',
+      jawabanBenar: 'Satu struktur bisa berada di dalam struktur lain (nested)',
+      pilihan: [
+        ['Algoritma bisa saling melengkapi', 'Salah. Bukan definisi hierarkis.'],
+        ['Satu struktur bisa berada di dalam struktur lain (nested)', 'Benar. Seringkali kita menaruh Selection di dalam Iteration (misal IF di dalam WHILE).'],
+        ['Hanya bisa menggunakan satu jenis struktur saja', 'Salah. Algoritma kompleks biasanya gabungan ketiganya.'],
+        ['Urutan tidak berpengaruh', 'Salah. Urutan sangat berpengaruh.']
+      ]
+    },
+    {
+      pertanyaan: "Apa yang dimaksud dengan 'Nested Selection'?",
+      jawabanBenar: 'Percabangan di dalam percabangan',
+      pilihan: [
+        ['Percabangan di dalam percabangan', 'Benar. Nested berarti bersarang (IF di dalam IF).'],
+        ['Perulangan yang tidak ada akhirnya', 'Salah. Perulangan tanpa akhir disebut Infinite Loop.'],
+        ['Instruksi yang berurutan', 'Salah. Ini adalah Sequence.'],
+        ['Variabel yang diubah nilainya', 'Salah. Ini adalah Assignment.']
+      ]
+    },
+    {
+      pertanyaan: 'Dalam struktur Selection, jika terdapat banyak kondisi (lebih dari dua), kita bisa menggunakan...',
+      jawabanBenar: 'IF-ELSE-IF',
+      pilihan: [
+        ['IF-THEN saja', 'Salah. IF-THEN hanya menangani satu kondisi.'],
+        ['IF-ELSE-IF', 'Benar. IF-ELSE-IF memungkinkan pengecekan banyak kondisi secara berantai.'],
+        ['WHILE saja', 'Salah. WHILE untuk perulangan.'],
+        ['Hanya Sequence', 'Salah. Sequence tidak untuk pemilihan.']
+      ]
+    },
+    {
+      pertanyaan: 'Apa karakteristik utama dari struktur Sequence?',
+      jawabanBenar: 'Instruksi dieksekusi satu persatu sesuai urutan',
+      pilihan: [
+        ['Punya kondisi', 'Salah. Tidak ada kondisi di Sequence murni.'],
+        ['Punya pengulangan', 'Salah. Tidak ada pengulangan di Sequence murni.'],
+        ['Instruksi dieksekusi satu persatu sesuai urutan', 'Benar. Inilah prinsip dasar Runtunan.'],
+        ['Bisa melompat ke baris manapun', 'Salah. Melompat acak adalah gaya pemrograman yang buruk (spaghetti code).']
+      ]
+    },
+    {
+      pertanyaan: 'Contoh penggunaan struktur Iteration dalam kehidupan sehari-hari adalah...',
+      jawabanBenar: 'Berjalan menaiki anak tangga satu per satu sampai puncak',
+      pilihan: [
+        ['Membuat keputusan membeli baju', 'Salah. Ini adalah Selection.'],
+        ['Berjalan menaiki anak tangga satu per satu sampai puncak', "Benar. Aksi 'naik tangga' diulang sampai kondisi 'puncak' tercapai."],
+        ['Membaca daftar belanja', 'Salah. Ini adalah Sequence.'],
+        ['Menulis nama di buku', 'Salah. Ini adalah Sequence.']
+      ]
+    },
+    {
+      pertanyaan: 'Jika sebuah algoritma tidak memiliki bagian Iteration, apakah algoritma tersebut tetap sah?',
+      jawabanBenar: 'Ya, algoritma bisa hanya terdiri dari Sequence dan Selection',
+      pilihan: [
+        ['Ya, algoritma bisa hanya terdiri dari Sequence dan Selection', 'Benar. Tidak semua masalah memerlukan perulangan (contoh: hitung luas persegi).'],
+        ['Tidak, algoritma wajib punya Iteration', 'Salah. Iteration tidak wajib ada.'],
+        ['Tidak, harus punya Selection', 'Salah. Selection juga tidak wajib ada.'],
+        ['Tidak bisa berjalan sama sekali', 'Salah. Program tanpa loop tetap bisa berjalan.']
+      ]
+    },
+    {
+      pertanyaan: 'Manakah istilah yang paling tepat untuk menggambarkan struktur kontrol algoritma?',
+      jawabanBenar: 'Control flow',
+      pilihan: [
+        ['Sintaks', 'Salah. Sintaks adalah aturan penulisan.'],
+        ['Control flow', 'Benar. Control flow (alur kontrol) menentukan arah jalannya algoritma.'],
+        ['Data structure', 'Salah. Data structure adalah cara menyimpan data.'],
+        ['Variable', 'Salah. Variabel adalah data.']
+      ]
+    },
+    {
+      pertanyaan: 'Apa yang dimaksud dengan kondisi dalam struktur Selection?',
+      jawabanBenar: 'Pernyataan bernilai logika (Boolean: True/False)',
+      pilihan: [
+        ['Nilai yang akan diolah', 'Salah. Itu variabel.'],
+        ['Pernyataan bernilai logika (Boolean: True/False)', 'Benar. Kondisi harus menghasilkan nilai logis untuk menentukan arah.'],
+        ['Nama algoritma', 'Salah. Nama algoritma hanya berfungsi sebagai identitas, bukan sebagai kondisi.'],
+        ['Jumlah baris instruksi', 'Salah. Banyaknya baris instruksi tidak memengaruhi kondisi dalam struktur Selection.']
+      ]
+    },
+    {
+      pertanyaan: 'Dalam struktur Iteration, apa yang terjadi jika kondisi awal sudah bernilai FALSE?',
+      jawabanBenar: 'Loop tidak akan pernah dijalankan',
+      pilihan: [
+        ['Loop tetap berjalan sekali', 'Salah. Ini terjadi pada DO-WHILE.'],
+        ['Loop tidak akan pernah dijalankan', 'Benar. Pada WHILE (pre-test loop), jika kondisi false sejak awal, badan loop dilewati.'],
+        ['Loop akan error', 'Salah. Kondisi False bukan kesalahan (error), melainkan kondisi normal yang menyebabkan loop dilewati.'],
+        ['Loop akan dipaksa TRUE', 'Salah. Program tidak mengubah kondisi secara otomatis. Nilai kondisi tetap sesuai hasil evaluasinya.']
+      ]
+    },
+    {
+      pertanyaan: 'Struktur Sequence memberikan jaminan apa dalam algoritma?',
+      jawabanBenar: 'Prediktabilitas alur (berurutan)',
+      pilihan: [
+        ['Kecepatan eksekusi', 'Salah. Sequence tidak menjamin program berjalan lebih cepat, tetapi mengatur urutan eksekusi instruksi.'],
+        ['Prediktabilitas alur (berurutan)', 'Benar. Kita tahu pasti instruksi mana yang dikerjakan lebih dulu.'],
+        ['Keamanan data', 'Salah. Keamanan data bergantung pada mekanisme lain, bukan pada struktur Sequence.'],
+        ['Hasil selalu benar', 'Salah. Urutan benar tidak menjamin logika benar.']
+      ]
+    },
+    {
+      pertanyaan: 'Berapa banyak jumlah struktur dasar dalam satu algoritma?',
+      jawabanBenar: 'Bisa kombinasi ketiganya sebanyak yang diperlukan',
+      pilihan: [
+        ['Hanya satu', 'Salah. Sebuah algoritma tidak dibatasi hanya menggunakan satu jenis struktur.'],
+        ['Bisa kombinasi ketiganya sebanyak yang diperlukan', 'Benar. Kita bisa menggabungkan Sequence, Selection, dan Iteration sesuai kebutuhan.'],
+        ['Maksimal tiga', 'Salah. Walaupun hanya ada tiga jenis struktur dasar, penggunaannya dapat diulang dan dikombinasikan berkali-kali.'],
+        ['Harus genap', 'Salah. Tidak ada aturan bahwa jumlah struktur yang digunakan harus genap.']
+      ]
+    },
+    {
+      pertanyaan: 'Mengapa struktur kontrol (Control Flow) sangat penting?',
+      jawabanBenar: 'Agar algoritma bisa dinamis dan menyelesaikan masalah yang bervariasi',
+      pilihan: [
+        ['Agar program terlihat kompleks', 'Salah. Tujuan control flow bukan membuat program tampak rumit, melainkan mengatur jalannya program.'],
+        ['Agar algoritma bisa dinamis dan menyelesaikan masalah yang bervariasi', 'Benar. Algoritma butuh percabangan dan perulangan agar fleksibel.'],
+        ['Agar algoritma tidak perlu input', 'Salah. Banyak algoritma tetap membutuhkan input dari pengguna atau sumber data lain.'],
+        ['Agar tidak perlu variabel', 'Salah. Variabel tetap diperlukan untuk menyimpan dan mengolah data dalam algoritma.']
+      ]
+    },
+    {
+      pertanyaan: 'Dalam struktur Selection, jika kita ingin menjalankan blok kode tertentu hanya jika kondisi terpenuhi, kita cukup menggunakan...',
+      jawabanBenar: 'IF-THEN',
+      pilihan: [
+        ['IF-THEN', 'Benar. IF-THEN cukup untuk aksi bersyarat tunggal.'],
+        ['WHILE', 'Salah. WHILE untuk looping.'],
+        ['Sequence', 'Salah. Sequence menjalankan instruksi secara berurutan tanpa memeriksa kondisi.'],
+        ['For loop', 'Salah. FOR digunakan untuk perulangan dengan jumlah iterasi tertentu, bukan untuk percabangan.']
+      ]
+    },
+    {
+      pertanyaan: 'Apa nama lain dari struktur Perulangan?',
+      jawabanBenar: 'Iteration',
+      pilihan: [
+        ['Selection', 'Salah. Selection adalah struktur pemilihan atau percabangan.'],
+        ['Sequence', 'Salah. Sequence adalah struktur runtunan.'],
+        ['Iteration', 'Benar. Iteration adalah istilah standar untuk pengulangan.'],
+        ['Assignment', 'Salah. Assignment adalah proses pemberian nilai ke dalam variabel.']
+      ]
+    },
+    {
+      pertanyaan: 'Mana yang benar mengenai struktur algoritma?',
+      jawabanBenar: 'Sequence adalah struktur yang paling dasar',
+      pilihan: [
+        ['Satu struktur tidak boleh berada dalam struktur lain', 'Salah. Boleh bersarang.'],
+        ['Selection harus selalu berada di akhir', 'Salah. Selection dapat ditempatkan di mana saja sesuai kebutuhan logika program.'],
+        ['Sequence adalah struktur yang paling dasar', 'Benar. Sequence adalah fondasi dasar.'],
+        ['Iteration tidak membutuhkan kondisi', 'Salah. Iteration pasti butuh kondisi penghenti.']
+      ]
+    },
+    {
+      pertanyaan: 'Kunci utama pembuatan algoritma yang baik adalah...',
+      jawabanBenar: 'Memahami dan memilih struktur yang tepat untuk masalah yang ada',
+      pilihan: [
+        ['Menggunakan banyak struktur Selection', 'Salah. Banyaknya Selection tidak menentukan kualitas algoritma.'],
+        ['Memahami dan memilih struktur yang tepat untuk masalah yang ada', 'Benar. Pemilihan struktur yang tepat akan membuat algoritma efektif.'],
+        ['Menghindari struktur Iteration', 'Salah. Iteration sangat penting untuk menyelesaikan masalah yang membutuhkan pengulangan.'],
+        ['Menulis kode yang panjang', 'Salah. Algoritma yang baik justru mengutamakan logika yang jelas, efisien, dan mudah dipelihara, bukan panjangnya kode.']
+      ]
+    }
+  ]
+}
