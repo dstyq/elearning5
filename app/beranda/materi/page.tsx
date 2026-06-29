@@ -1,25 +1,32 @@
 'use client';
+
 import { useState } from 'react';
+import { BookOpen, FileText, X, Download } from 'lucide-react';
 
 export default function MateriPage() {
+  const [materiAktif, setMateriAktif] = useState<any>(null);
+
   const materiBab = [
     {
       id: 1,
       title: 'Konsep Dasar Algoritma',
-      desc: 'Mengenal pondasi pemrograman: apa itu algoritma dan karakteristiknya.',
-      file: 'BAB_1_Konsep_Dasar.pptx'
+      desc: 'Memahami definisi dasar, karakteristik, dan fase perantara (pseudocode) sebelum coding.',
+      isi: 'Algoritma adalah langkah logis untuk menyelesaikan masalah. Pseudocode berfungsi sebagai jembatan antara ide manusia dan kode pemrograman karena tidak terikat sintaks tertentu[cite: 469, 475, 476].',
+      file: 'PSEUDOCODE.pdf'
     },
     {
       id: 2,
-      title: 'Cara Menulis Algoritma',
-      desc: 'Belajar cara menulis logika pake Pseudocode dan bikin Flowchart.',
-      file: 'BAB_2_Cara_Menulis.pptx'
+      title: 'Flowchart & Representasi',
+      desc: 'Mempelajari simbol standar ISO untuk memvisualisasikan alur logika program.',
+      isi: 'Flowchart menggunakan simbol standar (Terminator, Process, Decision, Input/Output) untuk mendokumentasikan logika secara visual agar mudah dipahami secara universal[cite: 237, 257, 319].',
+      file: 'Flowchart.pdf'
     },
     {
       id: 3,
-      title: 'Logika Pemrograman',
-      desc: 'Implementasi Percabangan (If-Else) dan Perulangan (Looping).',
-      file: 'BAB_3_Logika.pptx'
+      title: 'Struktur Kontrol Perulangan',
+      desc: 'Implementasi For Loop, While, dan Do-While untuk eksekusi instruksi berulang.',
+      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While)[cite: 552, 564, 565].',
+      file: 'Looping.pdf'
     }
   ];
 
@@ -27,30 +34,52 @@ export default function MateriPage() {
     <div className="max-w-4xl mx-auto p-6 animate-in fade-in duration-700">
       <div className="mb-10 text-center">
         <h1 className="text-4xl font-serif font-bold text-[#38302A] mb-3">Materi Pembelajaran</h1>
-        <p className="text-[#8C8276] max-w-lg mx-auto">Pilih bab yang mau dipelajari. Pastikan paham atau dikasih paham!</p>
+        <p className="text-[#8C8276]">Eksplorasi modul logika pemrograman. Klik untuk baca ringkasan.</p>
       </div>
 
       <div className="space-y-4">
-        {materiBab.map((materi) => (
+        {materiBab.map((m) => (
           <div 
-            key={materi.id}
-            className="group bg-white border border-[#EBE6DF] p-6 rounded-3xl transition-all hover:border-[#D1C7BB] hover:shadow-md flex flex-col md:flex-row justify-between items-center gap-6"
+            key={m.id}
+            onClick={() => setMateriAktif(m)}
+            className="group bg-white border border-[#EBE6DF] p-6 rounded-3xl transition-all hover:border-[#8B7355] hover:shadow-lg cursor-pointer flex justify-between items-center"
           >
             <div>
-              <span className="text-[#8B7355] text-xs font-bold uppercase tracking-widest">Bab {materi.id}</span>
-              <h3 className="text-xl font-bold text-[#38302A] mt-1">{materi.title}</h3>
-              <p className="text-[#8C8276] text-sm mt-2">{materi.desc}</p>
+              <span className="text-[#8B7355] text-xs font-bold uppercase tracking-widest">Bab {m.id}</span>
+              <h3 className="text-xl font-bold text-[#38302A] mt-1 group-hover:text-[#8B7355]">{m.title}</h3>
+              <p className="text-[#8C8276] text-sm mt-2">{m.desc}</p>
             </div>
-            
-            <a 
-              href={`/downloads/${materi.file}`} 
-              className="px-6 py-3 bg-[#38302A] text-white rounded-xl text-sm font-bold hover:bg-[#5C554D] transition-colors whitespace-nowrap"
-            >
-              Download PPT
-            </a>
+            <BookOpen className="text-[#8B7355] opacity-50 group-hover:opacity-100" />
           </div>
         ))}
       </div>
+
+      {/* Modal Materi */}
+      {materiAktif && (
+        <div className="fixed inset-0 bg-[#38302A]/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white p-8 rounded-[2rem] max-w-lg w-full relative max-h-[80vh] overflow-y-auto">
+            <button onClick={() => setMateriAktif(null)} className="absolute top-6 right-6 p-2 bg-[#F4F1EA] rounded-full hover:bg-[#EBE6DF]">
+              <X size={20} />
+            </button>
+            <h2 className="text-2xl font-serif font-bold mb-4">{materiAktif.title}</h2>
+            <p className="text-[#4A4036] leading-relaxed mb-6">{materiAktif.isi}</p>
+            
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3 items-center">
+                 <FileText className="text-[#8B7355]" />
+                 <span className="text-sm font-bold text-[#8B7355]">Ringkasan Materi Tersedia</span>
+              </div>
+              <a 
+                href={`/downloads/${materiAktif.file}`} 
+                download
+                className="flex items-center gap-2 mt-2 px-4 py-2 bg-[#8B7355] text-white rounded-full text-sm font-bold w-fit hover:bg-[#60554A] transition-colors"
+              >
+                <Download size={16} /> Unduh Materi PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
