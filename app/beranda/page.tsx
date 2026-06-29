@@ -23,7 +23,6 @@ export default function DashboardModul() {
     if (progresTersimpan) setProgresSiswa(JSON.parse(progresTersimpan));
   }, []);
 
-
   const bukaMateri = (modul: any) => { 
     setModulAktif(modul); 
     setMode('materi'); 
@@ -51,8 +50,8 @@ export default function DashboardModul() {
     let skorBaru = skor;
     if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar){
       skorBaru = skor + 1;
-      setSkor(skorBaru)
-    }; 
+      setSkor(skorBaru);
+    } 
 
     setPenjelasanAktif(true);
 
@@ -61,89 +60,90 @@ export default function DashboardModul() {
       setProgresSiswa(progresBaru);
       localStorage.setItem('progres_elearning_aesthetic', JSON.stringify(progresBaru));
     }
-    const hasilKuis: { modul: number, skor: number } = {
+    
+    // Pastikan tipe data konsisten (string untuk modul, number untuk skor)
+    const hasilKuis: { modul: string, skor: number } = {
       modul: modulAktif.judul,
       skor: skorBaru,
     };
+    
     const pastLeaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
     const existingIndex = pastLeaderboard.findIndex((item: any) => item.modul === hasilKuis.modul);
     if (existingIndex !== -1) {
       pastLeaderboard[existingIndex] = hasilKuis;
-    }
-    else {
+    } else {
       pastLeaderboard.push(hasilKuis);
     }
     localStorage.setItem('leaderboard', JSON.stringify(pastLeaderboard));
   };
-  
 
   const persentase = materi.length > 0 ? Math.round((progresSiswa.length / materi.length) * 100) : 0;
 
   return (
-    <main className="max-w-6xl mx-auto px- nas py-10">
+    <main className="max-w-6xl mx-auto px-6 py-10">
       
-      {/* 1. TAMPILAN DASHBOARD (Pilih Modul) */}
-      {mode === 'pilih' && (
-        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-          <section className="bg-gradient-to-br from-[#38302A] to-[#60554A] text-[#F9F8F6] rounded-[2rem] p-8 md:p-14 relative overflow-hidden shadow-2xl">
-            <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
-              <div>
-                <span className="bg-[#8B7355] text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 inline-block">Semester 124</span>
-                <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">
-                  Eksplorasi <span className="text-[#D4C3A3] italic">Logika</span><br/>Pemrograman.
-                </h1>
-                <p className="text-[#D5CFC7] text-sm md:text-base leading-relaxed mb-0 max-w-sm">
-                  Pilih modul di bawah ini, pelajari ringkasannya, dan buktikan pemahamanmu melalui kuis interaktif.
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
-                <div className="flex justify-between items-end mb-4">
-                  <div>
-                    <p className="text-[#D5CFC7] text-xs font-bold uppercase tracking-widest mb-1">Total Progres</p>
-                    <p className="font-serif text-5xl text-white">{persentase}%</p>
-                  </div>
-                  <Coffee className={`w-10 h-10 ${persentase === 100 ? 'text-[#D4C3A3]' : 'text-white/40'}`} />
+{/* 1. TAMPILAN DASHBOARD (Pilih Modul) */}
+        {mode === 'pilih' && (
+          <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <section className="bg-gradient-to-br from-[#38302A] to-[#60554A] text-[#F9F8F6] rounded-[2rem] p-8 md:p-14 relative overflow-hidden shadow-2xl">
+              <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <div>
+                  <span className="bg-[#8B7355] text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 inline-block">Semester 124</span>
+                  <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">
+                    Eksplorasi <span className="text-[#D4C3A3] italic">Logika</span><br/>Pemrograman.
+                  </h1>
+                  <p className="text-[#D5CFC7] text-sm md:text-base leading-relaxed mb-0 max-w-sm">
+                    Pilih modul di bawah ini, pelajari ringkasannya, dan buktikan pemahamanmu melalui kuis interaktif.
+                  </p>
                 </div>
-                <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mb-3">
-                  <div className="bg-[#D4C3A3] h-2.5 rounded-full transition-all duration-1000" style={{ width: `${persentase}%` }}></div>
-                </div>
-                <p className="text-xs text-[#D5CFC7]">Menyelesaikan {progresSiswa.length} dari {materi.length} Modul Pembelajaran</p>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="font-serif text-2xl text-[#38302A] mb-8">Daftar Modul Pembelajaran</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {materi.map((modul) => {
-                const isSelesai = progresSiswa.includes(modul.id);
-                return (
-                  <div key={modul.id} onClick={() => bukaMateri(modul)} className="group bg-white p-7 rounded-3xl border border-[#EBE6DF] hover:border-[#8B7355] hover:shadow-xl hover:shadow-[#8B7355]/10 transition-all duration-300 cursor-pointer flex flex-col justify-between">
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
+                  <div className="flex justify-between items-end mb-4">
                     <div>
-                      <div className="flex justify-between items-start mb-6">
-                        <div className={`p-3 rounded-2xl ${isSelesai ? 'bg-emerald-50 text-emerald-600' : 'bg-[#F4F1EA] text-[#8C8276] group-hover:bg-[#8B7355] group-hover:text-white transition-colors'}`}>
-                          {isSelesai ? <CheckCircle className="w-6 h-6" /> : <BookText className="w-6 h-6" />}
-                        </div>
-                        {isSelesai && <span className="text-[10px] font-bold text-emerald-700 tracking-widest uppercase bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200">Selesai</span>}
-                      </div>
-                      <h3 className="font-serif text-xl font-bold text-[#38302A] mb-3 group-hover:text-[#8B7355] transition-colors">{modul.judul}</h3>
-                      <p className="text-sm text-[#8C8276] leading-relaxed mb-8">{modul.deskripsi}</p>
+                      <p className="text-[#D5CFC7] text-xs font-bold uppercase tracking-widest mb-1">Total Progres</p>
+                      <p className="font-serif text-5xl text-white">{persentase}%</p>
                     </div>
-                    <div className="flex items-center justify-between pt-5 border-t border-[#F4F1EA]">
-                      <div className="flex items-center gap-2 text-xs font-bold text-[#A39B92]">
-                        <Clock className="w-4 h-4" /> {modul.waktu}
-                      </div>
-                      <ArrowRight className={`w-5 h-5 ${isSelesai ? 'text-emerald-500' : 'text-[#A39B92] group-hover:text-[#8B7355] group-hover:translate-x-1 transition-all'}`} />
-                    </div>
+                    <Coffee className={`w-10 h-10 ${persentase === 100 ? 'text-[#D4C3A3]' : 'text-white/40'}`} />
                   </div>
-                );
-              })}
-            </div>
-          </section>
-        </div>
-      )}
+                  <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mb-3">
+                    <div className="bg-[#D4C3A3] h-2.5 rounded-full transition-all duration-1000" style={{ width: `${persentase}%` }}></div>
+                  </div>
+                  <p className="text-xs text-[#D5CFC7]">Menyelesaikan {progresSiswa.length} dari {materi.length} Modul Pembelajaran</p>
+                </div>
+              </div>
+            </section>
 
-      {/* 2. TAMPILAN MATERI (Baca Dulu) */}
+            <section>
+              <h2 className="font-serif text-2xl text-[#38302A] mb-8">Daftar Modul Pembelajaran</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                {materi.map((modul) => {
+                  const isSelesai = progresSiswa.includes(modul.id);
+                  return (
+                    <div key={modul.id} onClick={() => bukaMateri(modul)} className="group bg-white p-7 rounded-3xl border border-[#EBE6DF] hover:border-[#8B7355] hover:shadow-xl hover:shadow-[#8B7355]/10 transition-all duration-300 cursor-pointer flex flex-col justify-between">
+                      <div>
+                        <div className="flex justify-between items-start mb-6">
+                          <div className={`p-3 rounded-2xl ${isSelesai ? 'bg-emerald-50 text-emerald-600' : 'bg-[#F4F1EA] text-[#8C8276] group-hover:bg-[#8B7355] group-hover:text-white transition-colors'}`}>
+                            {isSelesai ? <CheckCircle className="w-6 h-6" /> : <BookText className="w-6 h-6" />}
+                          </div>
+                          {isSelesai && <span className="text-[10px] font-bold text-emerald-700 tracking-widest uppercase bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200">Selesai</span>}
+                        </div>
+                        <h3 className="font-serif text-xl font-bold text-[#38302A] mb-3 group-hover:text-[#8B7355] transition-colors">{modul.judul}</h3>
+                        <p className="text-sm text-[#8C8276] leading-relaxed mb-8">{modul.deskripsi}</p>
+                      </div>
+                      <div className="flex items-center justify-between pt-5 border-t border-[#F4F1EA]">
+                        <div className="flex items-center gap-2 text-xs font-bold text-[#A39B92]">
+                          <Clock className="w-4 h-4" /> {modul.waktu}
+                        </div>
+                        <ArrowRight className={`w-5 h-5 ${isSelesai ? 'text-emerald-500' : 'text-[#A39B92] group-hover:text-[#8B7355] group-hover:translate-x-1 transition-all'}`} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          </div>
+        )}
+
+{/* 2. TAMPILAN MATERI (Baca Dulu) */}
       {mode === 'materi' && modulAktif && (
         <div className="max-w-3xl mx-auto animate-in fade-in zoom-in-95 duration-500">
           <button onClick={() => setMode('pilih')} className="flex items-center gap-2 text-sm font-bold text-[#8C8276] hover:text-[#38302A] transition-colors mb-8 bg-white px-4 py-2 rounded-full shadow-sm border border-[#EBE6DF]">
@@ -215,7 +215,6 @@ export default function DashboardModul() {
           </div>
         </div>
       )}
-      
     </main>
   );
 }
