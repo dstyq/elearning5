@@ -85,10 +85,11 @@ const persentase = materi.length > 0
 
   return (
     <section className="bg-[#FAF9F6]">
-      {/* 1. TAMPILAN DASHBOARD (Pilih Modul) */}
-{mode === 'pilih' && (
-  <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 max-w-6xl mx-auto px-6 py-10">
-    <section className="bg-gradient-to-br from-[#38302A] to-[#60554A] text-[#F9F8F6] rounded-[2rem] p-8 md:p-14 relative overflow-hidden shadow-2xl">
+
+  {mode === 'pilih' && (
+<div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-5xl mx-auto px-6 py-10">
+      
+      <section className="bg-gradient-to-br from-[#38302A] to-[#60554A] text-[#F9F8F6] rounded-[2rem] p-8 md:p-14 relative overflow-hidden shadow-2xl">
       <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
         <div>
           <span className="bg-[#8B7355] text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 inline-block">Semester 124</span>

@@ -33,10 +33,6 @@ export default function PintuMasuk() {
   useEffect(() => {
     setMounted(true);
     
-    // Auto-redirect dimatikan sementara biar lu bisa ngetes halaman login
-    // if (localStorage.getItem('session_login') === 'true') {
-    //   router.push('/beranda');
-    // }
     
     if (!localStorage.getItem('db_users')) {
       localStorage.setItem('db_users', JSON.stringify([]));
