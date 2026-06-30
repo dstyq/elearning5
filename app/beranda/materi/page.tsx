@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { BookOpen, FileText, X, Download } from 'lucide-react';
+import { BookOpen, FileText, X, Download, Eye } from 'lucide-react';
 
 export default function MateriPage() {
   const [materiAktif, setMateriAktif] = useState<any>(null);
@@ -25,7 +25,7 @@ export default function MateriPage() {
       id: 3,
       title: 'Struktur Kontrol Perulangan',
       desc: 'Implementasi For Loop, While, dan Do-While untuk eksekusi instruksi berulang.',
-      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While.',
+      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While).',
       file: 'Struktur Kontrol Perulangan (Looping).pdf' 
     }
   ];
@@ -34,7 +34,7 @@ export default function MateriPage() {
     <div className="max-w-4xl mx-auto py-10 px-6 animate-in fade-in duration-700">
       <div className="mb-10 text-center">
         <h1 className="text-4xl font-serif font-bold text-[#38302A] mb-3">Materi Pembelajaran</h1>
-        <p className="text-[#8C8276]">Eksplorasi modul logika pemrograman. Klik untuk baca ringkasan.</p>
+        <p className="text-[#8C8276]">Eksplorasi modul logika pemrograman. Klik untuk baca atau unduh materi.</p>
       </div>
 
       <div className="space-y-4">
@@ -57,25 +57,37 @@ export default function MateriPage() {
       {/* Modal Materi */}
       {materiAktif && (
         <div className="fixed inset-0 bg-[#38302A]/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white p-8 rounded-[2rem] max-w-lg w-full relative max-h-[80vh] overflow-y-auto">
-            <button onClick={() => setMateriAktif(null)} className="absolute top-6 right-6 p-2 bg-[#F4F1EA] rounded-full hover:bg-[#EBE6DF]">
+          <div className="bg-white p-6 rounded-[2rem] max-w-3xl w-full relative h-[90vh] flex flex-col">
+            <button onClick={() => setMateriAktif(null)} className="absolute top-4 right-4 p-2 bg-[#F4F1EA] rounded-full hover:bg-[#EBE6DF] z-10">
               <X size={20} />
             </button>
-            <h2 className="text-2xl font-serif font-bold mb-4">{materiAktif.title}</h2>
-            <p className="text-[#4A4036] leading-relaxed mb-6">{materiAktif.isi}</p>
             
-            <div className="flex flex-col gap-3">
-              <div className="flex gap-3 items-center">
-                 <FileText className="text-[#8B7355]" />
-                 <span className="text-sm font-bold text-[#8B7355]">Ringkasan Materi Tersedia</span>
-              </div>
+            <h2 className="text-2xl font-serif font-bold mb-2">{materiAktif.title}</h2>
+            <p className="text-[#8C8276] text-sm mb-6">{materiAktif.isi}</p>
+            
+            {/* PDF Viewer */}
+            <div className="flex-1 w-full bg-gray-100 rounded-2xl overflow-hidden mb-6 border border-[#EBE6DF]">
+              <iframe 
+                src={`/modul/${materiAktif.file}`} 
+                className="w-full h-full"
+                title="Materi PDF"
+              />
+            </div>
+
+            <div className="flex gap-4">
               <a 
                 href={`/modul/${materiAktif.file}`} 
                 download
-                className="flex items-center gap-2 mt-2 px-4 py-2 bg-[#8B7355] text-white rounded-full text-sm font-bold w-fit hover:bg-[#60554A] transition-colors"
+                className="flex items-center gap-2 px-6 py-3 bg-[#8B7355] text-white rounded-full text-sm font-bold hover:bg-[#60554A] transition-colors"
               >
-                <Download size={16} /> Unduh Materi PDF
+                <Download size={16} /> Unduh PDF
               </a>
+              <button 
+                onClick={() => setMateriAktif(null)}
+                className="flex items-center gap-2 px-6 py-3 bg-[#F4F1EA] text-[#38302A] rounded-full text-sm font-bold hover:bg-[#EBE6DF] transition-colors"
+              >
+                Tutup
+              </button>
             </div>
           </div>
         </div>
