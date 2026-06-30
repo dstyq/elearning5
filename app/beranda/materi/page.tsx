@@ -12,7 +12,7 @@ export default function MateriPage() {
       title: 'Konsep Dasar Algoritma',
       desc: 'Memahami definisi dasar, karakteristik, dan fase perantara (pseudocode) sebelum coding.',
       isi: 'Algoritma adalah langkah logis untuk menyelesaikan masalah. Pseudocode berfungsi sebagai jembatan antara ide manusia dan kode pemrograman karena tidak terikat sintaks tertentu.',
-      file: 'Pengantar Algoritma.pdf' 
+      file: 'PSEUDOCODE.pdf' 
     },
     {
       id: 2,
