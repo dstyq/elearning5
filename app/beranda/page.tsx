@@ -79,39 +79,51 @@ export default function DashboardModul() {
     localStorage.setItem('leaderboard', JSON.stringify(pastLeaderboard));
   };
 
-  const persentase = materi.length > 0 ? Math.round((progresSiswa.length / materi.length) * 100) : 0;
+const persentase = materi.length > 0 
+  ? Math.min(100, Math.round((progresSiswa.length / materi.length) * 100)) 
+  : 0;
 
   return (
     <section className="bg-[#FAF9F6]">
       {/* 1. TAMPILAN DASHBOARD (Pilih Modul) */}
-      {mode === 'pilih' && (
-        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 max-w-6xl mx-auto px-6 py-10">
-          <section className="bg-linear-to-br from-[#38302A] to-[#60554A] text-[#F9F8F6] rounded-[2rem] p-8 md:p-14 relative overflow-hidden shadow-2xl">
-            <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
-              <div>
-                <span className="bg-[#8B7355] text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 inline-block">Semester 124</span>
-                <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">
-                  Eksplorasi <span className="text-[#D4C3A3] italic">Logika</span><br/>Pemrograman.
-                </h1>
-                <p className="text-[#D5CFC7] text-sm md:text-base leading-relaxed mb-0 max-w-sm">
-                  Pilih modul di bawah ini, pelajari ringkasannya, dan buktikan pemahamanmu melalui kuis interaktif.
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
-                <div className="flex justify-between items-end mb-4">
-                  <div>
-                    <p className="text-[#D5CFC7] text-xs font-bold uppercase tracking-widest mb-1">Total Progres</p>
-                    <p className="font-serif text-5xl text-white">{persentase}%</p>
-                  </div>
-                  <Coffee className={`w-10 h-10 ${persentase === 100 ? 'text-[#D4C3A3]' : 'text-white/40'}`} />
-                </div>
-                <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mb-3">
-                  <div className="bg-[#D4C3A3] h-2.5 rounded-full transition-all duration-1000" style={{ width: `${persentase}%` }}></div>
-                </div>
-                <p className="text-xs text-[#D5CFC7]">Menyelesaikan {progresSiswa.length} dari {materi.length} Modul Pembelajaran</p>
-              </div>
+{mode === 'pilih' && (
+  <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 max-w-6xl mx-auto px-6 py-10">
+    <section className="bg-gradient-to-br from-[#38302A] to-[#60554A] text-[#F9F8F6] rounded-[2rem] p-8 md:p-14 relative overflow-hidden shadow-2xl">
+      <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
+        <div>
+          <span className="bg-[#8B7355] text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 inline-block">Semester 124</span>
+          <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">
+            Eksplorasi <span className="text-[#D4C3A3] italic">Logika</span><br/>Pemrograman.
+          </h1>
+          <p className="text-[#D5CFC7] text-sm md:text-base leading-relaxed max-w-sm">
+            Pilih modul di bawah ini, pelajari ringkasannya, dan buktikan pemahamanmu melalui kuis interaktif.
+          </p>
+        </div>
+        
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <p className="text-[#D5CFC7] text-xs font-bold uppercase tracking-widest mb-1">Total Progres</p>
+              <p className="font-serif text-5xl text-white">{persentase}%</p>
             </div>
-          </section>
+            <Coffee 
+              className={`w-10 h-10 transition-colors duration-500 ${
+                persentase >= 100 ? 'text-[#D4C3A3]' : 'text-white/40'
+              }`} 
+            />
+          </div>
+          <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mb-3">
+            <div 
+              className="bg-[#D4C3A3] h-2.5 rounded-full transition-all duration-1000" 
+              style={{ width: `${persentase}%` }}
+            ></div>
+          </div>
+          <p className="text-xs text-[#D5CFC7]">
+            Menyelesaikan {Math.min(progresSiswa.length, materi.length)} dari {materi.length} Modul
+          </p>
+        </div>
+      </div>
+    </section>
 
             <section>
               <h2 className="font-serif text-2xl text-[#38302A] mb-8">Daftar Modul Pembelajaran</h2>
