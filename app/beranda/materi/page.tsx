@@ -11,22 +11,22 @@ export default function MateriPage() {
       id: 1,
       title: 'Konsep Dasar Algoritma',
       desc: 'Memahami definisi dasar, karakteristik, dan fase perantara (pseudocode) sebelum coding.',
-      isi: 'Algoritma adalah langkah logis untuk menyelesaikan masalah. Pseudocode berfungsi sebagai jembatan antara ide manusia dan kode pemrograman karena tidak terikat sintaks tertentu[cite: 5].',
-      file: 'PSEUDOCODE.pdf' // Nama file harus persis
+      isi: 'Algoritma adalah langkah logis untuk menyelesaikan masalah. Pseudocode berfungsi sebagai jembatan antara ide manusia dan kode pemrograman karena tidak terikat sintaks tertentu.',
+      file: 'PSEUDOCODE.pdf' 
     },
     {
       id: 2,
       title: 'Flowchart & Representasi',
       desc: 'Mempelajari simbol standar ISO untuk memvisualisasikan alur logika program.',
-      isi: 'Flowchart menggunakan simbol standar (Terminator, Process, Decision, Input/Output) untuk mendokumentasikan logika secara visual agar mudah dipahami secara universal[cite: 3].',
-      file: 'Perancangan Algoritma Menggunakan Flowchart.pdf' // Nama file harus persis
+      isi: 'Flowchart menggunakan simbol standar (Terminator, Process, Decision, Input/Output) untuk mendokumentasikan logika secara visual agar mudah dipahami secara universal.',
+      file: 'Perancangan Algoritma Menggunakan Flowchart.pdf' 
     },
     {
       id: 3,
       title: 'Struktur Kontrol Perulangan',
       desc: 'Implementasi For Loop, While, dan Do-While untuk eksekusi instruksi berulang.',
-      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While)[cite: 4, 5].',
-      file: 'Struktur Kontrol Perulangan (Looping).pdf' // Nama file harus persis
+      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While.',
+      file: 'Struktur Kontrol Perulangan (Looping).pdf' 
     }
   ];
 
