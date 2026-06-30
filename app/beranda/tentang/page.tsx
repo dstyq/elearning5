@@ -41,7 +41,7 @@ export default function TentangKami() {
       nama: "Nayla Agusthia Mirda", 
       peran: "Project Manager & QA", 
       ikon: <ClipboardList className="w-5 h-5" />,
-      deskripsi: "Mengatur progres tim dan menguji aplikasi.",
+      deskripsi: "Riset materi dan menguji aplikasi.",
       ig: "naylamrda" 
     }
   ];
