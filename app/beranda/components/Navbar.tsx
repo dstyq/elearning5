@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react'; // Pastikan sudah install lucide-react
+import { Menu, X, LogOut } from 'lucide-react'; // Tambahkan LogOut icon
 
 export default function Navbar() {
   const menuNav = [
@@ -13,11 +13,17 @@ export default function Navbar() {
   ];
 
   const [username, setUsername] = useState<string | null>('Siswa');
-  const [isOpen, setIsOpen] = useState(false); // State untuk buka/tutup menu
+  const [isOpen, setIsOpen] = useState(false);
   
   useEffect(() => {
     setUsername(localStorage.getItem('session_username'));
   }, []);
+
+  // Tambahkan fungsi logout untuk membersihkan session
+  const handleLogout = () => {
+    localStorage.removeItem('session_username');
+    // Opsional: tambahkan localStorage.clear() jika ingin menghapus semua data kuis/leaderboard juga
+  };
 
   return (
     <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
@@ -29,7 +35,7 @@ export default function Navbar() {
           <span className="font-serif font-bold text-[#38302A] tracking-tight text-lg">CodeV</span>
         </div>
 
-        {/* Hamburger Button (Hanya muncul di mobile) */}
+        {/* Hamburger Button */}
         <button className="md:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X className="text-[#38302A]" /> : <Menu className="text-[#38302A]" />}
         </button>
@@ -43,7 +49,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Profil & Action (Desktop) */}
+        {/* Profil & Logout (Desktop) */}
         <div className="hidden md:flex items-center gap-4 border-l border-[#EBE6DF] pl-4">
           <Link href="/beranda/profil" className="flex items-center gap-2 group">
             <span className="text-sm font-bold text-[#38302A] group-hover:underline">{username}</span>
@@ -51,10 +57,14 @@ export default function Navbar() {
               {username?.charAt(0) || 'H'}
             </div>
           </Link>
+          {/* Tambahkan tombol logout di desktop */}
+          <Link href="/" onClick={handleLogout} className="text-[#8C8276] hover:text-red-500 transition-colors">
+            <LogOut size={18} />
+          </Link>
         </div>
       </div>
 
-      {/* Mobile Menu (Muncul jika isOpen true) */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden mt-2 bg-white rounded-2xl p-4 border border-[#EBE6DF] shadow-xl animate-in slide-in-from-top-4">
           {menuNav.map((item) => (
@@ -64,7 +74,7 @@ export default function Navbar() {
           ))}
           <hr className="my-2 border-[#F4F1EA]" />
           <Link href="/beranda/profil" className="block px-4 py-3 text-sm font-bold text-[#38302A]">Profil: {username}</Link>
-          <Link href="/" className="block px-4 py-3 text-sm font-bold text-red-500">Logout</Link>
+          <Link href="/" onClick={handleLogout} className="block px-4 py-3 text-sm font-bold text-red-500">Logout</Link>
         </div>
       )}
     </nav>
