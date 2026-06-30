@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { BookOpen, FileText, X, Download } from 'lucide-react';
 
-
 export default function MateriPage() {
   const [materiAktif, setMateriAktif] = useState<any>(null);
 
@@ -12,22 +11,22 @@ export default function MateriPage() {
       id: 1,
       title: 'Konsep Dasar Algoritma',
       desc: 'Memahami definisi dasar, karakteristik, dan fase perantara (pseudocode) sebelum coding.',
-      isi: 'Algoritma adalah langkah logis untuk menyelesaikan masalah. Pseudocode berfungsi sebagai jembatan antara ide manusia dan kode pemrograman karena tidak terikat sintaks tertentu[cite: 469, 475, 476].',
-      file: 'PSEUDOCODE.pdf'
+      isi: 'Algoritma adalah langkah logis untuk menyelesaikan masalah. Pseudocode berfungsi sebagai jembatan antara ide manusia dan kode pemrograman karena tidak terikat sintaks tertentu[cite: 5].',
+      file: 'PSEUDOCODE.pdf' // Nama file harus persis
     },
     {
       id: 2,
       title: 'Flowchart & Representasi',
       desc: 'Mempelajari simbol standar ISO untuk memvisualisasikan alur logika program.',
-      isi: 'Flowchart menggunakan simbol standar (Terminator, Process, Decision, Input/Output) untuk mendokumentasikan logika secara visual agar mudah dipahami secara universal[cite: 237, 257, 319].',
-      file: 'Flowchart.pdf'
+      isi: 'Flowchart menggunakan simbol standar (Terminator, Process, Decision, Input/Output) untuk mendokumentasikan logika secara visual agar mudah dipahami secara universal[cite: 3].',
+      file: 'Perancangan Algoritma Menggunakan Flowchart.pdf' // Nama file harus persis
     },
     {
       id: 3,
       title: 'Struktur Kontrol Perulangan',
       desc: 'Implementasi For Loop, While, dan Do-While untuk eksekusi instruksi berulang.',
-      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While)[cite: 552, 564, 565].',
-      file: 'Looping.pdf'
+      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While)[cite: 4, 5].',
+      file: 'Struktur Kontrol Perulangan (Looping).pdf' // Nama file harus persis
     }
   ];
 
@@ -71,7 +70,7 @@ export default function MateriPage() {
                  <span className="text-sm font-bold text-[#8B7355]">Ringkasan Materi Tersedia</span>
               </div>
               <a 
-                href={`/downloads/${materiAktif.file}`} 
+                href={`/modul/${materiAktif.file}`} 
                 download
                 className="flex items-center gap-2 mt-2 px-4 py-2 bg-[#8B7355] text-white rounded-full text-sm font-bold w-fit hover:bg-[#60554A] transition-colors"
               >
