@@ -153,65 +153,68 @@ export default function PintuMasuk() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen text-[#4A4036] font-sans flex selection:bg-[#E3DAC9]">
+    <div className="min-h-screen text-black dark:text-[#F5F1E8] font-sans flex bg-[#F5F1E8] dark:bg-[#17151C] selection:bg-[#FFC700] selection:text-black transition-colors duration-200">
       
       {/* SISI KIRI: BRANDING */}
-      <div className="hidden lg:flex w-1/2 bg-[#F9F8F6] p-12 flex-col justify-between border-r border-[#EBE6DF] relative overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#E3DAC9] rounded-full blur-3xl opacity-40"></div>
-        <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#D4C3A3] rounded-full blur-3xl opacity-20"></div>
+      <div className="hidden lg:flex w-1/2 bg-[#4D96FF] p-12 flex-col justify-between border-r-[4px] border-black relative overflow-hidden">
+        <div className="absolute top-8 right-8 bg-[#FFC700] border-[3px] border-black rounded-full w-16 h-16 flex items-center justify-center rotate-12">
+          <Sparkles className="w-7 h-7 text-black" />
+        </div>
 
         <div className="relative z-10 flex items-center gap-3">
-          <div className="bg-[#38302A] p-2.5 rounded-xl shadow-md">
-            <Terminal className="w-6 h-6 text-white" />
+          <div className="bg-black p-2.5 rounded-xl border-[3px] border-white">
+            <Terminal className="w-6 h-6 text-[#FFC700]" />
           </div>
-          <span className="font-serif font-bold text-2xl tracking-wide text-[#38302A]">CodeV.</span>
+          <span className="font-black text-2xl tracking-tight text-black uppercase">CodeV.</span>
         </div>
 
         <div className="relative z-10 max-w-md">
-          <Sparkles className="w-8 h-8 text-[#8B7355] mb-6" />
-          <h1 className="font-serif text-5xl font-bold leading-tight text-[#38302A] mb-6">
-            Code <br/> <span className="text-[#8B7355] italic">Learn, Grow.</span>
+          <h1 className="font-black text-5xl leading-[1.05] text-black uppercase mb-6">
+            Code <br/>
+            <span className="bg-[#FFC700] px-2 -rotate-1 inline-block border-[3px] border-black">
+              Learn, Grow.
+            </span>
           </h1>
-          <p className="text-[#8C8276] text-lg leading-relaxed mb-8">
+          <p className="text-black/80 text-lg leading-relaxed font-bold mb-8">
             Platform e-learning pemrograman yang dirancang untuk siswa dan mahasiswa mempelajari konsep coding melalui materi terstruktur dan kuis interaktif.
           </p>
-          <div className="flex items-center gap-4 text-sm font-semibold text-[#60554A] bg-white px-5 py-3 rounded-2xl border border-[#EBE6DF] shadow-sm inline-flex">
-            <div className="w-8 h-8 rounded-full bg-[#EAF0E6] flex items-center justify-center border border-[#C4B7A6] text-xs font-bold text-[#6B8E5C]">K6</div>
+          <div className="flex items-center gap-4 text-sm font-black text-black bg-white px-5 py-3 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000] inline-flex">
+            <div className="w-8 h-8 rounded-full bg-[#6BCB77] flex items-center justify-center border-[2px] border-black text-xs font-black text-black">K6</div>
             <p>Production Build v2.2 • Kelompok 5</p>
           </div>
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 md:p-20 bg-white relative">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 md:p-20 bg-[#F5F1E8] dark:bg-[#17151C] relative">
         <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-6 duration-500">
           
           <div className="lg:hidden flex items-center gap-3 mb-10">
-            <div className="bg-[#38302A] p-2 rounded-xl">
-              <Terminal className="w-5 h-5 text-white" />
+            <div className="bg-black p-2 rounded-xl border-[3px] border-white dark:border-black">
+              <Terminal className="w-5 h-5 text-[#FFC700]" />
             </div>
-            <span className="font-serif font-bold text-xl tracking-wide text-[#38302A]">CodeV.</span>
+            <span className="font-black text-xl tracking-tight text-black dark:text-[#F5F1E8] uppercase">CodeV.</span>
           </div>
 
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-[#38302A] mb-2 tracking-tight">
+            <h2 className="text-3xl font-black text-black dark:text-[#F5F1E8] mb-2 uppercase tracking-tight">
               {mode === 'login' ? 'Masuk ke CodeV' : 'Mulai Perjalananmu'}
             </h2>
-            <p className="text-sm text-[#8C8276]">
+            <p className="text-sm font-bold text-black/60 dark:text-[#F5F1E8]/60">
               {mode === 'login' ? 'Lanjutkan progres coding dan selesaikan modulmu hari ini.' : 'Daftar akun sekarang buat akses semua materi pemrograman.'}
             </p>
           </div>
 
           {/* TAB SWITCHER */}
-          <div className="grid grid-cols-2 p-1 bg-[#F9F8F6] rounded-xl border border-[#EBE6DF] mb-8">
+          <div className="grid grid-cols-2 p-1.5 gap-1.5 bg-white dark:bg-[#1E1B24] rounded-xl border-[3px] border-black dark:border-[#F5F1E8] mb-8">
             <button
               onClick={() => { setMode('login'); setErrors(''); setSuccessMsg(''); setGeneratedToken(''); }}
-              className={`py-2.5 flex justify-center items-center gap-2 text-xs font-bold rounded-lg transition-all ${mode === 'login' ? 'bg-white text-[#38302A] shadow-sm border border-[#EBE6DF]' : 'text-[#8C8276] hover:text-[#38302A]'}`}
+              className={`py-2.5 flex justify-center items-center gap-2 text-xs font-black uppercase rounded-lg transition-all border-[3px] ${mode === 'login' ? 'bg-[#FFC700] text-black border-black shadow-[3px_3px_0px_0px_#000]' : 'text-black/60 dark:text-[#F5F1E8]/60 border-transparent hover:text-black dark:hover:text-[#F5F1E8]'}`}
             >
               <LogIn className="w-4 h-4" /> Masuk
             </button>
             <button
               onClick={() => { setMode('register'); setErrors(''); setSuccessMsg(''); setGeneratedToken(''); }}
-              className={`py-2.5 flex justify-center items-center gap-2 text-xs font-bold rounded-lg transition-all ${mode === 'register' ? 'bg-white text-[#38302A] shadow-sm border border-[#EBE6DF]' : 'text-[#8C8276] hover:text-[#38302A]'}`}
+              className={`py-2.5 flex justify-center items-center gap-2 text-xs font-black uppercase rounded-lg transition-all border-[3px] ${mode === 'register' ? 'bg-[#FFC700] text-black border-black shadow-[3px_3px_0px_0px_#000]' : 'text-black/60 dark:text-[#F5F1E8]/60 border-transparent hover:text-black dark:hover:text-[#F5F1E8]'}`}
             >
               <UserPlus className="w-4 h-4" /> Daftar Akun
             </button>
@@ -219,29 +222,29 @@ export default function PintuMasuk() {
 
           {/* ERROR BOX */}
           {errors && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium flex gap-3 items-start animate-in zoom-in-95">
+            <div className="mb-6 p-4 bg-[#FF6B6B] border-[3px] border-black text-black rounded-xl text-sm font-bold flex gap-3 items-start animate-in zoom-in-95 shadow-[4px_4px_0px_0px_#000]">
               <AlertCircle className="w-5 h-5 shrink-0" /> {errors}
             </div>
           )}
 
           {/* SUCCESS & TOKEN DISPLAY BOX */}
           {successMsg && (
-            <div className="mb-6 p-5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-sm font-medium space-y-4 animate-in zoom-in-95">
+            <div className="mb-6 p-5 bg-[#6BCB77] border-[3px] border-black text-black rounded-2xl text-sm font-bold space-y-4 animate-in zoom-in-95 shadow-[4px_4px_0px_0px_#000]">
               <div className="flex gap-3 items-start">
-                <Sparkles className="w-5 h-5 shrink-0 text-emerald-600 mt-0.5" /> 
+                <Sparkles className="w-5 h-5 shrink-0 mt-0.5" /> 
                 <p className="leading-relaxed">{successMsg}</p>
               </div>
               
               {/* Box Tampilan Token Spesifik dengan Tombol Salin */}
               {generatedToken && (
-                <div className="bg-white border border-emerald-200 rounded-xl p-3 flex items-center justify-between shadow-sm animate-in fade-in duration-500">
-                  <div className="font-mono text-base font-bold tracking-wider text-[#38302A] px-2 select-all">
+                <div className="bg-white border-[3px] border-black rounded-xl p-3 flex items-center justify-between animate-in fade-in duration-500">
+                  <div className="font-mono text-base font-black tracking-wider text-black px-2 select-all">
                     {generatedToken}
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyToken}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${isCopied ? 'bg-emerald-600 text-white' : 'bg-[#F4F1EA] text-[#4A4036] hover:bg-[#EBE6DF]'}`}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase border-[2px] border-black transition-all ${isCopied ? 'bg-black text-[#6BCB77]' : 'bg-[#FFC700] text-black hover:shadow-[2px_2px_0px_0px_#000]'}`}
                   >
                     {isCopied ? (
                       <><Check className="w-3.5 h-3.5" /> Tersalin!</>
@@ -259,30 +262,30 @@ export default function PintuMasuk() {
             <div className="space-y-5 animate-in fade-in duration-300">
               <form onSubmit={handleLogin} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8C8276] mb-2">NIM / Token Akses</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-black/60 dark:text-[#F5F1E8]/60 mb-2">NIM / Token Akses</label>
                   <div className="relative flex items-center">
-                    <User className="w-5 h-5 text-[#A39B92] absolute left-4" />
+                    <User className="w-5 h-5 text-black/50 dark:text-[#F5F1E8]/50 absolute left-4" />
                     <input 
                       type="text" 
                       value={loginId}
                       onChange={(e) => setLoginId(e.target.value)}
                       placeholder="Masukkan NIM, Token, atau 'admin'..." 
-                      className="w-full bg-[#F9F8F6] border border-[#EBE6DF] focus:border-[#8B7355] focus:bg-white rounded-2xl py-3.5 pl-12 pr-4 text-sm text-[#38302A] outline-none transition-all shadow-sm"
+                      className="w-full bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] focus:border-[#4D96FF] dark:focus:border-[#4D96FF] rounded-xl py-3.5 pl-12 pr-4 text-sm font-bold text-black dark:text-[#F5F1E8] outline-none transition-all placeholder:text-black/40 dark:placeholder:text-[#F5F1E8]/40"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8C8276] mb-2">Password</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-black/60 dark:text-[#F5F1E8]/60 mb-2">Password</label>
                   <div className="relative flex items-center">
-                    <Lock className="w-5 h-5 text-[#A39B92] absolute left-4" />
+                    <Lock className="w-5 h-5 text-black/50 dark:text-[#F5F1E8]/50 absolute left-4" />
                     <input 
                       type="password" 
                       value={loginPass}
                       onChange={(e) => setLoginPass(e.target.value)}
                       placeholder="••••••••" 
-                      className="w-full bg-[#F9F8F6] border border-[#EBE6DF] focus:border-[#8B7355] focus:bg-white rounded-2xl py-3.5 pl-12 pr-4 text-sm text-[#38302A] outline-none transition-all shadow-sm"
+                      className="w-full bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] focus:border-[#4D96FF] dark:focus:border-[#4D96FF] rounded-xl py-3.5 pl-12 pr-4 text-sm font-bold text-black dark:text-[#F5F1E8] outline-none transition-all placeholder:text-black/40 dark:placeholder:text-[#F5F1E8]/40"
                       required
                     />
                   </div>
@@ -291,10 +294,10 @@ export default function PintuMasuk() {
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#38302A] hover:bg-[#60554A] text-white font-bold py-4 rounded-2xl transition-all shadow-md mt-4 text-sm tracking-wide flex items-center justify-center gap-3 disabled:opacity-70 group"
+                  className="w-full bg-[#4D96FF] text-black font-black py-4 rounded-xl transition-all border-[3px] border-black shadow-[5px_5px_0px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 mt-4 text-sm uppercase tracking-wide flex items-center justify-center gap-3 disabled:opacity-60 disabled:hover:shadow-[5px_5px_0px_0px_#000] disabled:hover:translate-x-0 disabled:hover:translate-y-0 group"
                 >
                   {isSubmitting ? (
-                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
                   ) : (
                     <>Masuk ke CodeV <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>
                   )}
@@ -306,48 +309,48 @@ export default function PintuMasuk() {
           {/* FORM REGISTER */}
           {mode === 'register' && (
             <form onSubmit={handleRegister} className="space-y-4 animate-in fade-in duration-300">
-              <div className="flex gap-4 p-3 bg-[#F9F8F6] border border-[#EBE6DF] rounded-2xl">
-                <label className="flex-1 flex items-center gap-2 cursor-pointer">
-                  <input type="radio" checked={regRole === 'mahasiswa'} onChange={() => setRegRole('mahasiswa')} className="accent-[#8B7355] w-4 h-4" />
-                  <span className="text-sm font-bold text-[#38302A]">Mahasiswa</span>
+              <div className="flex gap-2 p-1.5 bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] rounded-xl">
+                <label className={`flex-1 flex items-center justify-center gap-2 cursor-pointer py-2.5 rounded-lg border-[3px] transition-all ${regRole === 'mahasiswa' ? 'bg-[#FFC700] border-black' : 'border-transparent'}`}>
+                  <input type="radio" checked={regRole === 'mahasiswa'} onChange={() => setRegRole('mahasiswa')} className="accent-black w-4 h-4" />
+                  <span className="text-sm font-black uppercase text-black dark:text-[#F5F1E8]">Mahasiswa</span>
                 </label>
-                <label className="flex-1 flex items-center gap-2 cursor-pointer">
-                  <input type="radio" checked={regRole === 'siswa_sekolah'} onChange={() => setRegRole('siswa_sekolah')} className="accent-[#8B7355] w-4 h-4" />
-                  <span className="text-sm font-bold text-[#38302A]">Siswa / Umum</span>
+                <label className={`flex-1 flex items-center justify-center gap-2 cursor-pointer py-2.5 rounded-lg border-[3px] transition-all ${regRole === 'siswa_sekolah' ? 'bg-[#FFC700] border-black' : 'border-transparent'}`}>
+                  <input type="radio" checked={regRole === 'siswa_sekolah'} onChange={() => setRegRole('siswa_sekolah')} className="accent-black w-4 h-4" />
+                  <span className="text-sm font-black uppercase text-black dark:text-[#F5F1E8]">Siswa / Umum</span>
                 </label>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#8C8276] mb-1.5">Nama Lengkap</label>
+                <label className="block text-xs font-black uppercase tracking-wider text-black/60 dark:text-[#F5F1E8]/60 mb-1.5">Nama Lengkap</label>
                 <div className="relative flex items-center">
-                  <User className="w-5 h-5 text-[#A39B92] absolute left-4" />
-                  <input type="text" value={regNama} onChange={(e) => setRegNama(e.target.value)} placeholder="Ketik nama lengkapmu..." className="w-full bg-white border border-[#EBE6DF] focus:border-[#8B7355] rounded-xl py-3 pl-12 pr-4 text-sm text-[#38302A] outline-none transition-all shadow-sm" required />
+                  <User className="w-5 h-5 text-black/50 dark:text-[#F5F1E8]/50 absolute left-4" />
+                  <input type="text" value={regNama} onChange={(e) => setRegNama(e.target.value)} placeholder="Ketik nama lengkapmu..." className="w-full bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] focus:border-[#FF6B9D] rounded-xl py-3 pl-12 pr-4 text-sm font-bold text-black dark:text-[#F5F1E8] outline-none transition-all placeholder:text-black/40 dark:placeholder:text-[#F5F1E8]/40" required />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#8C8276] mb-1.5">{regRole === 'mahasiswa' ? 'NIM Mahasiswa' : 'Alamat Email'}</label>
+                <label className="block text-xs font-black uppercase tracking-wider text-black/60 dark:text-[#F5F1E8]/60 mb-1.5">{regRole === 'mahasiswa' ? 'NIM Mahasiswa' : 'Alamat Email'}</label>
                 <div className="relative flex items-center">
-                  {regRole === 'mahasiswa' ? <BookOpen className="w-5 h-5 text-[#A39B92] absolute left-4" /> : <Mail className="w-5 h-5 text-[#A39B92] absolute left-4" />}
-                  <input type={regRole === 'mahasiswa' ? 'number' : 'email'} value={regId} onChange={(e) => setRegId(e.target.value)} placeholder={regRole === 'mahasiswa' ? 'Contoh: 150262...' : 'Email aktif kamu...'} className="w-full bg-white border border-[#EBE6DF] focus:border-[#8B7355] rounded-xl py-3 pl-12 pr-4 text-sm text-[#38302A] outline-none transition-all shadow-sm" required />
+                  {regRole === 'mahasiswa' ? <BookOpen className="w-5 h-5 text-black/50 dark:text-[#F5F1E8]/50 absolute left-4" /> : <Mail className="w-5 h-5 text-black/50 dark:text-[#F5F1E8]/50 absolute left-4" />}
+                  <input type={regRole === 'mahasiswa' ? 'number' : 'email'} value={regId} onChange={(e) => setRegId(e.target.value)} placeholder={regRole === 'mahasiswa' ? 'Contoh: 150262...' : 'Email aktif kamu...'} className="w-full bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] focus:border-[#FF6B9D] rounded-xl py-3 pl-12 pr-4 text-sm font-bold text-black dark:text-[#F5F1E8] outline-none transition-all placeholder:text-black/40 dark:placeholder:text-[#F5F1E8]/40" required />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#8C8276] mb-1.5">Buat Password</label>
+                <label className="block text-xs font-black uppercase tracking-wider text-black/60 dark:text-[#F5F1E8]/60 mb-1.5">Buat Password</label>
                 <div className="relative flex items-center">
-                  <KeyRound className="w-5 h-5 text-[#A39B92] absolute left-4" />
-                  <input type="password" value={regPass} onChange={(e) => setRegPass(e.target.value)} placeholder="Minimal 6 karakter..." className="w-full bg-white border border-[#EBE6DF] focus:border-[#8B7355] rounded-xl py-3 pl-12 pr-4 text-sm text-[#38302A] outline-none transition-all shadow-sm" required />
+                  <KeyRound className="w-5 h-5 text-black/50 dark:text-[#F5F1E8]/50 absolute left-4" />
+                  <input type="password" value={regPass} onChange={(e) => setRegPass(e.target.value)} placeholder="Minimal 6 karakter..." className="w-full bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] focus:border-[#FF6B9D] rounded-xl py-3 pl-12 pr-4 text-sm font-bold text-black dark:text-[#F5F1E8] outline-none transition-all placeholder:text-black/40 dark:placeholder:text-[#F5F1E8]/40" required />
                 </div>
               </div>
 
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#8B7355] hover:bg-[#60554A] text-white font-bold py-3.5 rounded-xl transition-all shadow-md mt-2 text-sm tracking-wide flex items-center justify-center gap-3 disabled:opacity-70"
+                className="w-full bg-[#FF6B9D] text-black font-black py-3.5 rounded-xl transition-all border-[3px] border-black shadow-[5px_5px_0px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 mt-2 text-sm uppercase tracking-wide flex items-center justify-center gap-3 disabled:opacity-60 disabled:hover:shadow-[5px_5px_0px_0px_#000] disabled:hover:translate-x-0 disabled:hover:translate-y-0"
               >
                 {isSubmitting ? (
-                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  <span className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
                 ) : "Daftar Sekarang"}
               </button>
             </form>

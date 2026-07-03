@@ -1,22 +1,24 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CheckCircle, ChevronLeft, Feather, Coffee, Clock, BookText, ArrowRight } from 'lucide-react';
+import { CheckCircle2, ChevronLeft, Clock, ArrowRight, Circle, Zap } from 'lucide-react';
 import { Pengantar } from '../data/pengantar';
 import { Struktur } from '../data/struktur';
 import { Flowchart } from '../data/flowchart';
-import Navbar from './components/Navbar';
 import { FlowchartSymbols } from '../data/FlowchartSymbols';
 
 const materi = [Pengantar, Struktur, Flowchart];
 
+// warna komik dipakai bergantian per-modul, tetap dalam batas palet yang sama (kuning/pink/biru)
+const warnaModul = ['#FFC700', '#FF6B9D', '#4D96FF'];
+
 export default function DashboardModul() {
   const [modulAktif, setModulAktif] = useState<any>(null);
   const [mode, setMode] = useState<'pilih' | 'materi' | 'kuis'>('pilih');
-  const [indeksSoal, setIndeksSoal] = useState(0); 
-  const [skor, setSkor] = useState(0); 
+  const [indeksSoal, setIndeksSoal] = useState(0);
+  const [skor, setSkor] = useState(0);
   const [kuisSelesai, setKuisSelesai] = useState(false);
-  const [progresSiswa, setProgresSiswa] = useState<any[]>([]); 
+  const [progresSiswa, setProgresSiswa] = useState<any[]>([]);
   const [jawaban, setJawaban] = useState<string | null>('');
   const [penjelasanAktif, setPenjelasanAktif] = useState(false);
 
@@ -25,36 +27,35 @@ export default function DashboardModul() {
     if (progresTersimpan) setProgresSiswa(JSON.parse(progresTersimpan));
   }, []);
 
-  const bukaMateri = (modul: any) => { 
-    setModulAktif(modul); 
-    setMode('materi'); 
+  const bukaMateri = (modul: any) => {
+    setModulAktif(modul);
+    setMode('materi');
   };
 
   const mulaiKuis = () => {
-    setIndeksSoal(0); 
-    setSkor(0); 
+    setIndeksSoal(0);
+    setSkor(0);
     setKuisSelesai(false);
     setMode('kuis');
-  }
+  };
 
   const handleSoalSelanjutnya = () => {
     const soalSelanjutnya = indeksSoal + 1;
     setPenjelasanAktif(false);
     setJawaban(null);
     if (soalSelanjutnya < modulAktif.soal.length) {
-      setIndeksSoal(soalSelanjutnya); 
+      setIndeksSoal(soalSelanjutnya);
     } else {
       setKuisSelesai(true);
     }
-  }
+  };
 
   const cekJawaban = (jawabanDipilih: any) => {
     let skorBaru = skor;
-    if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar){
+    if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar) {
       skorBaru = skor + 1;
       setSkor(skorBaru);
-    } 
-
+    }
     setPenjelasanAktif(true);
 
     if (!progresSiswa.includes(modulAktif.id)) {
@@ -62,13 +63,11 @@ export default function DashboardModul() {
       setProgresSiswa(progresBaru);
       localStorage.setItem('progres_elearning_aesthetic', JSON.stringify(progresBaru));
     }
-    
-    // Pastikan tipe data konsisten (string untuk modul, number untuk skor)
-    const hasilKuis: { modul: string, skor: number } = {
+
+    const hasilKuis: { modul: string; skor: number } = {
       modul: modulAktif.judul,
       skor: skorBaru,
     };
-    
     const pastLeaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
     const existingIndex = pastLeaderboard.findIndex((item: any) => item.modul === hasilKuis.modul);
     if (existingIndex !== -1) {
@@ -79,102 +78,159 @@ export default function DashboardModul() {
     localStorage.setItem('leaderboard', JSON.stringify(pastLeaderboard));
   };
 
-const persentase = materi.length > 0 
-  ? Math.min(100, Math.round((progresSiswa.length / materi.length) * 100)) 
-  : 0;
+  const persentase =
+    materi.length > 0 ? Math.min(100, Math.round((progresSiswa.length / materi.length) * 100)) : 0;
+  const selesaiCount = Math.min(progresSiswa.length, materi.length);
 
   return (
-    <section className="bg-[#FAF9F6]">
-
-  {mode === 'pilih' && (
-<div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-5xl mx-auto px-6 py-10">
-      
-      <section className="bg-gradient-to-br from-[#38302A] to-[#60554A] text-[#F9F8F6] rounded-[2rem] p-8 md:p-14 relative overflow-hidden shadow-2xl">
-      <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
-        <div>
-          <span className="bg-[#8B7355] text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 inline-block">Semester 124</span>
-          <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">
-            Eksplorasi <span className="text-[#D4C3A3] italic">Logika</span><br/>Pemrograman.
-          </h1>
-          <p className="text-[#D5CFC7] text-sm md:text-base leading-relaxed max-w-sm">
-            Pilih modul di bawah ini, pelajari ringkasannya, dan buktikan pemahamanmu melalui kuis interaktif.
-          </p>
-        </div>
-        
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <p className="text-[#D5CFC7] text-xs font-bold uppercase tracking-widest mb-1">Total Progres</p>
-              <p className="font-serif text-5xl text-white">{persentase}%</p>
+    <div className="min-h-screen bg-[#F5F1E8] dark:bg-[#17151C] text-black dark:text-[#F5F1E8] font-sans transition-colors duration-200">
+      {/* PILIH MODUL */}
+      {mode === 'pilih' && (
+        <div className="max-w-5xl mx-auto px-6 pb-20 pt-10 animate-in fade-in duration-700 space-y-16">
+          {/* HERO */}
+          <section className="grid md:grid-cols-[1.3fr_1fr] gap-8 items-stretch">
+            <div className="relative flex flex-col justify-center bg-[#4D96FF] border-[4px] border-black rounded-2xl shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#FFC700] p-10 md:p-12 overflow-hidden">
+              <div className="absolute top-6 right-6 bg-[#FFC700] border-[3px] border-black rounded-full w-16 h-16 flex items-center justify-center rotate-12">
+                <Zap className="w-7 h-7 text-black fill-black" />
+              </div>
+              <span className="font-black text-xs tracking-wider uppercase mb-4 inline-block bg-black text-[#FFC700] px-3 py-1 rounded-md w-fit -rotate-2">
+                Semester 124
+              </span>
+              <h1 className="font-black text-[2.5rem] md:text-[3.25rem] leading-[1.02] mb-6 text-black uppercase">
+                Eksplorasi
+                <br />
+                <span className="bg-[#FFC700] px-2 -rotate-1 inline-block border-[3px] border-black">
+                  Logika!
+                </span>
+              </h1>
+              <p className="text-black/80 font-bold text-base leading-relaxed max-w-sm">
+                Tiap modul = satu langkah alur. Baca, pahami, lalu gas kuisnya sebelum lanjut ke
+                langkah berikutnya.
+              </p>
             </div>
-            <Coffee 
-              className={`w-10 h-10 transition-colors duration-500 ${
-                persentase >= 100 ? 'text-[#D4C3A3]' : 'text-white/40'
-              }`} 
-            />
-          </div>
-          <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mb-3">
-            <div 
-              className="bg-[#D4C3A3] h-2.5 rounded-full transition-all duration-1000" 
-              style={{ width: `${persentase}%` }}
-            ></div>
-          </div>
-          <p className="text-xs text-[#D5CFC7]">
-            Menyelesaikan {Math.min(progresSiswa.length, materi.length)} dari {materi.length} Modul
-          </p>
-        </div>
-      </div>
-    </section>
 
-            <section>
-              <h2 className="font-serif text-2xl text-[#38302A] mb-8">Daftar Modul Pembelajaran</h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                {materi.map((modul) => {
+            {/* SIGNATURE: status alur komik */}
+            <div className="bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] rounded-2xl shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#F5F1E8] p-6 flex flex-col items-center justify-center gap-3">
+              <div className="font-black text-[10px] tracking-[0.2em] uppercase mb-1 bg-black text-white dark:bg-[#F5F1E8] dark:text-black px-2 py-1 rounded">
+                Status Alur
+              </div>
+
+              <div className="px-5 py-1.5 rounded-full border-[3px] border-black font-black text-xs uppercase bg-[#FF6B9D]">
+                Mulai
+              </div>
+              <div className="w-1 h-6 bg-black dark:bg-[#F5F1E8] rounded-full" />
+
+              <div className="w-36 h-36 rotate-45 border-[4px] border-black rounded-2xl flex items-center justify-center bg-[#FFC700]">
+                <div className="-rotate-45 text-center">
+                  <div className="font-black text-4xl text-black">{persentase}%</div>
+                  <div className="font-black text-[10px] uppercase tracking-wider text-black/70 mt-1">
+                    {selesaiCount}/{materi.length} modul
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-1 h-6 bg-black dark:bg-[#F5F1E8] rounded-full" />
+              <div
+                className={`px-5 py-1.5 rounded-full border-[3px] font-black text-xs uppercase transition-colors ${
+                  persentase >= 100
+                    ? 'bg-[#6BCB77] border-black'
+                    : 'bg-white dark:bg-[#1E1B24] border-black dark:border-[#F5F1E8]'
+                }`}
+              >
+                Selesai
+              </div>
+            </div>
+          </section>
+
+          {/* DAFTAR MODUL SEBAGAI ALUR */}
+          <section>
+            <h2 className="font-black text-sm uppercase tracking-wider mb-10 inline-block bg-black text-[#FFC700] px-4 py-2 rounded-lg -rotate-1">
+              Daftar Proses
+            </h2>
+
+            <div className="relative">
+              <div className="absolute left-[27px] top-3 bottom-3 w-1 bg-black dark:bg-[#F5F1E8] rounded-full" />
+
+              <div className="space-y-7">
+                {materi.map((modul, i) => {
                   const isSelesai = progresSiswa.includes(modul.id);
+                  const warna = warnaModul[i % warnaModul.length];
                   return (
-                    <div key={modul.id} onClick={() => bukaMateri(modul)} className="group bg-white p-7 rounded-3xl border border-[#EBE6DF] hover:border-[#8B7355] hover:shadow-xl hover:shadow-[#8B7355]/10 transition-all duration-300 cursor-pointer flex flex-col justify-between">
-                      <div>
-                        <div className="flex justify-between items-start mb-6">
-                          <div className={`p-3 rounded-2xl ${isSelesai ? 'bg-emerald-50 text-emerald-600' : 'bg-[#F4F1EA] text-[#8C8276] group-hover:bg-[#8B7355] group-hover:text-white transition-colors'}`}>
-                            {isSelesai ? <CheckCircle className="w-6 h-6" /> : <BookText className="w-6 h-6" />}
+                    <div key={modul.id} className="relative flex items-start gap-6">
+                      <div
+                        className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full border-[3px] border-black flex items-center justify-center font-black text-sm"
+                        style={{ background: isSelesai ? '#6BCB77' : warna }}
+                      >
+                        {isSelesai ? <CheckCircle2 className="w-6 h-6 text-black" /> : `0${i + 1}`}
+                      </div>
+
+                      <button
+                        onClick={() => bukaMateri(modul)}
+                        className="group flex-1 text-left bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] rounded-2xl p-6 shadow-[6px_6px_0px_0px_#000] dark:shadow-[6px_6px_0px_0px_#F5F1E8] hover:shadow-[3px_3px_0px_0px_#000] dark:hover:shadow-[3px_3px_0px_0px_#F5F1E8] hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-150 flex items-center justify-between gap-6"
+                      >
+                        <div>
+                          <span
+                            className="inline-block font-black text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full border-[2px] border-black mb-3"
+                            style={{ background: warna }}
+                          >
+                            Modul {i + 1}
+                          </span>
+                          <h3 className="font-black text-xl mb-1.5 uppercase">{modul.judul}</h3>
+                          <p className="text-sm font-bold text-black/60 dark:text-[#F5F1E8]/60 leading-relaxed mb-3 max-w-md">
+                            {modul.deskripsi}
+                          </p>
+                          <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-black/50 dark:text-[#F5F1E8]/50">
+                            <Clock className="w-3.5 h-3.5" /> {modul.waktu}
                           </div>
-                          {isSelesai && <span className="text-[10px] font-bold text-emerald-700 tracking-widest uppercase bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200">Selesai</span>}
                         </div>
-                        <h3 className="font-serif text-xl font-bold text-[#38302A] mb-3 group-hover:text-[#8B7355] transition-colors">{modul.judul}</h3>
-                        <p className="text-sm text-[#8C8276] leading-relaxed mb-8">{modul.deskripsi}</p>
-                      </div>
-                      <div className="flex items-center justify-between pt-5 border-t border-[#F4F1EA]">
-                        <div className="flex items-center gap-2 text-xs font-bold text-[#A39B92]">
-                          <Clock className="w-4 h-4" /> {modul.waktu}
-                        </div>
-                        <ArrowRight className={`w-5 h-5 ${isSelesai ? 'text-emerald-500' : 'text-[#A39B92] group-hover:text-[#8B7355] group-hover:translate-x-1 transition-all'}`} />
-                      </div>
+                        <ArrowRight className="w-6 h-6 flex-shrink-0 group-hover:translate-x-1 transition-all" />
+                      </button>
                     </div>
                   );
                 })}
-              </div>
-            </section>
-          </div>
-        )}
 
-{/* 2. TAMPILAN MATERI (Baca Dulu) */}
+                {/* terminal akhir */}
+                <div className="relative flex items-center gap-6">
+                  <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full border-[3px] border-dashed border-black dark:border-[#F5F1E8] flex items-center justify-center bg-white dark:bg-[#1E1B24]">
+                    <Circle className="w-3 h-3 text-black dark:text-[#F5F1E8]" />
+                  </div>
+                  <span className="font-black text-[11px] uppercase tracking-wider text-black/50 dark:text-[#F5F1E8]/50">
+                    Selesai — semua modul tuntas
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
+
+      {/* MATERI */}
       {mode === 'materi' && modulAktif && (
-        <div className="max-w-3xl mx-auto animate-in fade-in zoom-in-95 duration-500">
-          <button onClick={() => setMode('pilih')} className="flex items-center gap-2 text-sm font-bold text-[#8C8276] hover:text-[#38302A] transition-colors mb-8 bg-white px-4 py-2 rounded-full shadow-sm border border-[#EBE6DF]">
+        <div className="max-w-3xl mx-auto px-6 pb-20 pt-10 animate-in fade-in zoom-in-95 duration-500">
+          <button
+            onClick={() => setMode('pilih')}
+            className="flex items-center gap-2 text-xs font-black uppercase tracking-wider mb-8 bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] px-4 py-2 rounded-lg shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#F5F1E8] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+          >
             <ChevronLeft className="w-4 h-4" /> Kembali
           </button>
-          <div className="bg-white rounded-[2rem] shadow-lg border border-[#EBE6DF] overflow-hidden">
-            <div className="bg-[#60554A] p-10 text-center">
-              <span className="text-xs font-bold tracking-widest text-[#D4C3A3] uppercase mb-3 block">RINGKASAN MATERI</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-white">{modulAktif.judul}</h2>
+
+          <div className="bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] rounded-2xl shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#F5F1E8] overflow-hidden">
+            <div className="px-10 md:px-14 pt-10 pb-8 border-b-[4px] border-black bg-[#FFC700]">
+              <span className="font-black text-[10px] uppercase tracking-[0.2em] text-black/70 mb-3 block">
+                Ringkasan Materi
+              </span>
+              <h2 className="font-black text-3xl md:text-4xl uppercase text-black">{modulAktif.judul}</h2>
             </div>
             <div className="p-10 md:p-14">
-              <div className="prose prose-stone max-w-none">
-                <p className="text-lg leading-relaxed text-[#4A4036] font-medium">{modulAktif.ringkasan}</p>
-              </div>
-              <div className="mt-12 flex justify-end pt-8 border-t border-[#F4F1EA]">
-                <button onClick={mulaiKuis} className="bg-[#8B7355] text-white px-8 py-4 rounded-full font-bold hover:bg-[#60554A] transition-all shadow-md flex items-center gap-2">
-                  Sudah Paham, Mulai Kuis <ArrowRight className="w-4 h-4" />
+              <p className="text-lg leading-relaxed font-bold text-black/80 dark:text-[#F5F1E8]/80">
+                {modulAktif.ringkasan}
+              </p>
+              <div className="mt-12 flex justify-end">
+                <button
+                  onClick={mulaiKuis}
+                  className="bg-[#FF6B9D] text-black border-[3px] border-black px-7 py-3.5 rounded-full font-black text-xs uppercase tracking-wider shadow-[5px_5px_0px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all flex items-center gap-2"
+                >
+                  Mulai Kuis <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -182,19 +238,33 @@ const persentase = materi.length > 0
         </div>
       )}
 
-      {/* 3. TAMPILAN KUIS (Soal) */}
+      {/* KUIS */}
       {mode === 'kuis' && modulAktif && (
-        <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-right-8 duration-500">
-          <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-xl border border-[#EBE6DF]">
+        <div className="max-w-2xl mx-auto px-6 pb-20 pt-10 animate-in fade-in slide-in-from-right-8 duration-500">
+          <div className="bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] rounded-2xl shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#F5F1E8] p-8 md:p-12">
             {!kuisSelesai ? (
               <div>
-                <div className="flex justify-between items-center mb-10 pb-6 border-b border-[#F4F1EA]">
-                  <p className="text-sm font-bold text-[#8C8276] uppercase tracking-wider">Evaluasi {modulAktif.judul}</p>
-                  <div className="text-xs font-bold text-[#8B7355] bg-[#F4F1EA] px-4 py-2 rounded-full">Soal {indeksSoal + 1} / {modulAktif.soal.length}</div>
+                <div className="flex justify-between items-center mb-10 pb-6 border-b-[3px] border-black dark:border-[#F5F1E8]">
+                  <p className="font-black text-[11px] uppercase tracking-wider">
+                    Evaluasi {modulAktif.judul}
+                  </p>
+                  <div className="font-black text-[11px] bg-[#4D96FF] border-[2px] border-black px-3 py-1.5 rounded-full">
+                    {indeksSoal + 1} / {modulAktif.soal.length}
+                  </div>
                 </div>
-                <h3 className="font-serif text-2xl mb-10 text-[#38302A] leading-normal text-center">"{modulAktif.soal[indeksSoal].pertanyaan}"</h3>
-                <div className="space-y-4">
-                  {modulAktif.soal[indeksSoal].pilihan.map(([opsi, penjelasan] : [opsi : string, penjelasan : string], index: number) => {
+
+                {/* pertanyaan dibingkai komik */}
+                <div className="flex justify-center mb-10">
+                  <div className="border-[3px] border-black rounded-2xl px-8 py-6 max-w-md bg-[#FFC700] rotate-[-0.5deg] shadow-[5px_5px_0px_0px_#000] dark:shadow-[5px_5px_0px_0px_#F5F1E8]">
+                    <h3 className="font-black text-xl text-center leading-snug text-black uppercase">
+                      {modulAktif.soal[indeksSoal].pertanyaan}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {modulAktif.soal[indeksSoal].pilihan.map(
+                    ([opsi, penjelasan]: [opsi: string, penjelasan: string], index: number) => {
                       const sep = opsi.indexOf(':');
                       const possibleKey = sep !== -1 ? opsi.slice(0, sep) : null;
                       const label = sep !== -1 ? opsi.slice(sep + 1) : opsi;
@@ -202,45 +272,94 @@ const persentase = materi.length > 0
                         possibleKey && possibleKey in FlowchartSymbols
                           ? FlowchartSymbols[possibleKey as keyof typeof FlowchartSymbols]
                           : null;
-                    return (
-                      <div key={index}>
-                        <button onClick={() => setJawaban(opsi)} className={`${penjelasanAktif === true ? opsi === modulAktif.soal[indeksSoal].jawabanBenar ? 'bg-green-400/20' : opsi === jawaban ? 'bg-red-600/20' : 'border-[#4A4036] bg-[#F9F8F6] opacity-60 text-[#4A4036]' : opsi === jawaban ? "bg-[#8B7355] text-white" : "border-[#8B7355] bg-[#F9F8F6] "}  ${penjelasanAktif ? "text-[#4A4036]/50" : 'text-[#4A4036] '} cursor-pointer w-full text-center p-5 rounded-2xl border-2 transition-all duration-200 font-bold`}>
-                          <span className="flex items-center justify-center gap-3">
-                            {SymbolComponent && <SymbolComponent className="w-6 h-6 flex-shrink-0" />}
+
+                      const benar = opsi === modulAktif.soal[indeksSoal].jawabanBenar;
+                      const dipilih = opsi === jawaban;
+
+                      let stateClass =
+                        'bg-white dark:bg-[#1E1B24] hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#F5F1E8]';
+                      let borderClass = 'border-black dark:border-[#F5F1E8]';
+
+                      if (penjelasanAktif) {
+                        if (benar) {
+                          stateClass = 'bg-[#6BCB77]';
+                          borderClass = 'border-black';
+                        } else if (dipilih) {
+                          stateClass = 'bg-[#FF6B6B]';
+                          borderClass = 'border-black';
+                        } else {
+                          stateClass = 'bg-white dark:bg-[#1E1B24] opacity-40';
+                        }
+                      } else if (dipilih) {
+                        stateClass = 'bg-[#4D96FF] shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#F5F1E8]';
+                        borderClass = 'border-black';
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => setJawaban(opsi)}
+                          className={`${stateClass} ${borderClass} cursor-pointer w-full text-left p-4 rounded-xl border-[3px] transition-all duration-150 font-black uppercase text-sm`}
+                        >
+                          <span className="flex items-center gap-3">
+                            {SymbolComponent && <SymbolComponent className="w-5 h-5 flex-shrink-0" />}
                             <span>{label}</span>
                           </span>
-                          <p className={`${penjelasanAktif && (opsi === jawaban || opsi === modulAktif.soal[indeksSoal].jawabanBenar) ? "block" : "hidden"} w-full text-center p-2 mt-2 rounded-2xl transition-all duration-200 font-bold text-[#4A4036]`}>
-                            {penjelasan}
-                          </p>
+                          {penjelasanAktif && (dipilih || benar) && (
+                            <p className="mt-2 text-sm font-bold normal-case text-black/70">
+                              {penjelasan}
+                            </p>
+                          )}
                         </button>
-                      </div>
-                    )
-                  })}
-                  <button disabled={jawaban ? false : true} onClick={() => cekJawaban(jawaban)} className={`${penjelasanAktif === true ? 'hidden' : 'block'} cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] bg-[#ba902e] transition-all duration-200 font-bold text-white hover:text-black`}>
-                    Jawab
-                  </button>
-                  <button onClick={handleSoalSelanjutnya} className={`${penjelasanAktif === false ? 'hidden' : 'block'} cursor-pointer w-full text-center p-5 rounded-2xl border-2 hover:border-[#8B7355] hover:bg-[#F9F8F6] bg-[#ba902e] transition-all duration-200 font-bold text-white hover:text-black`}>
-                    Selanjutnya
-                  </button>
+                      );
+                    }
+                  )}
+
+                  {!penjelasanAktif ? (
+                    <button
+                      disabled={!jawaban}
+                      onClick={() => cekJawaban(jawaban)}
+                      className="w-full text-center p-4 rounded-xl bg-black dark:bg-[#FFC700] text-white dark:text-black border-[3px] border-white dark:border-black disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-[4px_4px_0px_0px_#FF6B9D] transition-all font-black text-xs uppercase tracking-wider"
+                    >
+                      Jawab
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSoalSelanjutnya}
+                      className="w-full text-center p-4 rounded-xl bg-black dark:bg-[#FFC700] text-white dark:text-black border-[3px] border-white dark:border-black hover:shadow-[4px_4px_0px_0px_#FF6B9D] transition-all font-black text-xs uppercase tracking-wider"
+                    >
+                      Selanjutnya
+                    </button>
+                  )}
                 </div>
               </div>
             ) : (
               <div className="text-center py-10 animate-in zoom-in-95 duration-500">
-                <div className="inline-flex items-center justify-center w-24 h-24 bg-emerald-50 text-emerald-500 rounded-full mb-8">
-                  <CheckCircle className="w-12 h-12" />
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-[#6BCB77] border-[3px] border-black rounded-full mb-8 rotate-3">
+                  <CheckCircle2 className="w-10 h-10 text-black" />
                 </div>
-                <h3 className="font-serif text-4xl text-[#38302A] mb-4 font-bold">Kuis Selesai!</h3>
-                <p className="text-[#8C8276] mb-10 text-lg">
-                  Nilai Benar: <span className="font-bold text-emerald-600 text-2xl ml-1">{skor}</span> dari {modulAktif.soal.length} soal
+                <span className="font-black text-[11px] uppercase tracking-[0.2em] text-black/50 dark:text-[#F5F1E8]/50 block mb-2">
+                  Proses Selesai
+                </span>
+                <h3 className="font-black text-4xl mb-4 uppercase">Kuis Selesai!</h3>
+                <p className="text-black/70 dark:text-[#F5F1E8]/70 font-bold mb-10 text-lg">
+                  Nilai benar:{' '}
+                  <span className="font-black text-black dark:text-[#FFC700] text-2xl bg-[#FFC700] dark:bg-transparent px-2 rounded">
+                    {skor}
+                  </span>{' '}
+                  dari {modulAktif.soal.length} soal
                 </p>
-                <button onClick={() => setMode('pilih')} className="bg-[#38302A] text-white px-10 py-4 rounded-full font-bold hover:bg-[#60554A] shadow-lg transition-all">
-                  Tutup & Kembali
+                <button
+                  onClick={() => setMode('pilih')}
+                  className="bg-[#FF6B9D] text-black border-[3px] border-black px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider shadow-[5px_5px_0px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+                >
+                  Tutup &amp; Kembali
                 </button>
               </div>
             )}
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }
