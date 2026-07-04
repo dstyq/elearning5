@@ -10,36 +10,51 @@ export default function MateriPage() {
   const materiBab = [
     {
       id: 1,
-      title: 'Konsep Dasar Algoritma',
-      desc: 'Memahami definisi dasar, karakteristik, dan fase perantara (pseudocode) sebelum coding.',
-      isi: 'Algoritma adalah langkah logis untuk menyelesaikan masalah. Pseudocode berfungsi sebagai jembatan antara ide manusia dan kode pemrograman karena tidak terikat sintaks tertentu.',
-      file: 'PSEUDOCODE.pdf',
+      title: 'Pengantar Algoritma',
+      desc: 'Memahami apa itu algoritma, tujuan, dan elemen dasar penyusunnya[cite: 3].',
+      isi: 'Algoritma adalah urutan langkah-langkah logis, sistematis, dan terstruktur yang digunakan untuk menyelesaikan suatu masalah hingga menghasilkan solusi[cite: 3].',
+      file: 'Pengantar Algoritma.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
       id: 2,
-      title: 'Flowchart & Representasi',
-      desc: 'Mempelajari simbol standar ISO untuk memvisualisasikan alur logika program.',
-      isi: 'Flowchart menggunakan simbol standar (Terminator, Process, Decision, Input/Output) untuk mendokumentasikan logika secara visual agar mudah dipahami secara universal.',
-      file: 'Perancangan Algoritma Menggunakan Flowchart.pdf',
+      title: 'Konsep Dasar Pseudocode',
+      desc: 'Fase perantara antara algoritma manusia dan kode pemrograman[cite: 1].',
+      isi: 'Pseudocode merupakan penjelasan langkah-demi-langkah dari sebuah algoritma yang ditulis menggunakan bahasa manusia yang dikombinasikan dengan struktur mirip kode pemrograman[cite: 1].',
+      file: 'PSEUDOCODE.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
       id: 3,
-      title: 'Struktur Kontrol Perulangan',
-      desc: 'Implementasi For Loop, While, dan Do-While untuk eksekusi instruksi berulang.',
-      isi: 'Perulangan memungkinkan eksekusi blok kode berulang selama kondisi terpenuhi. Terdapat dua jenis utama: Counter-controlled (For) dan Condition-controlled (While/Do-While).',
-      file: 'Struktur Kontrol Perulangan (Looping).pdf',
+      title: 'Perancangan Flowchart',
+      desc: 'Visualisasi alur logika program menggunakan simbol-simbol standar ISO[cite: 4].',
+      isi: 'Flowchart adalah alat bantu visual yang digunakan untuk memvisualisasikan alur logika dari suatu algoritma atau mendokumentasikan proses bisnis[cite: 4].',
+      file: 'Perancangan Algoritma Menggunakan Flowchart.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
-    // Nanti tinggal tambahin materi ke-4, ke-5, dst di sini, tampilannya bakal otomatis rapi menyamping!
+    {
+      id: 4,
+      title: 'Percabangan (Selection)',
+      desc: 'Struktur kontrol untuk memilih jalur eksekusi berdasarkan kondisi logika[cite: 2].',
+      isi: 'Selection atau percabangan adalah struktur kontrol dalam pemrograman yang digunakan untuk memilih jalur eksekusi program berdasarkan hasil evaluasi suatu kondisi[cite: 2].',
+      file: 'Percabangan.pdf',
+      ytId: 'dQw4w9WgXcQ'
+    },
+    {
+      id: 5,
+      title: 'Perulangan (Looping)',
+      desc: 'Mengeksekusi sekumpulan instruksi secara berulang selama kondisi terpenuhi[cite: 5].',
+      isi: 'Perulangan adalah proses mengeksekusi sekumpulan instruksi atau blok kode secara berulang selama kondisi tertentu masih terpenuhi[cite: 5].',
+      file: 'Struktur Kontrol Perulangan (Looping).pdf',
+      ytId: 'dQw4w9WgXcQ'
+    }
   ];
 
   const aksenWarna = ['#FFC700', '#FF6B9D', '#4D96FF', '#6BCB77', '#CD84F1', '#FF9F43'];
 
   const bukaMateri = (m: any) => {
     setMateriAktif(m);
-    setActiveTab('video'); // Default pas buka langsung ke tab video
+    setActiveTab('video'); 
   };
 
   return (
@@ -69,7 +84,7 @@ export default function MateriPage() {
           </p>
         </div>
 
-        {/* LIST MATERI (GRID SYSTEM BUKAN MEMANJANG) */}
+        {/* LIST MATERI (GRID SYSTEM) */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {materiBab.map((m, i) => {
             const warna = aksenWarna[i % aksenWarna.length];
@@ -110,7 +125,7 @@ export default function MateriPage() {
           })}
         </div>
 
-        {/* MODAL MATERI (DIBIKIN ANTI-JEBOL) */}
+        {/* MODAL MATERI */}
         {materiAktif && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
             <div className="bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#FFC700] p-5 md:p-8 rounded-[28px] max-w-4xl w-full relative h-[90vh] md:h-[85vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
@@ -123,7 +138,7 @@ export default function MateriPage() {
                 <X size={20} className="font-bold" />
               </button>
               
-              {/* Bagian Teks (Dikasih Scroll biar nggak nabrak video/PDF kalau kepanjangan) */}
+              {/* Bagian Teks */}
               <div className="pr-12 mb-4 overflow-y-auto shrink-0 max-h-[25vh]">
                 <span className="font-black text-[10px] uppercase tracking-wider bg-black text-[#FFC700] px-2 py-1 rounded-md mb-2 inline-block">
                   Bab {materiAktif.id}
@@ -160,7 +175,7 @@ export default function MateriPage() {
                 </button>
               </div>
               
-              {/* KONTEN AKTIF (Sisa layarnya full buat PDF / Video) */}
+              {/* KONTEN AKTIF */}
               <div className="flex-1 w-full bg-[#F5F1E8] dark:bg-[#17151C] rounded-2xl overflow-hidden mb-4 border-[4px] border-black dark:border-[#F5F1E8] relative min-h-0">
                 {activeTab === 'video' ? (
                   <iframe 
