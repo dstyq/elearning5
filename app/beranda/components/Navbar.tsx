@@ -15,21 +15,34 @@ export default function Navbar() {
 
   const pathname = usePathname();
   const [username, setUsername] = useState<string | null>('Siswa');
+  const [profilePic, setProfilePic] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Bikin fungsi buat muat data profil
+  const loadProfileData = () => {
+    setUsername(localStorage.getItem('session_username') || 'Siswa');
+    setProfilePic(localStorage.getItem('session_profile_pic'));
+  };
+
   useEffect(() => {
-    setUsername(localStorage.getItem('session_username'));
+    // Panggil saat pertama kali load
+    loadProfileData();
+
+    // Dengerin 'sinyal' dari halaman profil kalau ada update
+    window.addEventListener('profilDiupdate', loadProfileData);
+    return () => window.removeEventListener('profilDiupdate', loadProfileData);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('session_username');
+    localStorage.removeItem('session_profile_pic');
   };
 
   return (
     <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
       <div className="bg-[#F5F1E8] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-6 py-3 flex items-center justify-between transition-colors duration-200">
 
-        {/* Brand — oval terminal + stiker bintang kecil */}
+        {/* Brand */}
         <Link href="/beranda" className="flex items-center gap-2.5 relative">
           <div className="relative">
             <Star className="w-4 h-4 text-[#FFC700] fill-[#FFC700] absolute -top-2 -right-2 rotate-12" />
@@ -52,7 +65,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Nav Links (Desktop) — link aktif kayak stiker nempel */}
+        {/* Nav Links */}
         <div className="hidden md:flex items-center gap-1.5">
           {menuNav.map((item) => {
             const aktif = pathname === item.href;
@@ -73,11 +86,15 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Profil, Logout (Desktop) */}
+        {/* Profil & Logout */}
         <div className="hidden md:flex items-center gap-3 border-l-[3px] border-black pl-4">
           <Link href="/beranda/profil" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-full bg-[#FF6B9D] border-[3px] border-black flex items-center justify-center font-black text-black text-xs group-hover:rotate-6 transition-transform">
-              {username?.charAt(0)?.toUpperCase() || 'H'}
+            <div className="relative w-9 h-9 rounded-full bg-[#FF6B9D] border-[3px] border-black flex items-center justify-center font-black text-black text-xs group-hover:rotate-6 transition-transform overflow-hidden">
+              {profilePic ? (
+                <img src={profilePic} alt="PP" className="absolute inset-0 w-full h-full object-cover" />
+              ) : (
+                <span className="z-10">{username?.charAt(0)?.toUpperCase() || 'H'}</span>
+              )}
             </div>
             <span className="text-sm font-black uppercase text-black group-hover:underline decoration-[3px]">
               {username}
