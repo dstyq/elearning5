@@ -12,33 +12,36 @@ export default function Leaderboard() {
   }
 
   const [list, setList] = useState<SkorUser[]>([]);
-  const [username, setUsername] = useState<string>('Siswa');
 
-  useEffect(() => {
+useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        // 1. Ambil nama user yang lagi login dari session
-        const savedName = localStorage.getItem('session_username') || 'Kamu';
-        setUsername(savedName);
+        // 1. Get the current logged-in user's ID directly from Supabase Auth
+        const { data: { user } } = await supabase.auth.getUser();
+        const currentUserId = user?.id;
 
-        // 2. Tembak data ke API Route PostgreSQL
-        const res = await fetch('/api/leaderboard');
+        // 2. Fetch top 10 players along with their IDs for precise identification
+        const { data, error } = await supabase
+          .from('users')
+          .select('id, nama, skor')
+          .order('skor', { ascending: false })
+          .limit(10);
         
-        if (!res.ok) {
-          throw new Error('Gagal narik data dari database');
+        if (error) {
+          throw error;
         }
 
-        const data = await res.json();
+        // 3. Map data and compare IDs instead of names
+        if (data) {
+          const formattedData = data.map((item: any) => ({
+            nama: item.nama,
+            skor: item.skor || 0,
+            isCurrentUser: item.id === currentUserId
+          }));
 
-        // 3. Petakan data
-        const formattedData = data.map((item: any) => ({
-          nama: item.nama,
-          skor: item.skor,
-          isCurrentUser: item.nama === savedName
-        }));
-
-        // 4. Update state 
-        setList(formattedData);
+          // 4. Update state 
+          setList(formattedData);
+        }
       } catch (err) {
         console.error("Gagal memuat leaderboard:", err);
       }

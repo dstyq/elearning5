@@ -73,8 +73,8 @@ export default function ProfilPage() {
       setUniv(data.universitas);
       setFakultas(data.fakultas);
       const { data: publicUrlData } = supabase.storage
-      .from(BUCKET_NAME)
-      .getPublicUrl(`${data.id}.png`);
+        .from(BUCKET_NAME)
+        .getPublicUrl(`${data.id}.png`);
       setProfilePic(`${publicUrlData.publicUrl}?t=${Date.now()}`);
       setIsLoading(false);
     };

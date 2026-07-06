@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Menu, X, LogOut, Star } from 'lucide-react';
+import { supabase } from '@/app/supabaseClient';
+
+const BUCKET_NAME = 'Profile Pictures';
 
 export default function Navbar() {
   const menuNav = [
@@ -18,10 +21,27 @@ export default function Navbar() {
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    console.log(profilePic)
+  },[profilePic])
+
+
   // Bikin fungsi buat muat data profil
-  const loadProfileData = () => {
+  const loadProfileData = async () => {
     setUsername(localStorage.getItem('session_username') || 'Siswa');
-    setProfilePic(localStorage.getItem('session_profile_pic'));
+    const { data, error } = await supabase
+      .from('users')
+      .select('id')
+      .maybeSingle();
+
+    if (error || !data) return;
+
+    const { data: publicUrlData } = supabase.storage
+      .from(BUCKET_NAME)
+      .getPublicUrl(`${data.id}.png`);
+
+    setProfilePic(`${publicUrlData.publicUrl}?t=${Date.now()}`);
+    
   };
 
   useEffect(() => {
