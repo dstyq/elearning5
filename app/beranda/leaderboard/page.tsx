@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Trophy, Medal, Star, Sparkles, UserCircle2 } from 'lucide-react';
+import { supabase } from "@/app/supabaseClient";
 
 export default function Leaderboard() {
   interface SkorUser {

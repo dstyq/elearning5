@@ -3,21 +3,22 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { BookOpen, User, Lock, ArrowRight, Sparkles, AlertCircle, KeyRound, Mail, UserPlus, LogIn, Copy, Check, Terminal } from 'lucide-react';
+import { supabase } from './supabaseClient';
 
 type AuthMode = 'login' | 'register';
 type UserRole = 'mahasiswa' | 'siswa_sekolah' | 'admin';
 
 export default function PintuMasuk() {
   const [mode, setMode] = useState<AuthMode>('login');
-  
+
   // State Register
   const [regRole, setRegRole] = useState<UserRole>('mahasiswa');
   const [regNama, setRegNama] = useState('');
-  const [regId, setRegId] = useState(''); 
+  const [regId, setRegId] = useState('');
   const [regPass, setRegPass] = useState('');
-  
+
   // State Login
-  const [loginId, setLoginId] = useState(''); 
+  const [loginId, setLoginId] = useState('');
   const [loginPass, setLoginPass] = useState('');
 
   // State Global
@@ -27,19 +28,13 @@ export default function PintuMasuk() {
   const [isCopied, setIsCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
-  
+
   const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
-    
-    
-    if (!localStorage.getItem('db_users')) {
-      localStorage.setItem('db_users', JSON.stringify([]));
-    }
-  }, [router]);
+  }, []);
 
-  // FUNGSI SALIN TOKEN KE CLIPBOARD
   const handleCopyToken = () => {
     if (generatedToken) {
       navigator.clipboard.writeText(generatedToken);
@@ -48,8 +43,8 @@ export default function PintuMasuk() {
     }
   };
 
-  // FUNGSI DAFTAR AKUN NYATA
-  const handleRegister = (e: React.FormEvent) => {
+  // FUNGSI DAFTAR AKUN — sekarang pakai Supabase
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors('');
     setSuccessMsg('');
@@ -66,52 +61,67 @@ export default function PintuMasuk() {
       return;
     }
 
-    const usersDB = JSON.parse(localStorage.getItem('db_users') || '[]');
-    
-    const isExist = usersDB.find((u: any) => u.identitas === regId);
-    if (isExist) {
+    setIsSubmitting(true);
+
+    // Cek apakah identitas (NIM/email) sudah dipakai
+    const { data: existing, error: checkError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('identitas', regId.trim())
+      .maybeSingle();
+
+    if (checkError) {
+      setIsSubmitting(false);
+      setErrors('Gagal memeriksa data ke server. Coba lagi ya.');
+      return;
+    }
+
+    if (existing) {
+      setIsSubmitting(false);
       setErrors('NIM atau Email ini udah terdaftar di sistem.');
       return;
     }
 
-    setIsSubmitting(true);
+    const tokenResult = regRole === 'siswa_sekolah'
+      ? `TKN-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
+      : null;
 
-    setTimeout(() => {
-      const tokenResult = regRole === 'siswa_sekolah' 
-        ? `TKN-${Math.random().toString(36).substring(2, 8).toUpperCase()}` 
-        : null;
+    const { error: insertError } = await supabase.from('users').insert({
+      nama: regNama,
+      role: regRole,
+      identitas: regId.trim(),
+      password: regPass,
+      token: tokenResult,
+    });
 
-      const newUser = {
-        nama: regNama,
-        role: regRole,
-        identitas: regId, 
-        password: regPass,
-        token: tokenResult 
-      };
+    setIsSubmitting(false);
 
-      usersDB.push(newUser);
-      localStorage.setItem('db_users', JSON.stringify(usersDB));
+    if (insertError) {
+      setErrors('Gagal membuat akun, coba lagi ya. (' + insertError.message + ')');
+      return;
+    }
 
-      setIsSubmitting(false);
-      
-      if (regRole === 'siswa_sekolah' && tokenResult) {
-        setGeneratedToken(tokenResult);
-        setSuccessMsg(`Akun berhasil dibuat! Ini Token rahasia kamu. Salin dan simpan baik-baik ya sebelum login.`);
-      } else {
-        setSuccessMsg('Akun Mahasiswa berhasil dibuat! Langsung aja login pakai NIM kamu.');
-      }
-      
-      setRegNama(''); setRegId(''); setRegPass('');
-    }, 800);
+    if (regRole === 'siswa_sekolah' && tokenResult) {
+      setGeneratedToken(tokenResult);
+      setSuccessMsg('Akun berhasil dibuat! Ini Token rahasia kamu. Salin dan simpan baik-baik ya sebelum login.');
+    } else {
+      setSuccessMsg('Akun Mahasiswa berhasil dibuat! Langsung aja login pakai NIM kamu.');
+    }
+
+    setRegNama('');
+    setRegId('');
+    setRegPass('');
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  // FUNGSI LOGIN — sekarang pakai Supabase
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors('');
 
     const cleanId = loginId.trim().toLowerCase();
     const cleanPass = loginPass.trim().toLowerCase();
 
+    // Admin tetap hardcoded, tidak lewat Supabase
     if (cleanId === 'admin' && cleanPass === 'admin') {
       setIsSubmitting(true);
       localStorage.setItem('session_login', 'true');
@@ -129,31 +139,36 @@ export default function PintuMasuk() {
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      // 2. JIKA BUKAN "admin", CEK DATABASE LOKAL USER BIASA (Hasil daftar)
-      const usersDB = JSON.parse(localStorage.getItem('db_users') || '[]');
-      
-      const validUser = usersDB.find((u: any) => 
-        (u.identitas === loginId.trim() || u.token === loginId.trim()) && u.password === loginPass
-      );
+    const idTrimmed = loginId.trim();
 
-      if (validUser) {
-        localStorage.setItem('session_login', 'true');
-        localStorage.setItem('session_username', validUser.nama);
-        localStorage.setItem('session_nim', validUser.role === 'mahasiswa' ? validUser.identitas : validUser.token);
-        localStorage.setItem('session_role', validUser.role);
-        router.push('/beranda');
-      } else {
-        setIsSubmitting(false);
-        setErrors('Hmm, NIM/Token atau password salah. Coba dicek lagi ya.');
-      }
-    }, 800);
+    const { data: validUser, error } = await supabase
+      .from('users')
+      .select('*')
+      .or(`identitas.eq.${idTrimmed},token.eq.${idTrimmed}`)
+      .eq('password', loginPass)
+      .maybeSingle();
+
+    setIsSubmitting(false);
+
+    if (error || !validUser) {
+      setErrors('Hmm, NIM/Token atau password salah. Coba dicek lagi ya.');
+      return;
+    }
+
+    localStorage.setItem('session_login', 'true');
+    localStorage.setItem('session_username', validUser.nama);
+    localStorage.setItem(
+      'session_nim',
+      validUser.role === 'mahasiswa' ? validUser.identitas : validUser.token
+    );
+    localStorage.setItem('session_role', validUser.role);
+    router.push('/beranda');
   };
 
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen text-black dark:text-[#F5F1E8] font-sans flex bg-[#F5F1E8] dark:bg-[#17151C] selection:bg-[#FFC700] selection:text-black transition-colors duration-200">
+        <div className="min-h-screen text-black dark:text-[#F5F1E8] font-sans flex bg-[#F5F1E8] dark:bg-[#17151C] selection:bg-[#FFC700] selection:text-black transition-colors duration-200">
       
       {/* SISI KIRI: BRANDING */}
       <div className="hidden lg:flex w-1/2 bg-[#4D96FF] p-12 flex-col justify-between border-r-[4px] border-black relative overflow-hidden">
