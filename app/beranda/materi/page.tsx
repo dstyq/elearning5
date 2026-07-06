@@ -7,18 +7,17 @@ export default function MateriPage() {
   const [materiAktif, setMateriAktif] = useState<any>(null);
   const [videoAktif, setVideoAktif] = useState<any>(null);
 
-  const daftarVideo = [
-    { id: 1, title: 'Algoritma', ytId: '5JuNp0o4YEE' },
-    { id: 2, title: 'Karakteristik Algoritma', ytId: 'VmG6dF8tU5g' },
-    { id: 3, title: 'Struktur Dasar Algoritma 1', ytId: 'N9CYNGIMPJ8' },
-    { id: 4, title: 'Struktur Dasar Algoritma 2', ytId: '_qPo5Pvr23I' },
-    { id: 5, title: 'Pseudocode', ytId: 'yhQvnKxFod8' },
-    { id: 6, title: 'If Else (Percabangan)', ytId: 'fBa4VKgn21I' },
-    { id: 7, title: 'Pengulangan 1', ytId: 'ZZCBVzs0uSU' },
-    { id: 8, title: 'Pengulangan 2', ytId: 'vUHm8C4-ZGE' }
-  ];
+const daftarVideo = [
+  { id: 1, title: 'Algoritma', ytId: '5JuNp0o4YEE' },
+  { id: 2, title: 'Karakteristik Algoritma', ytId: 'VmG6dF8tU5g' },
+  { id: 3, title: 'Struktur Dasar Algoritma 1', ytId: 'N9CYNGIMPJ8' },
+  { id: 4, title: 'Struktur Dasar Algoritma 2', ytId: '_qPo5Pvr23I' },
+  { id: 5, title: 'Pseudocode', ytId: 'yhQvnKxFod8' },
+  { id: 6, title: 'If Else (Percabangan)', ytId: 'fBa4VKgn21I' },
+  { id: 7, title: 'Pengulangan 1', ytId: 'ZZCBVzs0uSU' },
+  { id: 8, title: 'Pengulangan 2', ytId: 'vUHm8C4-ZGE' }
+];
 
-  // DATA KHUSUS PDF (6 Bab Final)
   const materiBab = [
     {
       id: 1,

@@ -6,6 +6,8 @@ import { Struktur } from '../data/struktur';
 import { Flowchart } from '../data/flowchart';
 import { Percabangan } from '../data/percabangan';
 import { Looping } from '../data/looping';
+import { Pseudocode } from '../data/pseudocode';
+import { StudiKasus } from '../data/studikasus';
 
 
 
@@ -13,7 +15,7 @@ import ModulList from './components/ModulList';
 import ModulDetail from './components/ModulDetail'; 
 import ModulKuis from './components/ModulKuis'; 
 
-const materi = [Pengantar, Struktur, Flowchart, Percabangan, Looping];
+const materi = [Pengantar, Struktur, Flowchart, Percabangan, Looping, Pseudocode, StudiKasus];
 const warnaModul = ['#FFC700', '#FF6B9D', '#4D96FF'];
 
 export default function DashboardModul() {
