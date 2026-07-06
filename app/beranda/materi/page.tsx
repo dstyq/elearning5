@@ -11,40 +11,40 @@ export default function MateriPage() {
     {
       id: 1,
       title: 'Pengantar Algoritma',
-      desc: 'Memahami apa itu algoritma, tujuan, dan elemen dasar penyusunnya[cite: 3].',
-      isi: 'Algoritma adalah urutan langkah-langkah logis, sistematis, dan terstruktur yang digunakan untuk menyelesaikan suatu masalah hingga menghasilkan solusi[cite: 3].',
+      desc: 'Memahami apa itu algoritma, tujuan, dan elemen dasar penyusunnya.',
+      isi: 'Algoritma adalah urutan langkah-langkah logis, sistematis, dan terstruktur yang digunakan untuk menyelesaikan suatu masalah hingga menghasilkan solusi.',
       file: 'Pengantar Algoritma.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
       id: 2,
       title: 'Konsep Dasar Pseudocode',
-      desc: 'Fase perantara antara algoritma manusia dan kode pemrograman[cite: 1].',
-      isi: 'Pseudocode merupakan penjelasan langkah-demi-langkah dari sebuah algoritma yang ditulis menggunakan bahasa manusia yang dikombinasikan dengan struktur mirip kode pemrograman[cite: 1].',
+      desc: 'Fase perantara antara algoritma manusia dan kode pemrograman.',
+      isi: 'Pseudocode merupakan penjelasan langkah-demi-langkah dari sebuah algoritma yang ditulis menggunakan bahasa manusia yang dikombinasikan dengan struktur mirip kode pemrograman.',
       file: 'PSEUDOCODE.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
       id: 3,
       title: 'Perancangan Flowchart',
-      desc: 'Visualisasi alur logika program menggunakan simbol-simbol standar ISO[cite: 4].',
-      isi: 'Flowchart adalah alat bantu visual yang digunakan untuk memvisualisasikan alur logika dari suatu algoritma atau mendokumentasikan proses bisnis[cite: 4].',
+      desc: 'Visualisasi alur logika program menggunakan simbol-simbol standar ISO.',
+      isi: 'Flowchart adalah alat bantu visual yang digunakan untuk memvisualisasikan alur logika dari suatu algoritma atau mendokumentasikan proses bisnis.',
       file: 'Perancangan Algoritma Menggunakan Flowchart.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
       id: 4,
       title: 'Percabangan (Selection)',
-      desc: 'Struktur kontrol untuk memilih jalur eksekusi berdasarkan kondisi logika[cite: 2].',
-      isi: 'Selection atau percabangan adalah struktur kontrol dalam pemrograman yang digunakan untuk memilih jalur eksekusi program berdasarkan hasil evaluasi suatu kondisi[cite: 2].',
+      desc: 'Struktur kontrol untuk memilih jalur eksekusi berdasarkan kondisi logika.',
+      isi: 'Selection atau percabangan adalah struktur kontrol dalam pemrograman yang digunakan untuk memilih jalur eksekusi program berdasarkan hasil evaluasi suatu kondisi.',
       file: 'Percabangan.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
       id: 5,
       title: 'Perulangan (Looping)',
-      desc: 'Mengeksekusi sekumpulan instruksi secara berulang selama kondisi terpenuhi[cite: 5].',
-      isi: 'Perulangan adalah proses mengeksekusi sekumpulan instruksi atau blok kode secara berulang selama kondisi tertentu masih terpenuhi[cite: 5].',
+      desc: 'Mengeksekusi sekumpulan instruksi secara berulang selama kondisi terpenuhi.',
+      isi: 'Perulangan adalah proses mengeksekusi sekumpulan instruksi atau blok kode secara berulang selama kondisi tertentu masih terpenuhi.',
       file: 'Struktur Kontrol Perulangan (Looping).pdf',
       ytId: 'dQw4w9WgXcQ'
     }
