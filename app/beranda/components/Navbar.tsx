@@ -21,10 +21,6 @@ export default function Navbar() {
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(profilePic)
-  },[profilePic])
-
 
   // Bikin fungsi buat muat data profil
   const loadProfileData = async () => {
@@ -36,7 +32,7 @@ export default function Navbar() {
 
     if (error || !data) return;
 
-    const { data: publicUrlData } = supabase.storage
+    const { data : publicUrlData } = supabase.storage
       .from(BUCKET_NAME)
       .getPublicUrl(`${data.id}.png`);
 

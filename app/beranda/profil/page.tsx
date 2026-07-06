@@ -60,7 +60,7 @@ export default function ProfilPage() {
 
       if (error || !data) {
         setErrorMsg('Gagal memuat data profil dari server.');
-        setUsername(localStorage.getItem('session_username') || 'Hadisty');
+        setUsername(localStorage.getItem('session_username') || '-');
         setNim(sessionNim);
         setIsLoading(false);
         return;
