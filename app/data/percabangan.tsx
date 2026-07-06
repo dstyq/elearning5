@@ -14,7 +14,7 @@ export interface Modul {
     soal: Soal[];
 }
 export const Percabangan: Modul = {
-  id: 'modul-6',
+  id: 'modul-2',
   judul: 'Percabangan (Selection)',
   deskripsi: 'Menguji pemahaman tentang konsep percabangan, penggunaan IF, ELSE, ELIF, CASE, Nested Selection, serta penerapan operator logika (AND, OR, NOT) dalam algoritma.',
   waktu: '45 Menit',

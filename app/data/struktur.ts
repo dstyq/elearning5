@@ -15,7 +15,7 @@ export interface Modul {
 }
 
 export const Struktur: Modul = { 
-  id: 'modul-6', 
+  id: 'modul-1', 
   judul: 'Struktur Dasar Algoritma', 
   deskripsi: 'Menguji pemahaman mengenai tiga struktur kontrol utama dalam algoritma: Sequence, Selection, dan Iteration.', 
   waktu: '45 Menit', 

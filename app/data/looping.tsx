@@ -15,7 +15,7 @@ export interface Modul {
 }
 
 export const Looping: Modul = {
-  id: 'modul-7',
+  id: 'modul-4',
   judul: 'Perulangan (Looping)',
   deskripsi: 'Menguji pemahaman tentang konsep perulangan dalam algoritma, termasuk penggunaan For, While, Do-While, Nested Loop, serta fungsi Break dan Continue.',
   waktu: '45 Menit',

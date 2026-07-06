@@ -15,7 +15,7 @@ export interface Modul {
 }
 
 export const Pengantar : Modul = { 
-  id: 'modul-5', 
+  id: 'modul-3', 
   judul: 'Pengertian dan Karakteristik Algoritma', 
   deskripsi: 'Menguji pemahaman mendalam mengenai sifat, karakteristik, elemen dasar, dan struktur penulisan algoritma.', 
   waktu: '45 Menit', 

@@ -17,7 +17,7 @@ export interface Modul {
 }
 
 export const Flowchart: Modul = {
-  id: 'modul-7',
+  id: 'modul-5',
   judul: 'Flowchart dalam Perancangan Algoritma',
   deskripsi: 'Menguji pemahaman mengenai simbol-simbol standar ISO flowchart dan perannya dalam memvisualisasikan alur logika algoritma.',
   waktu: '45 Menit',
