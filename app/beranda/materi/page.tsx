@@ -18,34 +18,42 @@ export default function MateriPage() {
     },
     {
       id: 2,
-      title: 'Konsep Dasar Pseudocode',
+      title: 'Struktur Dasar Algoritma',
+      desc: 'Mempelajari pondasi utama penyusunan algoritma secara sistematis.',
+      isi: 'Struktur dasar algoritma mencakup urutan (sequence), pemilihan (selection), dan pengulangan (repetition) yang menjadi pondasi dalam membangun logika program yang benar.',
+      file: 'STRUKTUR DASAR ALGORITMA.pdf',
+      ytId: 'dQw4w9WgXcQ'
+    },
+    {
+      id: 3,
+      title: 'Pseudocode',
       desc: 'Fase perantara antara algoritma manusia dan kode pemrograman.',
       isi: 'Pseudocode merupakan penjelasan langkah-demi-langkah dari sebuah algoritma yang ditulis menggunakan bahasa manusia yang dikombinasikan dengan struktur mirip kode pemrograman.',
       file: 'PSEUDOCODE.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
-      id: 3,
-      title: 'Perancangan Flowchart',
+      id: 4,
+      title: 'Perancangan Algoritma Menggunakan Flowchart',
       desc: 'Visualisasi alur logika program menggunakan simbol-simbol standar ISO.',
       isi: 'Flowchart adalah alat bantu visual yang digunakan untuk memvisualisasikan alur logika dari suatu algoritma atau mendokumentasikan proses bisnis.',
       file: 'Perancangan Algoritma Menggunakan Flowchart.pdf',
       ytId: 'dQw4w9WgXcQ'
     },
     {
-      id: 4,
-      title: 'Percabangan (Selection)',
-      desc: 'Struktur kontrol untuk memilih jalur eksekusi berdasarkan kondisi logika.',
-      isi: 'Selection atau percabangan adalah struktur kontrol dalam pemrograman yang digunakan untuk memilih jalur eksekusi program berdasarkan hasil evaluasi suatu kondisi.',
-      file: 'Percabangan.pdf',
-      ytId: 'dQw4w9WgXcQ'
-    },
-    {
       id: 5,
-      title: 'Perulangan (Looping)',
+      title: 'Struktur Kontrol Perulangan (Looping)',
       desc: 'Mengeksekusi sekumpulan instruksi secara berulang selama kondisi terpenuhi.',
       isi: 'Perulangan adalah proses mengeksekusi sekumpulan instruksi atau blok kode secara berulang selama kondisi tertentu masih terpenuhi.',
       file: 'Struktur Kontrol Perulangan (Looping).pdf',
+      ytId: 'dQw4w9WgXcQ'
+    },
+    {
+      id: 6,
+      title: 'Percabangan',
+      desc: 'Struktur kontrol untuk memilih jalur eksekusi berdasarkan kondisi logika.',
+      isi: 'Selection atau percabangan adalah struktur kontrol dalam pemrograman yang digunakan untuk memilih jalur eksekusi program berdasarkan hasil evaluasi suatu kondisi.',
+      file: 'Percabangan.pdf',
       ytId: 'dQw4w9WgXcQ'
     }
   ];
