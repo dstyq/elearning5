@@ -194,8 +194,8 @@ export default function PintuMasuk() {
             Platform e-learning pemrograman yang dirancang untuk siswa dan mahasiswa mempelajari konsep coding melalui materi terstruktur dan kuis interaktif.
           </p>
           <div className="flex items-center gap-4 text-sm font-black text-black bg-white px-5 py-3 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000] inline-flex">
-            <div className="w-8 h-8 rounded-full bg-[#6BCB77] flex items-center justify-center border-[2px] border-black text-xs font-black text-black">K6</div>
-            <p>Production Build v2.2 • Kelompok 5</p>
+            <div className="w-8 h-8 rounded-full bg-[#6BCB77] flex items-center justify-center border-[2px] border-black text-xs font-black text-black">K5</div>
+            <p>by Kelompok 5</p>
           </div>
         </div>
       </div>
