@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { BookOpen, User, Lock, ArrowRight, Sparkles, AlertCircle, KeyRound, Mail, UserPlus, LogIn, Copy, Check, Terminal } from 'lucide-react';
 import { supabase } from './supabaseClient';
+import bcrypt from 'bcryptjs';
 
 type AuthMode = 'login' | 'register';
 type UserRole = 'mahasiswa' | 'siswa_sekolah' | 'admin';
@@ -16,6 +17,8 @@ export default function PintuMasuk() {
   const [regNama, setRegNama] = useState('');
   const [regId, setRegId] = useState('');
   const [regPass, setRegPass] = useState('');
+  const [regProdi, setRegProdi] = useState('');
+  const [ regUniv, setRegUniv ] = useState('');
 
   // State Login
   const [loginId, setLoginId] = useState('');
@@ -63,7 +66,6 @@ export default function PintuMasuk() {
 
     setIsSubmitting(true);
 
-    // Cek apakah identitas (NIM/email) sudah dipakai
     const { data: existing, error: checkError } = await supabase
       .from('users')
       .select('id')
@@ -86,11 +88,15 @@ export default function PintuMasuk() {
       ? `TKN-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
       : null;
 
+    // Hash password sebelum disimpan ke Supabase
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(regPass, salt);
+
     const { error: insertError } = await supabase.from('users').insert({
       nama: regNama,
       role: regRole,
       identitas: regId.trim(),
-      password: regPass,
+      password: hashedPassword,
       token: tokenResult,
     });
 
@@ -141,27 +147,37 @@ export default function PintuMasuk() {
 
     const idTrimmed = loginId.trim();
 
-    const { data: validUser, error } = await supabase
+    // Cari user berdasarkan identitas ATAU token (tanpa filter password,
+    // karena password di DB sudah hash dan tidak bisa dicocokkan lewat SQL)
+    const { data: candidate, error } = await supabase
       .from('users')
       .select('*')
       .or(`identitas.eq.${idTrimmed},token.eq.${idTrimmed}`)
-      .eq('password', loginPass)
       .maybeSingle();
+
+    if (error || !candidate) {
+      setIsSubmitting(false);
+      setErrors('Hmm, NIM/Token atau password salah. Coba dicek lagi ya.');
+      return;
+    }
+
+    // Bandingkan password yang diketik dengan hash yang tersimpan
+    const passwordMatches = await bcrypt.compare(loginPass, candidate.password);
 
     setIsSubmitting(false);
 
-    if (error || !validUser) {
+    if (!passwordMatches) {
       setErrors('Hmm, NIM/Token atau password salah. Coba dicek lagi ya.');
       return;
     }
 
     localStorage.setItem('session_login', 'true');
-    localStorage.setItem('session_username', validUser.nama);
+    localStorage.setItem('session_username', candidate.nama);
     localStorage.setItem(
       'session_nim',
-      validUser.role === 'mahasiswa' ? validUser.identitas : validUser.token
+      candidate.role === 'mahasiswa' ? candidate.identitas : candidate.token
     );
-    localStorage.setItem('session_role', validUser.role);
+    localStorage.setItem('session_role', candidate.role);
     router.push('/beranda');
   };
 
