@@ -1,17 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { User, Award, BookOpen, GraduationCap, Building2, Calendar, Star, Sparkles, Edit2, Save, X, Camera } from 'lucide-react';
+import { User, Award, BookOpen, GraduationCap, Building2, Calendar, Edit2, Save, X, Camera } from 'lucide-react';
 
 export default function ProfilPage() {
-  const [username, setUsername] = useState('Siswa');
+  const [username, setUsername] = useState('Hadisty');
   const [nim, setNim] = useState('1502623004');
   const [profilePic, setProfilePic] = useState<string | null>(null);
   
   const [totalXP, setTotalXP] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
+  
+  const TOTAL_MODUL = 7;
 
-  // State buat ngatur mode edit
   const [isEditing, setIsEditing] = useState(false);
   const [editUsername, setEditUsername] = useState('');
   const [editNim, setEditNim] = useState('');
@@ -20,15 +21,16 @@ export default function ProfilPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setUsername(localStorage.getItem('session_username') || 'Siswa');
+    setUsername(localStorage.getItem('session_username') || 'Hadisty');
     setNim(localStorage.getItem('session_nim') || '1502623004');
     setProfilePic(localStorage.getItem('session_profile_pic'));
     
     const progres = localStorage.getItem('progres_elearning_aesthetic');
     if (progres) {
       const listSelesai = JSON.parse(progres);
-      setCompletedCount(listSelesai.length);
-      setTotalXP(listSelesai.length * 500);
+      const validCount = Math.min(listSelesai.length, TOTAL_MODUL);
+      setCompletedCount(validCount);
+      setTotalXP(validCount * 500);
     }
   }, []);
 
@@ -43,7 +45,6 @@ export default function ProfilPage() {
     setIsEditing(false);
   };
 
-  // Fungsi buat ngubah gambar jadi teks (Base64) biar gampang disimpen di lokal
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -67,189 +68,185 @@ export default function ProfilPage() {
     }
 
     setIsEditing(false);
-
-    // KASIH SINYAL KE NAVBAR BIAR DIA REFRESH OTOMATIS
     window.dispatchEvent(new Event('profilDiupdate'));
   };
 
+  const persentaseSelesai = Math.round((completedCount / TOTAL_MODUL) * 100);
+
   return (
-    <div className="min-h-screen bg-[#F5F1E8] dark:bg-[#17151C] text-black dark:text-[#F5F1E8] font-sans pt-10 pb-20 px-6 transition-colors duration-200">
-      <main className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-500">
+    <div className="min-h-screen bg-[#F5F1E8] dark:bg-[#17151C] text-black dark:text-[#F5F1E8] font-sans pt-10 pb-20 px-4 md:px-6 transition-colors duration-200">
+      <main className="max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-500 space-y-8">
         
-        {/* KARTU IDENTITAS UTAMA */}
-        <div className="relative bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] rounded-[28px] p-8 md:p-12 shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#FFC700] mb-10 overflow-hidden">
+        {/* KARTU PROFIL UTAMA */}
+        <div className="bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] rounded-[2rem] shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#FFC700] p-8 md:p-12 flex flex-col items-center text-center relative overflow-hidden">
           
-          {/* Tombol Edit / Simpan di Pojok Kanan Atas */}
-          <div className="absolute top-6 right-6 z-20 flex gap-2">
+          <div className="relative mb-6">
+            <div 
+              className={`w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#FF6B9D] border-[4px] border-black flex items-center justify-center shadow-[4px_4px_0px_0px_#000] overflow-hidden ${isEditing ? 'cursor-pointer hover:opacity-80' : ''} transition-all bg-white mx-auto`}
+              onClick={() => isEditing && fileInputRef.current?.click()}
+            >
+              {(isEditing ? editProfilePic : profilePic) ? (
+                <img src={(isEditing ? editProfilePic : profilePic) as string} alt="Foto Profil" className="w-full h-full object-cover" />
+              ) : (
+                <User className="w-16 h-16 text-black" />
+              )}
+            </div>
+            
+            {isEditing && (
+              <div 
+                className="absolute bottom-2 right-2 z-20 bg-[#FFC700] border-[3px] border-black p-2.5 rounded-full shadow-[2px_2px_0px_0px_#000] cursor-pointer hover:scale-110 transition-transform"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Camera size={18} className="text-black" />
+              </div>
+            )}
+            <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageUpload} className="hidden" />
+          </div>
+
+          <div className="mb-6 w-full flex flex-col items-center">
+            <span className="bg-[#4D96FF] text-black text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border-[2px] border-black mb-4 inline-block">
+              Mahasiswa Aktif - Semester 124
+            </span>
+
+            {isEditing ? (
+              <div className="w-full max-w-sm mx-auto">
+                <span className="block text-[10px] font-black uppercase tracking-wider mb-1 opacity-70">Edit Nama Lengkap</span>
+                <input 
+                  type="text" 
+                  value={editUsername}
+                  onChange={(e) => setEditUsername(e.target.value)}
+                  className="w-full bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] px-4 py-3 rounded-xl font-black text-2xl uppercase text-center text-black dark:text-[#F5F1E8] focus:outline-none focus:border-[#4D96FF]"
+                />
+              </div>
+            ) : (
+              <h1 className="font-black text-3xl md:text-4xl text-black dark:text-[#F5F1E8] uppercase tracking-tight break-words w-full">
+                {username}
+              </h1>
+            )}
+          </div>
+
+          <div className="flex gap-3 justify-center w-full max-w-sm mx-auto">
             {!isEditing ? (
               <button 
                 onClick={mulaiEdit}
-                className="flex items-center gap-2 bg-[#FFC700] border-[3px] border-black px-4 py-2 rounded-full font-black text-xs uppercase tracking-wider text-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[5px_5px_0px_0px_#000] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all"
+                className="w-full flex justify-center items-center gap-2 bg-[#FFC700] border-[3px] border-black px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider text-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:-translate-y-[2px] transition-all"
               >
-                <Edit2 size={14} /> Edit
+                <Edit2 size={16} /> Edit Profil
               </button>
             ) : (
               <>
                 <button 
                   onClick={batalEdit}
-                  className="flex items-center gap-2 bg-white dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] px-4 py-2 rounded-full font-black text-xs uppercase tracking-wider shadow-[3px_3px_0px_0px_#000] hover:translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[5px_5px_0px_0px_#000] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all"
+                  className="w-1/3 flex justify-center items-center bg-white dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-3 rounded-xl font-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:-translate-y-[2px] transition-all"
                 >
-                  <X size={14} /> Batal
+                  <X size={18} />
                 </button>
                 <button 
                   onClick={simpanProfil}
-                  className="flex items-center gap-2 bg-[#6BCB77] border-[3px] border-black px-4 py-2 rounded-full font-black text-xs uppercase tracking-wider text-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[5px_5px_0px_0px_#000] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all"
+                  className="w-2/3 flex justify-center items-center gap-2 bg-[#6BCB77] border-[3px] border-black px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider text-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:-translate-y-[2px] transition-all"
                 >
-                  <Save size={14} /> Simpan
+                  <Save size={16} /> Simpan
                 </button>
               </>
             )}
           </div>
+        </div>
 
-          <Star className="w-12 h-12 text-[#F5F1E8] dark:text-[#17151C] fill-current absolute top-6 right-32 rotate-12" />
-          <Sparkles className="w-20 h-20 text-[#F5F1E8] dark:text-[#17151C] absolute -bottom-4 -left-4 -rotate-12" />
-
-          <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left relative z-10 mt-6 md:mt-0">
+        {/* DATA AKADEMIK (DIUBAH JADI LIST VERTIKAL BIAR 100% RAPI) */}
+        <div className="bg-white dark:bg-[#1E1B24] border-[4px] border-black dark:border-[#F5F1E8] rounded-[2rem] shadow-[8px_8px_0px_0px_#000] p-6 md:p-8">
+          <h2 className="font-black uppercase text-lg mb-6 border-b-[3px] border-black dark:border-[#F5F1E8] pb-3 text-center md:text-left">
+            Data Akademik
+          </h2>
+          
+          <div className="flex flex-col gap-4">
             
-            {/* Avatar Lingkaran (Bisa di-klik pas mode edit) */}
-            <div className="relative shrink-0">
-              <div 
-                className={`relative w-28 h-28 rounded-full bg-[#FF6B9D] border-[4px] border-black flex items-center justify-center shadow-[4px_4px_0px_0px_#000] rotate-[-4deg] overflow-hidden ${isEditing ? 'cursor-pointer hover:opacity-80' : 'group hover:rotate-12 hover:scale-105'} transition-all`}
-                onClick={() => isEditing && fileInputRef.current?.click()}
-              >
-                {(isEditing ? editProfilePic : profilePic) ? (
-                  <img src={(isEditing ? editProfilePic : profilePic) as string} alt="Foto Profil" className="absolute inset-0 w-full h-full object-cover" />
-                ) : (
-                  <User className="w-12 h-12 text-black z-10" />
-                )}
+            {/* NIM */}
+            <div className="flex items-center gap-4 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-4 rounded-2xl w-full">
+              <div className="bg-[#4D96FF] w-12 h-12 rounded-xl border-[2px] border-black flex items-center justify-center shrink-0">
+                <GraduationCap className="w-6 h-6 text-black" />
               </div>
-              
-              {/* Badge Camera Muncul Pas Mode Edit */}
-              {isEditing && (
-                <div 
-                  className="absolute -bottom-2 -right-2 z-20 bg-[#FFC700] border-[3px] border-black p-2 rounded-full shadow-[2px_2px_0px_0px_#000] cursor-pointer hover:scale-110 transition-transform"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <Camera size={16} className="text-black" />
-                </div>
-              )}
-              {/* Input file disembunyiin */}
-              <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageUpload} className="hidden" />
-            </div>
-
-            {/* Info Utama Mahasiswa */}
-            <div className="flex-1 space-y-3 w-full">
-              <span className="inline-block bg-black text-[#FFC700] text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full rotate-1 border-[2px] border-transparent">
-                Kartu Identitas Digital
-              </span>
-              
-              {/* Input Nama (Tampil kalau lagi mode edit) */}
-              {isEditing ? (
-                <div className="w-full">
-                  <span className="block text-[10px] font-black uppercase tracking-wider mb-1 opacity-70">Nama Lengkap</span>
+              <div className="flex flex-col w-full text-left">
+                <span className="text-[10px] font-black uppercase tracking-wider opacity-60 mb-0.5">Nomor Induk (NIM)</span>
+                {isEditing ? (
                   <input 
                     type="text" 
-                    value={editUsername}
-                    onChange={(e) => setEditUsername(e.target.value)}
-                    className="w-full md:w-3/4 bg-white dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] px-4 py-2 rounded-xl font-black text-2xl uppercase tracking-tight text-black dark:text-[#F5F1E8] focus:outline-none focus:border-[#4D96FF] focus:shadow-[4px_4px_0px_0px_#4D96FF] transition-all"
+                    value={editNim}
+                    onChange={(e) => setEditNim(e.target.value)}
+                    className="w-full bg-transparent border-b-[2px] border-black dark:border-[#F5F1E8] font-black uppercase text-sm md:text-base text-black dark:text-white focus:outline-none focus:border-[#FF6B9D] px-1"
                   />
-                </div>
-              ) : (
-                <h1 className="font-black text-4xl md:text-5xl text-black dark:text-[#F5F1E8] uppercase tracking-tight break-words">
-                  {username}
-                </h1>
-              )}
-              
-              {/* Grid Detail Identitas */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-5 w-full">
-                
-                {/* NIM (Bisa diedit) */}
-                <div className="flex items-center gap-3 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-3 rounded-2xl shadow-[3px_3px_0px_0px_#000]">
-                  <div className="bg-[#4D96FF] p-2 rounded-xl border-[2px] border-black shrink-0">
-                    <GraduationCap className="w-5 h-5 text-black" />
-                  </div>
-                  <div className="flex flex-col text-left overflow-hidden w-full">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60">Nomor Induk</span>
-                    {isEditing ? (
-                      <input 
-                        type="text" 
-                        value={editNim}
-                        onChange={(e) => setEditNim(e.target.value)}
-                        className="w-full bg-transparent border-b-[2px] border-black dark:border-[#F5F1E8] font-bold uppercase text-black dark:text-white focus:outline-none focus:border-[#FF6B9D]"
-                      />
-                    ) : (
-                      <span className="text-black dark:text-white font-bold uppercase truncate">{nim}</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Prodi */}
-                <div className="flex items-center gap-3 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-3 rounded-2xl shadow-[3px_3px_0px_0px_#000] hover:translate-x-1 hover:-translate-y-1 transition-transform">
-                  <div className="bg-[#FFC700] p-2 rounded-xl border-[2px] border-black shrink-0">
-                    <BookOpen className="w-5 h-5 text-black" />
-                  </div>
-                  <div className="flex flex-col text-left overflow-hidden">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60">Program Studi</span>
-                    <span className="text-black dark:text-white font-bold uppercase truncate text-[11px] leading-tight">Pend. Teknik Informatika</span>
-                  </div>
-                </div>
-
-                {/* Fakultas */}
-                <div className="flex items-center gap-3 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-3 rounded-2xl shadow-[3px_3px_0px_0px_#000] hover:translate-x-1 hover:-translate-y-1 transition-transform">
-                  <div className="bg-[#FF6B9D] p-2 rounded-xl border-[2px] border-black shrink-0">
-                    <Building2 className="w-5 h-5 text-black" />
-                  </div>
-                  <div className="flex flex-col text-left overflow-hidden">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60">Fakultas</span>
-                    <span className="text-black dark:text-white font-bold uppercase truncate">Fakultas Teknik</span>
-                  </div>
-                </div>
-
-                {/* Universitas */}
-                <div className="flex items-center gap-3 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-3 rounded-2xl shadow-[3px_3px_0px_0px_#000] hover:translate-x-1 hover:-translate-y-1 transition-transform">
-                  <div className="bg-[#6BCB77] p-2 rounded-xl border-[2px] border-black shrink-0">
-                    <Calendar className="w-5 h-5 text-black" />
-                  </div>
-                  <div className="flex flex-col text-left overflow-hidden">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60">Universitas</span>
-                    <span className="text-black dark:text-white font-bold uppercase truncate">Univ. Negeri Jakarta</span>
-                  </div>
-                </div>
-
+                ) : (
+                  <span className="font-black uppercase text-sm md:text-base text-black dark:text-white">{nim}</span>
+                )}
               </div>
             </div>
+
+            {/* Prodi */}
+            <div className="flex items-center gap-4 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-4 rounded-2xl w-full">
+              <div className="bg-[#FFC700] w-12 h-12 rounded-xl border-[2px] border-black flex items-center justify-center shrink-0">
+                <BookOpen className="w-6 h-6 text-black" />
+              </div>
+              <div className="flex flex-col w-full text-left">
+                <span className="text-[10px] font-black uppercase tracking-wider opacity-60 mb-0.5">Program Studi</span>
+                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">Pendidikan Teknik Informatika dan Komputer</span>
+              </div>
+            </div>
+
+            {/* Fakultas */}
+            <div className="flex items-center gap-4 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-4 rounded-2xl w-full">
+              <div className="bg-[#FF6B9D] w-12 h-12 rounded-xl border-[2px] border-black flex items-center justify-center shrink-0">
+                <Building2 className="w-6 h-6 text-black" />
+              </div>
+              <div className="flex flex-col w-full text-left">
+                <span className="text-[10px] font-black uppercase tracking-wider opacity-60 mb-0.5">Fakultas</span>
+                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">Fakultas Teknik</span>
+              </div>
+            </div>
+
+            {/* Universitas */}
+            <div className="flex items-center gap-4 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-4 rounded-2xl w-full">
+              <div className="bg-[#6BCB77] w-12 h-12 rounded-xl border-[2px] border-black flex items-center justify-center shrink-0">
+                <Calendar className="w-6 h-6 text-black" />
+              </div>
+              <div className="flex flex-col w-full text-left">
+                <span className="text-[10px] font-black uppercase tracking-wider opacity-60 mb-0.5">Universitas</span>
+                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">Universitas Negeri Jakarta</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        {/* GRID STATISTIK PENCAPAIAN */}
-        <div className="grid sm:grid-cols-2 gap-6 md:gap-8">
+        {/* PENCAPAIAN (GRID 2 KOTAK) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
           
-          <div className="bg-[#FFC700] border-[4px] border-black rounded-[24px] p-6 md:p-8 flex items-center gap-5 shadow-[6px_6px_0px_0px_#000] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[3px_3px_0px_0px_#000] transition-all">
-            <div className="p-4 bg-white border-[3px] border-black rounded-full shadow-[4px_4px_0px_0px_#000] rotate-[-8deg]">
+          <div className="bg-[#FFC700] border-[4px] border-black rounded-[2rem] p-6 md:p-8 shadow-[6px_6px_0px_0px_#000] flex flex-col justify-center text-center items-center">
+            <div className="w-16 h-16 bg-white border-[3px] border-black rounded-full flex items-center justify-center shadow-[2px_2px_0px_0px_#000] mb-4">
               <Award className="w-8 h-8 text-black" />
             </div>
-            <div>
-              <p className="text-black/80 text-[10px] font-black uppercase tracking-widest mb-1">
-                Total Skor
-              </p>
-              <p className="font-black text-4xl text-black uppercase">
-                {totalXP} <span className="text-sm">XP</span>
-              </p>
-            </div>
+            <p className="text-black text-[10px] font-black uppercase tracking-widest mb-1">Total XP Didapat</p>
+            <p className="font-black text-4xl md:text-5xl text-black uppercase">
+              {totalXP} <span className="text-xl">XP</span>
+            </p>
           </div>
 
-          <div className="bg-[#6BCB77] border-[4px] border-black rounded-[24px] p-6 md:p-8 flex items-center gap-5 shadow-[6px_6px_0px_0px_#000] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[3px_3px_0px_0px_#000] transition-all">
-            <div className="p-4 bg-white border-[3px] border-black rounded-full shadow-[4px_4px_0px_0px_#000] rotate-[8deg]">
+          <div className="bg-[#6BCB77] border-[4px] border-black rounded-[2rem] p-6 md:p-8 shadow-[6px_6px_0px_0px_#000] flex flex-col justify-center text-center items-center">
+            <div className="w-16 h-16 bg-white border-[3px] border-black rounded-full flex items-center justify-center shadow-[2px_2px_0px_0px_#000] mb-4">
               <BookOpen className="w-8 h-8 text-black" />
             </div>
-            <div>
-              <p className="text-black/80 text-[10px] font-black uppercase tracking-widest mb-1">
-                Modul Diselesaikan
-              </p>
-              <p className="font-black text-4xl text-black uppercase">
-                {completedCount} <span className="text-sm">/ 3</span>
-              </p>
+            <p className="text-black text-[10px] font-black uppercase tracking-widest mb-1">Modul Tuntas</p>
+            <p className="font-black text-3xl md:text-4xl text-black uppercase mb-4">
+              {completedCount} <span className="text-xl opacity-60">/ {TOTAL_MODUL}</span>
+            </p>
+            
+            <div className="w-full bg-black/20 h-4 rounded-full border-[3px] border-black overflow-hidden relative">
+              <div 
+                className="bg-white h-full transition-all duration-1000 ease-out border-r-[3px] border-black"
+                style={{ width: `${persentaseSelesai}%` }}
+              ></div>
             </div>
+            <p className="text-[10px] font-black uppercase mt-2 text-black tracking-wider">
+              {persentaseSelesai}% Selesai
+            </p>
           </div>
           
         </div>
