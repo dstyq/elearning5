@@ -7,61 +7,68 @@ export default function MateriPage() {
   const [materiAktif, setMateriAktif] = useState<any>(null);
   const [videoAktif, setVideoAktif] = useState<any>(null);
 
+  // DATA KHUSUS VIDEO (8 Video Final)
+  const daftarVideo = [
+    { id: 1, title: 'Algoritma', ytId: '5JuNp0o4YEE' },
+    { id: 2, title: 'Karakteristik Algoritma', ytId: 'VmG6dF8tU5g' },
+    { id: 3, title: 'Struktur Dasar Algoritma 1', ytId: 'N9CYNGIMPJ8' },
+    { id: 4, title: 'Struktur Dasar Algoritma 2', ytId: '_qPo5Pvr23I' },
+    { id: 5, title: 'Pseudocode', ytId: 'yhQvnKxFod8' },
+    { id: 6, title: 'If Else (Percabangan)', ytId: 'fBa4VKgn21I' },
+    { id: 7, title: 'Pengulangan 1', ytId: 'ZZCBVzs0uSU' },
+    { id: 8, title: 'Pengulangan 2', ytId: 'vUHm8C4-ZGE' }
+  ];
+
+  // DATA KHUSUS PDF (6 Bab Final)
   const materiBab = [
     {
       id: 1,
       title: 'Pengantar Algoritma',
       desc: 'Memahami apa itu algoritma, tujuan, dan elemen dasar penyusunnya.',
       isi: 'Algoritma adalah urutan langkah-langkah logis, sistematis, dan terstruktur yang digunakan untuk menyelesaikan suatu masalah hingga menghasilkan solusi.',
-      file: 'Pengantar Algoritma.pdf',
-      ytId: 'dQw4w9WgXcQ'
+      file: 'Pengantar Algoritma.pdf'
     },
     {
       id: 2,
       title: 'Struktur Dasar Algoritma',
       desc: 'Mempelajari pondasi utama penyusunan algoritma secara sistematis.',
       isi: 'Struktur dasar algoritma mencakup urutan (sequence), pemilihan (selection), dan pengulangan (repetition) yang menjadi pondasi dalam membangun logika program yang benar.',
-      file: 'STRUKTUR DASAR ALGORITMA.pdf',
-      ytId: 'dQw4w9WgXcQ'
+      file: 'STRUKTUR DASAR ALGORITMA.pdf'
     },
     {
       id: 3,
       title: 'Pseudocode',
       desc: 'Fase perantara antara algoritma manusia dan kode pemrograman.',
       isi: 'Pseudocode merupakan penjelasan langkah-demi-langkah dari sebuah algoritma yang ditulis menggunakan bahasa manusia yang dikombinasikan dengan struktur mirip kode pemrograman.',
-      file: 'PSEUDOCODE.pdf',
-      ytId: 'dQw4w9WgXcQ'
+      file: 'PSEUDOCODE.pdf'
     },
     {
       id: 4,
       title: 'Perancangan Algoritma Menggunakan Flowchart',
       desc: 'Visualisasi alur logika program menggunakan simbol-simbol standar ISO.',
       isi: 'Flowchart adalah alat bantu visual yang digunakan untuk memvisualisasikan alur logika dari suatu algoritma atau mendokumentasikan proses bisnis.',
-      file: 'Perancangan Algoritma Menggunakan Flowchart.pdf',
-      ytId: 'dQw4w9WgXcQ'
+      file: 'Perancangan Algoritma Menggunakan Flowchart.pdf'
     },
     {
       id: 5,
       title: 'Struktur Kontrol Perulangan (Looping)',
       desc: 'Mengeksekusi sekumpulan instruksi secara berulang selama kondisi terpenuhi.',
       isi: 'Perulangan adalah proses mengeksekusi sekumpulan instruksi atau blok kode secara berulang selama kondisi tertentu masih terpenuhi.',
-      file: 'Struktur Kontrol Perulangan (Looping).pdf',
-      ytId: 'dQw4w9WgXcQ'
+      file: 'Struktur Kontrol Perulangan (Looping).pdf'
     },
     {
       id: 6,
       title: 'Percabangan',
       desc: 'Struktur kontrol untuk memilih jalur eksekusi berdasarkan kondisi logika.',
       isi: 'Selection atau percabangan adalah struktur kontrol dalam pemrograman yang digunakan untuk memilih jalur eksekusi program berdasarkan hasil evaluasi suatu kondisi.',
-      file: 'Percabangan.pdf',
-      ytId: 'dQw4w9WgXcQ'
+      file: 'Percabangan.pdf'
     }
   ];
 
   const aksenWarna = ['#FFC700', '#FF6B9D', '#4D96FF', '#6BCB77', '#CD84F1', '#FF9F43'];
 
-  // Default video ke bab 1 jika belum ada yang dipilih
-  const videoTerpilih = videoAktif || materiBab[0];
+  // Default video ke video pertama jika belum ada yang dipilih
+  const videoTerpilih = videoAktif || daftarVideo[0];
 
   return (
     <div className="min-h-screen bg-[#F5F1E8] dark:bg-[#17151C] text-black dark:text-[#F5F1E8] font-sans pt-10 pb-20 px-6 transition-colors duration-200">
@@ -90,7 +97,7 @@ export default function MateriPage() {
           </p>
         </div>
 
-        {/* 2. ZONA KUMPULAN VIDEO (Di Luar Modal) */}
+        {/* 2. ZONA KUMPULAN VIDEO */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-[#4D96FF] p-2 border-[3px] border-black rounded-xl shadow-[3px_3px_0px_0px_#000]">
@@ -112,28 +119,27 @@ export default function MateriPage() {
                 />
               </div>
               <h3 className="font-black text-xl uppercase mb-2">
-                <span className="bg-[#FFC700] px-2 border-[2px] border-black mr-2 text-black inline-block -rotate-1">Bab {videoTerpilih.id}</span> 
+                <span className="bg-[#FFC700] px-2 border-[2px] border-black mr-2 text-black inline-block -rotate-1">Part {videoTerpilih.id}</span> 
                 {videoTerpilih.title}
               </h3>
-              <p className="font-bold text-black/70 dark:text-[#F5F1E8]/70 text-sm">{videoTerpilih.desc}</p>
             </div>
 
-            {/* Playlist/Pilihan Video */}
+            {/* Playlist/Pilihan Video - MAP DARI daftarVideo */}
             <div className="w-full md:w-1/3 flex flex-col gap-3">
-              <h4 className="font-black uppercase text-sm border-b-[3px] border-black pb-2 mb-2">Daftar Video Bab</h4>
+              <h4 className="font-black uppercase text-sm border-b-[3px] border-black pb-2 mb-2">Daftar Video</h4>
               <div className="flex flex-col gap-3 overflow-y-auto max-h-[300px] pr-2">
-                {materiBab.map((m) => (
+                {daftarVideo.map((v) => (
                   <button 
-                    key={m.id} 
-                    onClick={() => setVideoAktif(m)}
+                    key={v.id} 
+                    onClick={() => setVideoAktif(v)}
                     className={`text-left p-3 border-[3px] border-black rounded-xl font-black uppercase text-xs transition-all flex items-center gap-3 ${
-                      videoTerpilih.id === m.id 
+                      videoTerpilih.id === v.id 
                         ? 'bg-[#4D96FF] text-black shadow-[4px_4px_0px_0px_#000] translate-x-1' 
                         : 'bg-[#F5F1E8] dark:bg-[#17151C] hover:bg-[#FFC700] hover:text-black hover:translate-x-1'
                     }`}
                   >
-                    <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center shrink-0">{m.id}</span>
-                    <span className="line-clamp-2">{m.title}</span>
+                    <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center shrink-0">{v.id}</span>
+                    <span className="line-clamp-2">{v.title}</span>
                   </button>
                 ))}
               </div>
@@ -141,7 +147,7 @@ export default function MateriPage() {
           </div>
         </div>
 
-        {/* 3. ZONA KATALOG PDF (Grid System) */}
+        {/* 3. ZONA KATALOG PDF (Grid System) - MAP DARI materiBab */}
         <div>
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-[#FF6B9D] p-2 border-[3px] border-black rounded-xl shadow-[3px_3px_0px_0px_#000]">
