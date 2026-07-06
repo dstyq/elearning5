@@ -300,7 +300,7 @@ export default function PintuMasuk() {
                       type="text" 
                       value={loginId}
                       onChange={(e) => setLoginId(e.target.value)}
-                      placeholder="Masukkan NIM, Token, atau 'admin'..." 
+                      placeholder="Masukkan NIM..." 
                       className="w-full bg-white dark:bg-[#1E1B24] border-[3px] border-black dark:border-[#F5F1E8] focus:border-[#4D96FF] dark:focus:border-[#4D96FF] rounded-xl py-3.5 pl-12 pr-4 text-sm font-bold text-black dark:text-[#F5F1E8] outline-none transition-all placeholder:text-black/40 dark:placeholder:text-[#F5F1E8]/40"
                       required
                     />
