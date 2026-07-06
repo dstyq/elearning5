@@ -7,7 +7,6 @@ export default function MateriPage() {
   const [materiAktif, setMateriAktif] = useState<any>(null);
   const [videoAktif, setVideoAktif] = useState<any>(null);
 
-  // DATA KHUSUS VIDEO (8 Video Final)
   const daftarVideo = [
     { id: 1, title: 'Algoritma', ytId: '5JuNp0o4YEE' },
     { id: 2, title: 'Karakteristik Algoritma', ytId: 'VmG6dF8tU5g' },
