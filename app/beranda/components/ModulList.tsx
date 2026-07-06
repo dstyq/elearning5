@@ -1,3 +1,4 @@
+import { supabase } from '@/app/supabaseClient';
 import { CheckCircle2, Clock, ArrowRight, Star, Sparkles } from 'lucide-react';
 
 export default function ModulList({ 

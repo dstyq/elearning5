@@ -39,9 +39,25 @@ export default function DashboardModul() {
   }, []);
 
   useEffect(() => {
-    const p = localStorage.getItem('progres_elearning_aesthetic');
-    if (p) setProgresSiswa(JSON.parse(p));
-  }, []);
+    const fetchProgress = async () => {
+      if (!sessionNim) return;
+
+      const { data, error } = await supabase
+        .from('users')
+        .select('progress')
+        .or(`identitas.eq.${sessionNim},token.eq.${sessionNim}`)
+        .maybeSingle();
+
+      if (error || !data) {
+        console.error('Gagal mengambil progress:', error);
+        return;
+      }
+
+      setProgresSiswa(data.progress || []);
+    };
+
+    fetchProgress();
+  }, [sessionNim]);
 
   const bukaMateri = (modul: any, idx: number) => {
     setModulAktif(modul);
