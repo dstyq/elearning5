@@ -16,7 +16,7 @@ export interface Modul {
 
 export const Pengantar : Modul = { 
   id: 'modul-5', 
-  judul: 'Karakteristik dan Struktur Dasar Algoritma', 
+  judul: 'Pengertian dan Karakteristik Algoritma', 
   deskripsi: 'Menguji pemahaman mendalam mengenai sifat, karakteristik, elemen dasar, dan struktur penulisan algoritma.', 
   waktu: '45 Menit', 
   ringkasan: 'Algoritma harus memenuhi lima sifat utama: definiteness (jelas), finiteness (terbatas), effectiveness (efektif), serta memiliki input dan output. Penyusunan komponennya terbagi menjadi bagian Header, Deklarasi variabel/konstanta, dan Deskripsi proses inti.',

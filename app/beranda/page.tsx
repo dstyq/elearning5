@@ -4,14 +4,16 @@ import { useState, useEffect } from 'react';
 import { Pengantar } from '../data/pengantar';
 import { Struktur } from '../data/struktur';
 import { Flowchart } from '../data/flowchart';
+import { Percabangan } from '../data/percabangan';
+import { Looping } from '../data/looping';
 
 
-// Import 3 komponen yang udah kita pecah tadi
-import ModulList from './components/ModulList'; // Sesuaikan path ini
-import ModulDetail from './components/ModulDetail'; // Sesuaikan path ini
-import ModulKuis from './components/ModulKuis'; // Sesuaikan path ini
 
-const materi = [Pengantar, Struktur, Flowchart];
+import ModulList from './components/ModulList'; 
+import ModulDetail from './components/ModulDetail'; 
+import ModulKuis from './components/ModulKuis'; 
+
+const materi = [Pengantar, Struktur, Flowchart, Percabangan, Looping];
 const warnaModul = ['#FFC700', '#FF6B9D', '#4D96FF'];
 
 export default function DashboardModul() {
