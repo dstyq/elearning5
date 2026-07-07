@@ -147,8 +147,6 @@ export default function PintuMasuk() {
 
     const idTrimmed = loginId.trim();
 
-    // Cari user berdasarkan identitas ATAU token (tanpa filter password,
-    // karena password di DB sudah hash dan tidak bisa dicocokkan lewat SQL)
     const { data: candidate, error } = await supabase
       .from('users')
       .select('*')

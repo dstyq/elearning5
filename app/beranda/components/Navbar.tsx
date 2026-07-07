@@ -18,20 +18,30 @@ export default function Navbar() {
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Bikin fungsi buat muat data profil
-  const loadProfileData = () => {
-    setUsername(localStorage.getItem('session_username') || 'Siswa');
-    setProfilePic(localStorage.getItem('session_profile_pic'));
-  };
-
   useEffect(() => {
-    // Panggil saat pertama kali load
+    // Fungsi dipindah ke DALAM useEffect biar gak kena stale closure
+    const loadProfileData = () => {
+      const savedName = localStorage.getItem('session_username');
+      const savedPic = localStorage.getItem('session_profile_pic');
+      
+      if (savedName) setUsername(savedName);
+      if (savedPic) setProfilePic(savedPic);
+    };
+
+    // 1. Panggil saat pertama kali load
     loadProfileData();
 
-    // Dengerin 'sinyal' dari halaman profil kalau ada update
+    // 2. Dengerin 'sinyal' dari halaman profil
     window.addEventListener('profilDiupdate', loadProfileData);
-    return () => window.removeEventListener('profilDiupdate', loadProfileData);
-  }, []);
+    
+    // 3. (Cadangan) Dengerin perubahan native dari localStorage
+    window.addEventListener('storage', loadProfileData);
+
+    return () => {
+      window.removeEventListener('profilDiupdate', loadProfileData);
+      window.removeEventListener('storage', loadProfileData);
+    };
+  }, []); // Dependency array kosong, aman!
 
   const handleLogout = () => {
     localStorage.removeItem('session_username');
