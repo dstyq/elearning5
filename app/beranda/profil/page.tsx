@@ -4,13 +4,16 @@ import { useState, useEffect, useRef } from 'react';
 import { User, Award, BookOpen, GraduationCap, Building2, Calendar, Edit2, Save, X, Camera, Loader2 } from 'lucide-react';
 import { supabase } from '@/app/supabaseClient';
 
-const BUCKET_NAME = 'profile-pictures'; // ganti ke nama bucket kamu kalau berbeda
+const BUCKET_NAME = 'Profile Pictures';
 
 export default function ProfilPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [username, setUsername] = useState('Hadisty');
   const [nim, setNim] = useState('1502623004');
   const [profilePic, setProfilePic] = useState<string | null>(null);
+  const [prodi, setProdi] = useState('');
+  const [univ, setUniv] = useState('');
+  const [fakultas, setFakultas] = useState('');
 
   const [totalXP, setTotalXP] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
@@ -51,13 +54,13 @@ export default function ProfilPage() {
 
       const { data, error } = await supabase
         .from('users')
-        .select('id, nama, identitas, token, role, profile_pic')
+        .select('id, nama, identitas, token, role, prodi, universitas, fakultas')
         .or(`identitas.eq.${sessionNim},token.eq.${sessionNim}`)
         .maybeSingle();
 
       if (error || !data) {
         setErrorMsg('Gagal memuat data profil dari server.');
-        setUsername(localStorage.getItem('session_username') || 'Hadisty');
+        setUsername(localStorage.getItem('session_username') || '-');
         setNim(sessionNim);
         setIsLoading(false);
         return;
@@ -66,7 +69,15 @@ export default function ProfilPage() {
       setUserId(data.id);
       setUsername(data.nama);
       setNim(data.role === 'mahasiswa' ? data.identitas : (data.token || data.identitas));
-      setProfilePic(data.profile_pic || null);
+      setProdi(data.prodi);
+      setUniv(data.universitas);
+      setFakultas(data.fakultas);
+      
+      const { data: publicUrlData } = supabase.storage
+        .from(BUCKET_NAME)
+        .getPublicUrl(`${data.id}.png`);
+        
+      setProfilePic(`${publicUrlData.publicUrl}?t=${Date.now()}`);
       setIsLoading(false);
     };
 
@@ -94,7 +105,6 @@ export default function ProfilPage() {
     setErrorMsg('');
   };
 
-  // Upload langsung ke Supabase Storage, bukan base64 lagi
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -112,15 +122,13 @@ export default function ProfilPage() {
     setErrorMsg('');
     setIsUploadingPic(true);
 
-    const ext = file.name.split('.').pop();
-    const fileName = `${userId || 'user'}-${Date.now()}.${ext}`;
-    const filePath = fileName;
+    const filePath = `${userId}.png`;
 
     const { error: uploadError } = await supabase.storage
       .from(BUCKET_NAME)
       .upload(filePath, file, {
-        cacheControl: '3600',
-        upsert: false,
+        cacheControl: '0',
+        upsert: true,
       });
 
     if (uploadError) {
@@ -133,34 +141,35 @@ export default function ProfilPage() {
       .from(BUCKET_NAME)
       .getPublicUrl(filePath);
 
-    setEditProfilePic(publicUrlData.publicUrl);
+    setEditProfilePic(`${publicUrlData.publicUrl}?t=${Date.now()}`);
     setIsUploadingPic(false);
   };
 
   const simpanProfil = async () => {
     setErrorMsg('');
+    setIsSaving(true);
 
     const sessionRole = localStorage.getItem('session_role');
 
     if (sessionRole === 'admin' || !userId) {
       setUsername(editUsername);
-      setNim(editNim);
       setProfilePic(editProfilePic);
+      
       localStorage.setItem('session_username', editUsername);
-      localStorage.setItem('session_nim', editNim);
-      if (editProfilePic) localStorage.setItem('session_profile_pic', editProfilePic);
+      if (editProfilePic) {
+        localStorage.setItem('session_profile_pic', editProfilePic);
+      }
+      
+      setIsSaving(false);
       setIsEditing(false);
       window.dispatchEvent(new Event('profilDiupdate'));
       return;
     }
 
-    setIsSaving(true);
-
     const { error } = await supabase
       .from('users')
       .update({
         nama: editUsername,
-        profile_pic: editProfilePic,
       })
       .eq('id', userId);
 
@@ -175,7 +184,9 @@ export default function ProfilPage() {
     setProfilePic(editProfilePic);
 
     localStorage.setItem('session_username', editUsername);
-    if (editProfilePic) localStorage.setItem('session_profile_pic', editProfilePic);
+    if (editProfilePic) {
+      localStorage.setItem('session_profile_pic', editProfilePic);
+    }
 
     setIsEditing(false);
     window.dispatchEvent(new Event('profilDiupdate'));
@@ -209,13 +220,15 @@ export default function ProfilPage() {
               className={`w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#FF6B9D] border-[4px] border-black flex items-center justify-center shadow-[4px_4px_0px_0px_#000] overflow-hidden ${isEditing ? 'cursor-pointer hover:opacity-80' : ''} transition-all bg-white mx-auto relative`}
               onClick={() => isEditing && !isUploadingPic && fileInputRef.current?.click()}
             >
-              {isUploadingPic ? (
-                <Loader2 className="w-8 h-8 animate-spin text-black" />
-              ) : (isEditing ? editProfilePic : profilePic) ? (
-                <img src={(isEditing ? editProfilePic : profilePic) as string} alt="Foto Profil" className="w-full h-full object-cover" />
-              ) : (
-                <User className="w-16 h-16 text-black" />
-              )}
+              <img 
+                src={(isEditing ? editProfilePic : profilePic) as string} 
+                alt="Foto Profil" 
+                className="w-full h-full object-cover" 
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  if (isEditing) setEditProfilePic(null); else setProfilePic(null);
+                }}
+              />
             </div>
 
             {isEditing && !isUploadingPic && (
@@ -226,7 +239,13 @@ export default function ProfilPage() {
                 <Camera size={18} className="text-black" />
               </div>
             )}
-            <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageUpload} className="hidden" />
+            <input 
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+              className="hidden"
+            />
           </div>
 
           <div className="mb-6 w-full flex flex-col items-center">
@@ -288,7 +307,6 @@ export default function ProfilPage() {
           </h2>
 
           <div className="flex flex-col gap-4">
-
             <div className="flex items-center gap-4 bg-[#F5F1E8] dark:bg-[#17151C] border-[3px] border-black dark:border-[#F5F1E8] p-4 rounded-2xl w-full">
               <div className="bg-[#4D96FF] w-12 h-12 rounded-xl border-[2px] border-black flex items-center justify-center shrink-0">
                 <GraduationCap className="w-6 h-6 text-black" />
@@ -305,7 +323,7 @@ export default function ProfilPage() {
               </div>
               <div className="flex flex-col w-full text-left">
                 <span className="text-[10px] font-black uppercase tracking-wider opacity-60 mb-0.5">Program Studi</span>
-                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">Pendidikan Teknik Informatika dan Komputer</span>
+                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">{prodi}</span>
               </div>
             </div>
 
@@ -315,7 +333,7 @@ export default function ProfilPage() {
               </div>
               <div className="flex flex-col w-full text-left">
                 <span className="text-[10px] font-black uppercase tracking-wider opacity-60 mb-0.5">Fakultas</span>
-                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">Fakultas Teknik</span>
+                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">{fakultas}</span>
               </div>
             </div>
 
@@ -325,16 +343,14 @@ export default function ProfilPage() {
               </div>
               <div className="flex flex-col w-full text-left">
                 <span className="text-[10px] font-black uppercase tracking-wider opacity-60 mb-0.5">Universitas</span>
-                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">Universitas Negeri Jakarta</span>
+                <span className="font-black uppercase text-sm md:text-base text-black dark:text-white line-clamp-1">{univ}</span>
               </div>
             </div>
-
           </div>
         </div>
 
         {/* PENCAPAIAN */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-
           <div className="bg-[#FFC700] border-[4px] border-black rounded-[2rem] p-6 md:p-8 shadow-[6px_6px_0px_0px_#000] flex flex-col justify-center text-center items-center">
             <div className="w-16 h-16 bg-white border-[3px] border-black rounded-full flex items-center justify-center shadow-[2px_2px_0px_0px_#000] mb-4">
               <Award className="w-8 h-8 text-black" />
@@ -364,7 +380,6 @@ export default function ProfilPage() {
               {persentaseSelesai}% Selesai
             </p>
           </div>
-
         </div>
       </main>
     </div>

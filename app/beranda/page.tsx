@@ -14,9 +14,12 @@ import { StudiKasus } from '../data/studikasus';
 import ModulList from './components/ModulList'; 
 import ModulDetail from './components/ModulDetail'; 
 import ModulKuis from './components/ModulKuis'; 
+import { supabase } from '../supabaseClient';
 
 const materi = [Pengantar, Struktur, Flowchart, Percabangan, Looping, Pseudocode, StudiKasus];
 const warnaModul = ['#FFC700', '#FF6B9D', '#4D96FF'];
+
+
 
 export default function DashboardModul() {
   const [modulAktif, setModulAktif] = useState<any>(null);
@@ -28,11 +31,33 @@ export default function DashboardModul() {
   const [progresSiswa, setProgresSiswa] = useState<any[]>([]);
   const [jawaban, setJawaban] = useState<string | null>('');
   const [penjelasanAktif, setPenjelasanAktif] = useState(false);
+  const [sessionNim, setSessionNim] = useState<string | null>(null);
 
   useEffect(() => {
-    const p = localStorage.getItem('progres_elearning_aesthetic');
-    if (p) setProgresSiswa(JSON.parse(p));
+    const nim = localStorage.getItem('session_nim');
+    setSessionNim(nim);
   }, []);
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      if (!sessionNim) return;
+
+      const { data, error } = await supabase
+        .from('users')
+        .select('progress')
+        .or(`identitas.eq.${sessionNim},token.eq.${sessionNim}`)
+        .maybeSingle();
+
+      if (error || !data) {
+        console.log('Gagal mengambil progress:', error);
+        return;
+      }
+
+      setProgresSiswa(data.progress || []);
+    };
+
+    fetchProgress();
+  }, [sessionNim]);
 
   const bukaMateri = (modul: any, idx: number) => {
     setModulAktif(modul);
@@ -55,19 +80,42 @@ export default function DashboardModul() {
     else setKuisSelesai(true);
   };
 
-  const cekJawaban = async (jawabanDipilih: any) => {
-    let skorBaru = skor;
-    if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar) {
-      skorBaru = skor + 1;
-      setSkor(skorBaru);
-    }
-    setPenjelasanAktif(true);
+const cekJawaban = async (jawabanDipilih: any) => {
+  let skorBaru = skor;
+  if (jawabanDipilih === modulAktif.soal[indeksSoal].jawabanBenar) {
+    skorBaru = skor + 1;
+    setSkor(skorBaru);
+  }
+  setPenjelasanAktif(true);
 
-    if (!progresSiswa.includes(modulAktif.id)) {
-      const baru = [...progresSiswa, modulAktif.id];
-      setProgresSiswa(baru);
-      localStorage.setItem('progres_elearning_aesthetic', JSON.stringify(baru));
+  console.log('progresSiswa saat ini:', progresSiswa);
+  console.log('modulAktif.id:', modulAktif.id);
+  console.log('sudah termasuk?', progresSiswa.includes(modulAktif.id));
+      const { data, error: selectError } = await supabase
+      .from('users')
+      .select('id')
+      .or(`identitas.eq.${sessionNim},token.eq.${sessionNim}`)
+      .maybeSingle();
+
+    if (!data || selectError) {
+      console.log('select error:', selectError);
+      return;
     }
+
+    const { data: updated, error: updateError } = await supabase
+      .from('users')
+      .update({ progress: progresSiswa })
+      .eq('id', data.id)
+      .select();
+
+    console.log('updated:', updated);
+    console.log('data.id sebelum update:', data.id, typeof data.id);
+    console.log('update error:', updateError);
+
+  if (!progresSiswa.includes(modulAktif.id)) {
+    const baru = [...progresSiswa, modulAktif.id];
+    setProgresSiswa(baru);
+  }
 
     const hasilKuis = { modul: modulAktif.judul, skor: skorBaru };
     const board = JSON.parse(localStorage.getItem('leaderboard') || '[]');
@@ -76,7 +124,6 @@ export default function DashboardModul() {
     else board.push(hasilKuis);
     localStorage.setItem('leaderboard', JSON.stringify(board));
 
-    // Kirim ke database (PostgreSQL) pas soal terakhir
     if (indeksSoal === modulAktif.soal.length - 1) {
       const namaUser = localStorage.getItem('session_username') || 'Siswa';
       try {

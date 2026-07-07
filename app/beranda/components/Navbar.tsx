@@ -14,39 +14,43 @@ export default function Navbar() {
   ];
 
   const pathname = usePathname();
-  const [username, setUsername] = useState<string | null>('Siswa');
+  const [username, setUsername] = useState<string>('Siswa');
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    // Fungsi dipindah ke DALAM useEffect biar gak kena stale closure
-    const loadProfileData = () => {
-      const savedName = localStorage.getItem('session_username');
-      const savedPic = localStorage.getItem('session_profile_pic');
-      
-      if (savedName) setUsername(savedName);
-      if (savedPic) setProfilePic(savedPic);
-    };
-
-    // 1. Panggil saat pertama kali load
-    loadProfileData();
-
-    // 2. Dengerin 'sinyal' dari halaman profil
-    window.addEventListener('profilDiupdate', loadProfileData);
+  // Cukup SATU fungsi ini saja untuk memuat data dari localStorage
+  const muatDataProfilLewatLokal = () => {
+    const savedName = localStorage.getItem('session_username');
+    const savedPic = localStorage.getItem('session_profile_pic');
     
-    // 3. (Cadangan) Dengerin perubahan native dari localStorage
-    window.addEventListener('storage', loadProfileData);
+    if (savedName) setUsername(savedName);
+    if (savedPic) setProfilePic(savedPic);
+  };
+
+  useEffect(() => {
+    // 1. Jalankan saat pertama kali halaman dibuka
+    muatDataProfilLewatLokal();
+
+    // 2. Pasang telinga buat dengerin sinyal 'profilDiupdate' dari ProfilPage
+    window.addEventListener('profilDiupdate', muatDataProfilLewatLokal);
+    
+    // 3. Cadangan lintas tab browser
+    window.addEventListener('storage', muatDataProfilLewatLokal);
 
     return () => {
-      window.removeEventListener('profilDiupdate', loadProfileData);
-      window.removeEventListener('storage', loadProfileData);
+      window.removeEventListener('profilDiupdate', muatDataProfilLewatLokal);
+      window.removeEventListener('storage', muatDataProfilLewatLokal);
     };
-  }, []); // Dependency array kosong, aman!
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('session_username');
     localStorage.removeItem('session_profile_pic');
+    localStorage.removeItem('session_role');
+    localStorage.removeItem('session_nim');
   };
+
+  const inisial = username?.charAt(0)?.toUpperCase() || 'H';
 
   return (
     <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
@@ -99,12 +103,22 @@ export default function Navbar() {
         {/* Profil & Logout */}
         <div className="hidden md:flex items-center gap-3 border-l-[3px] border-black pl-4">
           <Link href="/beranda/profil" className="flex items-center gap-2 group">
-            <div className="relative w-9 h-9 rounded-full bg-[#FF6B9D] border-[3px] border-black flex items-center justify-center font-black text-black text-xs group-hover:rotate-6 transition-transform overflow-hidden">
-              {profilePic ? (
-                <img src={profilePic} alt="PP" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="relative w-9 h-9 rounded-full bg-[#FF6B9D] border-[3px] border-black flex items-center justify-center font-black text-black text-xs group-hover:rotate-6 transition-transform overflow-hidden bg-white">
+              
+              {/* Proteksi gambar agar tidak blank putih jika string "null" */}
+              {profilePic && profilePic !== 'null' && profilePic !== 'undefined' ? (
+                <img 
+                  src={profilePic} 
+                  alt="PP" 
+                  className="absolute inset-0 w-full h-full object-cover" 
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
               ) : (
-                <span className="z-10">{username?.charAt(0)?.toUpperCase() || 'H'}</span>
+                <span className="z-10 relative font-black">{inisial}</span>
               )}
+
             </div>
             <span className="text-sm font-black uppercase text-black group-hover:underline decoration-[3px]">
               {username}

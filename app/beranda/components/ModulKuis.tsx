@@ -1,10 +1,27 @@
 import { Star, CheckCircle2 } from 'lucide-react';
 import { FlowchartSymbols } from '../../data/FlowchartSymbols';
+import { supabase } from '@/app/supabaseClient';
+
 export default function ModulKuis({
 
   modulAktif, warnaSaatIni, indeksSoal, skor, kuisSelesai, 
   jawaban, setJawaban, penjelasanAktif, cekJawaban, handleSoalSelanjutnya, setMode
 }: any) {
+
+// ModulKuis.tsx — needs a real user id passed in as a prop, and to actually be called
+  const finishQuiz = async () => {
+    const { data } = await supabase.from('users').select('id').maybeSingle();
+
+    if(!data) return;
+
+    const { error } = await supabase
+      .from('users')
+      .update({ progress_finished: modulAktif.id })
+      .eq('id', data.id);
+
+    if (error) console.error('Gagal update progress_finished:', error);
+    setMode('pilih');
+  };
   
   if (kuisSelesai) {
     return (
@@ -22,7 +39,7 @@ export default function ModulKuis({
             Nilai benar: <span className="font-black text-black text-2xl bg-[#FFC700] border-[2px] border-black px-2 py-0.5 rounded-lg inline-block">{skor}</span> dari {modulAktif.soal.length} soal
           </p>
           <button
-            onClick={() => setMode('pilih')}
+            onClick={finishQuiz}
             className="bg-[#FF6B9D] text-black border-[3px] border-black px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider shadow-[5px_5px_0px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
           >
             Tutup & Kembali
