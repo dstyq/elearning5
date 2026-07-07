@@ -49,7 +49,7 @@ export default function DashboardModul() {
         .maybeSingle();
 
       if (error || !data) {
-        console.error('Gagal mengambil progress:', error);
+        console.log('Gagal mengambil progress:', error);
         return;
       }
 
